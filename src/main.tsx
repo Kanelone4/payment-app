@@ -5,15 +5,15 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import store from './store';
 import App from './App';
-import { AuthPage } from './auth';
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+
 
 createRoot(document.getElementById('root')!).render(
   <Provider store={store}>
     <StrictMode>
       <BrowserRouter> 
       <App />
-      <AuthPage />
       </BrowserRouter>
     </StrictMode>
   </Provider>,

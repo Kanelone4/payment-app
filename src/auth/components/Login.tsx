@@ -23,11 +23,6 @@ const initialValues = {
   password: 'demo',
 }
 
-/*
-  Formik+YUP+Typescript:
-  https://jaredpalmer.com/formik/docs/tutorial#getfieldprops
-  https://medium.com/@maurice.de.beijer/yup-validation-and-typescript-and-formik-6c342578a20e
-*/
 
 export default function Login() {
   const [loading, setLoading] = useState(false)
@@ -84,11 +79,7 @@ export default function Login() {
         </div>
         {/* end::Col */}
       </div>
-      {/* end::Login options */}
-
-      {/* begin::Separator */}
-      
-      {/* end::Separator */}
+     
 
       {formik.status ? (
         <div className='mb-lg-15 alert alert-danger'>
