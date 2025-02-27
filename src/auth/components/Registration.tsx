@@ -2,9 +2,7 @@ import { useFormik } from 'formik'
 import { useState } from 'react'
 import * as Yup from 'yup'
 import clsx from 'clsx'
-import { getUserByToken, register } from '../core/_requests'
-import { useAuth } from '../core/Auth'
-import { AuthModel } from '../core/_models'
+import { useNavigate } from 'react-router-dom'
 
 const initialValues = {
   firstname: '',
@@ -35,186 +33,97 @@ const registrationSchema = Yup.object().shape({
     .required('Password is required'),
   changepassword: Yup.string()
     .required('Password confirmation is required')
-    .oneOf([Yup.ref('password')], "Password and Confirm Password didn't match"),
+    .oneOf([Yup.ref('password')], "Passwords do not match"),
   acceptTerms: Yup.bool().oneOf([true], 'You must accept the terms and conditions'),
 })
 
-// Définition des props
-interface RegistrationProps {
-  onSuccess: () => void;
-}
-
-export default function Registration({ onSuccess }: RegistrationProps) {
+export default function Registration() {
   const [loading, setLoading] = useState(false)
-  const { saveAuth, setCurrentUser } = useAuth()
+  const [status, setStatus] = useState('')
+  const navigate = useNavigate()
 
   const formik = useFormik({
     initialValues,
     validationSchema: registrationSchema,
-    onSubmit: async (values, { setStatus, setSubmitting }) => {
+    onSubmit: (values, { setSubmitting }) => {
       setLoading(true)
-      try {
-        const { data: auth } = await register(
-          values.email,
-          values.firstname,
-          values.lastname,
-          values.password,
-          values.changepassword
-        ) as { data: AuthModel | undefined } 
-
-        if (auth) {
-          saveAuth(auth)
-
-          if (auth.api_token) {
-            const { data: user } = await getUserByToken(auth.api_token)
-            setCurrentUser(user)
-          }
-
-          // Appeler la fonction de succès passée en prop
-          onSuccess()
-        } else {
-          throw new Error('Invalid authentication data')
-        }
-      } catch (error) {
-        console.error(error)
-        saveAuth(undefined)
-        setStatus('The registration details are incorrect')
+      setTimeout(() => {
+        console.log('Form submitted successfully:', values)
+        setStatus('Registration successful!')
         setSubmitting(false)
-      } finally {
         setLoading(false)
-      }
+        navigate('/auth/login')
+      }, 1000) 
     },
   })
-  
+
   return (
-    <form className='form w-100' noValidate id='kt_login_signup_form' onSubmit={formik.handleSubmit}>
-      <div className='text-center mb-11'>
-        <h1 className='text-dark fw-bolder mb-3'>Sign Up</h1>
-        <div className='text-gray-500 fw-semibold fs-6'>Your Social Campaigns</div>
-      </div>
+    
+    <div className="d-flex flex-column flex-root" id="kt_app_root">
+      <div className="d-flex flex-column flex-lg-row flex-column-fluid">
+        <div className="d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1">
+          <div className="d-flex flex-center flex-column flex-lg-row-fluid">
+            <div className="container d-flex align-items-center justify-content-center min-vh-50">
+            <div className="w-lg-500px p-10">
+            <form className='form w-100' noValidate id='kt_login_signup_form' onSubmit={formik.handleSubmit}>
+              <div className='text-center mb-11'>
+                <h1 className='text-dark fw-bolder mb-3'>Sign Up</h1>
+              </div>
 
-      {formik.status && (
-        <div className='mb-lg-15 alert alert-danger'>
-          <div className='alert-text font-weight-bold'>{formik.status}</div>
+              {status && <div className='mb-lg-15 alert alert-success'>{status}</div>}
+
+              <div className='fv-row mb-8'>
+                <label className='form-label fw-bolder text-dark fs-6'>First name</label>
+                <input placeholder='First name' type='text' {...formik.getFieldProps('firstname')} className={clsx('form-control bg-transparent', {'is-invalid': formik.touched.firstname && formik.errors.firstname,})} />
+              </div>
+              
+              <div className='fv-row mb-8'>
+                <label className='form-label fw-bolder text-dark fs-6'>Last name</label>
+                <input placeholder='Last name' type='text' {...formik.getFieldProps('lastname')} className={clsx('form-control bg-transparent', {'is-invalid': formik.touched.lastname && formik.errors.lastname,})} />
+              </div>
+              
+              <div className='fv-row mb-8'>
+                <label className='form-label fw-bolder text-dark fs-6'>Email</label>
+                <input placeholder='Email' type='email' {...formik.getFieldProps('email')} className={clsx('form-control bg-transparent', {'is-invalid': formik.touched.email && formik.errors.email,})} />
+              </div>
+              
+              <div className='fv-row mb-8'>
+                <label className='form-label fw-bolder text-dark fs-6'>Password</label>
+                <input type='password' placeholder='Password' {...formik.getFieldProps('password')} className={clsx('form-control bg-transparent', {'is-invalid': formik.touched.password && formik.errors.password,})} />
+              </div>
+              
+              <div className='fv-row mb-8'>
+                <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
+                <input type='password' placeholder='Password confirmation' {...formik.getFieldProps('changepassword')} className={clsx('form-control bg-transparent', {'is-invalid': formik.touched.changepassword && formik.errors.changepassword,})} />
+              </div>
+
+              <div className='fv-row mb-8'>
+                <label className='form-check'>
+                  <input className='form-check-input' type='checkbox' {...formik.getFieldProps('acceptTerms')} />
+                  <span>I accept the <a href='#' className='ms-1 link-primary text-decoration-none'>Terms</a>.</span>
+                </label>
+              </div>
+                  <button
+                    type='submit'
+                    id='kt_sign_in_submit'
+                    className='btn btn-primary'
+                    disabled={formik.isSubmitting || !formik.isValid}
+                  >
+                    {!loading && <span className='indicator-label'>Continue</span>}
+                    {loading && (
+                      <span className='indicator-progress' style={{ display: 'block' }}>
+                        Please wait...
+                        <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                      </span>
+                    )}
+                  </button>
+            </form>
+          </div>
         </div>
-      )}
-
-      <div className='fv-row mb-8'>
-        <label className='form-label fw-bolder text-dark fs-6'>First name</label>
-        <input
-          placeholder='First name'
-          type='text'
-          autoComplete='off'
-          {...formik.getFieldProps('firstname')}
-          className={clsx('form-control bg-transparent', {
-            'is-invalid': formik.touched.firstname && formik.errors.firstname,
-            'is-valid': formik.touched.firstname && !formik.errors.firstname,
-          })}
-        />
-        {formik.touched.firstname && formik.errors.firstname && (
-          <div className='fv-plugins-message-container'>
-            <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.firstname}</span>
-            </div>
-          </div>
-        )}
       </div>
-
-      <div className='fv-row mb-8'>
-        <label className='form-label fw-bolder text-dark fs-6'>Last name</label>
-        <input
-          placeholder='Last name'
-          type='text'
-          autoComplete='off'
-          {...formik.getFieldProps('lastname')}
-          className={clsx('form-control bg-transparent', {
-            'is-invalid': formik.touched.lastname && formik.errors.lastname,
-            'is-valid': formik.touched.lastname && !formik.errors.lastname,
-          })}
-        />
-        {formik.touched.lastname && formik.errors.lastname && (
-          <div className='fv-plugins-message-container'>
-            <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.lastname}</span>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className='fv-row mb-8'>
-        <label className='form-label fw-bolder text-dark fs-6'>Email</label>
-        <input
-          placeholder='Email'
-          type='email'
-          autoComplete='off'
-          {...formik.getFieldProps('email')}
-          className={clsx('form-control bg-transparent', {
-            'is-invalid': formik.touched.email && formik.errors.email,
-            'is-valid': formik.touched.email && !formik.errors.email,
-          })}
-        />
-        {formik.touched.email && formik.errors.email && (
-          <div className='fv-plugins-message-container'>
-            <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.email}</span>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className='fv-row mb-8'>
-        <label className='form-label fw-bolder text-dark fs-6'>Password</label>
-        <input
-          type='password'
-          placeholder='Password'
-          autoComplete='off'
-          {...formik.getFieldProps('password')}
-          className={clsx('form-control bg-transparent', {
-            'is-invalid': formik.touched.password && formik.errors.password,
-            'is-valid': formik.touched.password && !formik.errors.password,
-          })}
-        />
-        {formik.touched.password && formik.errors.password && (
-          <div className='fv-plugins-message-container'>
-            <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.password}</span>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className='fv-row mb-8'>
-        <label className='form-label fw-bolder text-dark fs-6'>Confirm Password</label>
-        <input
-          type='password'
-          placeholder='Password confirmation'
-          autoComplete='off'
-          {...formik.getFieldProps('changepassword')}
-          className={clsx('form-control bg-transparent', {
-            'is-invalid': formik.touched.changepassword && formik.errors.changepassword,
-            'is-valid': formik.touched.changepassword && !formik.errors.changepassword,
-          })}
-        />
-        {formik.touched.changepassword && formik.errors.changepassword && (
-          <div className='fv-plugins-message-container'>
-            <div className='fv-help-block'>
-              <span role='alert'>{formik.errors.changepassword}</span>
-            </div>
-          </div>
-        )}
-      </div>
-
-      <div className='fv-row mb-8'>
-        <label className='form-check'>
-          <input className='form-check-input' type='checkbox' {...formik.getFieldProps('acceptTerms')} />
-          <span>I accept the <a href='#' className='ms-1 link-primary'>Terms</a>.</span>
-        </label>
-      </div>
-
-      <button type='submit' className='btn btn-primary' disabled={loading}>
-        {loading ? 'Please wait...' : 'Sign Up'}
-      </button>
-    </form>
+    </div>
+  </div>
+</div>
   )
 }
 

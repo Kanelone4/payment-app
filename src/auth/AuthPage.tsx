@@ -7,15 +7,14 @@ import { AuthLayout } from './AuthLayout';
 const AuthPage = () => {
   const navigate = useNavigate();
 
-  const handleRegistrationSuccess = () => {
-    navigate('/auth/login'); 
-  };
+navigate('/auth/login');
+
 
   return (
     <Routes>
       <Route element={<AuthLayout />}>
         <Route index element={<Navigate to="registration" />} />
-        <Route path="registration" element={<Registration onSuccess={handleRegistrationSuccess} />} />
+        <Route path="registration" element={<Registration />} />
         <Route path="login" element={<Login />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
       </Route>
