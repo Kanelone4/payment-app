@@ -1,17 +1,17 @@
 import React from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './store';
 import { AuthPage } from './auth';
+import Login from './auth/components/Login';
 
 const App = () => {
   return (
     <Provider store={store}>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/auth" element={<AuthPage />} />
-        </Routes>
-      </BrowserRouter>
+      <Routes>
+        <Route path="/auth" element={<AuthPage />} />
+        <Route path="/auth/login" element={<Login />} />
+      </Routes>
     </Provider>
   );
 };

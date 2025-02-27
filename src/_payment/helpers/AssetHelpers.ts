@@ -1,1 +1,1 @@
-export const toAbsoluteUrl = (pathname: string) => process.env.PUBLIC_URL + pathname
+export const toAbsoluteUrl = (pathname: string) => import.meta.env.VITE_PUBLIC_URL + pathname;
