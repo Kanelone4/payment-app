@@ -3,10 +3,9 @@ import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import './index.css';
-import store from './store';
+import {store} from './store';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 
 
 createRoot(document.getElementById('root')!).render(

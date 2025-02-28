@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import store from './store';
+import{ store}  from './store';
 import { AuthPage } from './auth';
 
 const App = () => {

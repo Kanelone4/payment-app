@@ -15,20 +15,16 @@ const AuthLayout = () => {
   }, [])
 
   return (
-    <div className='d-flex flex-column flex-lg-row flex-column-fluid h-100 position-relative'>
+        <div className='d-flex vh-100'>
       {/* begin::Aside (Image as Background) */}
       <div
-        className='d-flex flex-lg-row-fluid w-lg-50 bgi-size-cover bgi-position-center order-1 order-lg-2'
+        className='d-flex w-100 flex-column flex-center bgi-size-cover bgi-position-center bgi-no-repeat'
         style={{ backgroundImage: 'url(/assets/auth-bg.png)' }}
       >
         {/* begin::Content */}
-        <div className='d-flex flex-column flex-center py-7 py-lg-15 px-5 px-md-15 w-100'>
-          
-          {/* begin::Image */}
-          <img className='d-none d-lg-block mx-auto w-275px w-md-50 w-xl-500px mb-10 mb-lg-20' src='/assets/media/misc/auth-screens.png' alt='' />
-          {/* end::Image */}
+        <div className='d-flex flex-column flex-center'>
           {/* begin::Title */}
-          <h1 className='d-none d-lg-block text-white fs-2qx fw-bolder text-center mb-7'>
+          <h1 className='text-white fs-2hx fw-bold text-center'>
             Fast, Efficient and Productive
           </h1>
           {/* end::Title */}
@@ -51,7 +47,7 @@ const AuthLayout = () => {
       {/* end::Aside */}
 
       {/* begin::Body (Form) */}
-      <div className='d-flex flex-column flex-lg-row-fluid w-lg-50 p-10 order-2 order-lg-1 position-relative z-index-2'>
+      <div className='w-100'>
         {/* begin::Form */}
         <div className='d-flex flex-center flex-column flex-lg-row-fluid'>
           {/* begin::Wrapper */}
@@ -63,14 +59,14 @@ const AuthLayout = () => {
         
         <div className='d-flex flex-center flex-wrap px-5'>
           <div className="d-flex flex-column align-items-start px-5">
-              <div className="d-flex fw-semibold text-primary fs-base">
-                <a href="#" className="px-10" target="_blank">
+              <div className="d-flex fw-semibold text-primary fs-base gap-4">
+                <a href="#" className="" target="_blank">
                   Terms
                 </a>
-                <a href="#" className="px-5" target="_blank">
+                <a href="#" className="" target="_blank">
                   Plans
                 </a>
-                <a href="#" className="px-5" target="_blank">
+                <a href="#" className="" target="_blank">
                   Contact Us
                 </a>
               </div>

@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import clsx from 'clsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
+import { login } from '../../services/authService'; 
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -23,20 +24,32 @@ const initialValues = {
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
-   const navigate = useNavigate();
+  const [errorMessage, setErrorMessage] = useState('');
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
-    onSubmit: (values, { setStatus, setSubmitting }) => {
+    onSubmit: async (values, { setStatus, setSubmitting }) => {
       setLoading(true);
-      setTimeout(() => {
-        console.log('Login attempt:', values);
-        setStatus('Login successful (simulation)');
+      setErrorMessage(''); // Réinitialise l'erreur
+
+      try {
+        const response = await login(values); // Appel de l'API de connexion
+        if (response.token) {
+          // Si un token est retourné, la connexion est réussie
+          setStatus('Login successful');
+          navigate('/dashboard'); // Redirige vers le tableau de bord ou une autre page protégée
+        } else {
+          // Si aucune réponse de token, un échec de la connexion
+          setErrorMessage('Invalid email or password');
+        }
+      } catch (error) {
+        console.error("Erreur lors de la connexion :", error);
+      } finally {
         setSubmitting(false);
         setLoading(false);
-        navigate('/auth/registration'); 
-      }, 1000);
+      }
     },
   });
 
@@ -55,6 +68,12 @@ export default function Login() {
       {formik.status && (
         <div className='mb-lg-15 alert alert-success'>
           <div className='alert-text font-weight-bold'>{formik.status}</div>
+        </div>
+      )}
+
+      {errorMessage && (
+        <div className='mb-lg-15 alert alert-danger'>
+          <div className='alert-text font-weight-bold'>{errorMessage}</div>
         </div>
       )}
 
@@ -121,7 +140,6 @@ export default function Login() {
           )}
         </button>
       </div>
-      
 
       <div className='text-gray-500 text-center fw-semibold fs-6'>
         Not a Member yet?{' '}
