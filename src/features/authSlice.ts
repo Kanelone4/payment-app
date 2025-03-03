@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { Registration, login } from '../services/authService';
 
 interface AuthState {
-  user: null | { firstname: string; lastname: string; email: string };
+  user: null | { nom: string; prenom: string; email: string };
   token: string | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
@@ -15,16 +15,16 @@ const initialState: AuthState = {
   error: null,
 };
 
-// Inscription
+
 export  const registerUser = createAsyncThunk(
   'auth/Registration',
-  async (userData: { firstname: string; lastname: string; email: string; password: string }) => {
+  async (userData: { nom: string; prenom: string; email: string; password: string, role: string}) => {
     const response = await Registration(userData);
     return response;
   }
 );
 
-// Connexion
+
 export const loginUser = createAsyncThunk(
   'auth/login',
   async (userData: { email: string; password: string }) => {

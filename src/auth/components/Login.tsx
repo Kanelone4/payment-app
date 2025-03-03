@@ -3,7 +3,9 @@ import * as Yup from 'yup';
 import clsx from 'clsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
-import { login } from '../../services/authService'; 
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { login } from '../../services/authService';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -18,34 +20,33 @@ const loginSchema = Yup.object().shape({
 });
 
 const initialValues = {
-  email: 'admin@demo.com',
-  password: 'demo',
+  email: '',
+  password: '',
 };
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
-    onSubmit: async (values, { setStatus, setSubmitting }) => {
+    onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
-      setErrorMessage(''); // Réinitialise l'erreur
 
       try {
-        const response = await login(values); // Appel de l'API de connexion
+        const response = await login(values);
         if (response.token) {
-          // Si un token est retourné, la connexion est réussie
-          setStatus('Login successful');
-          navigate('/dashboard'); // Redirige vers le tableau de bord ou une autre page protégée
+          // Connexion réussie
+          toast.success('Login successful!');
+          navigate('');
         } else {
-          // Si aucune réponse de token, un échec de la connexion
-          setErrorMessage('Invalid email or password');
+          // Échec de la connexion
+          toast.error('Invalid email or password');
         }
       } catch (error) {
         console.error("Erreur lors de la connexion :", error);
+        toast.error('Failed to connect. Please check your credentials and try again.');
       } finally {
         setSubmitting(false);
         setLoading(false);
@@ -54,99 +55,109 @@ export default function Login() {
   });
 
   return (
-    <form
-      className='form w-100'
-      onSubmit={formik.handleSubmit}
-      noValidate
-      id='kt_login_signin_form'
-    >
-      <div className='text-center mb-11'>
-        <h1 className='text-dark fw-bolder mb-3'>Sign In</h1>
-        <div className='text-gray-500 fw-semibold fs-6'>Your Social Campaigns</div>
-      </div>
-
-      {formik.status && (
-        <div className='mb-lg-15 alert alert-success'>
-          <div className='alert-text font-weight-bold'>{formik.status}</div>
-        </div>
-      )}
-
-      {errorMessage && (
-        <div className='mb-lg-15 alert alert-danger'>
-          <div className='alert-text font-weight-bold'>{errorMessage}</div>
-        </div>
-      )}
-
-      <div className='fv-row mb-8'>
-        <label className='form-label fs-6 fw-bolder text-dark'>Email</label>
-        <input
-          placeholder='Email'
-          {...formik.getFieldProps('email')}
-          className={clsx(
-            'form-control bg-transparent',
-            { 'is-invalid': formik.touched.email && formik.errors.email },
-            { 'is-valid': formik.touched.email && !formik.errors.email }
-          )}
-          type='email'
-          name='email'
-          autoComplete='off'
-        />
-        {formik.touched.email && formik.errors.email && (
-          <div className='fv-plugins-message-container'>
-            <span role='alert'>{formik.errors.email}</span>
-          </div>
-        )}
-      </div>
-
-      <div className='fv-row mb-3'>
-        <label className='form-label fw-bolder text-dark fs-6 mb-0'>Password</label>
-        <input
-          type='password'
-          autoComplete='off'
-          {...formik.getFieldProps('password')}
-          className={clsx(
-            'form-control bg-transparent',
-            { 'is-invalid': formik.touched.password && formik.errors.password },
-            { 'is-valid': formik.touched.password && !formik.errors.password }
-          )}
-        />
-        {formik.touched.password && formik.errors.password && (
-          <div className='fv-plugins-message-container'>
-            <span role='alert'>{formik.errors.password}</span>
-          </div>
-        )}
-      </div>
-
-      <div className='d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8'>
-        <div />
-        <Link to='/auth/forgot-password' className='link-primary'>
-          Forgot Password ?
-        </Link>
-      </div>
-
-      <div className='d-grid mb-10'>
-        <button
-          type='submit'
-          id='kt_sign_in_submit'
-          className='btn btn-primary'
-          disabled={formik.isSubmitting || !formik.isValid}
+    <div className="bg-gray-100 flex items-center justify-center h-screen">
+      <ToastContainer />
+      <div className="bg-white p-8 rounded-lg w-full max-w-md">
+        <form
+          className='form w-100'
+          onSubmit={formik.handleSubmit}
+          noValidate
+          id='kt_login_signin_form'
         >
-          {!loading && <span className='indicator-label'>Continue</span>}
-          {loading && (
-            <span className='indicator-progress' style={{ display: 'block' }}>
-              Please wait...
-              <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
-            </span>
-          )}
-        </button>
-      </div>
+          <div className='text-center mb-11'>
+            <h1 className='text-dark fw-bolder mb-3'>Sign In</h1>
+          </div>
 
-      <div className='text-gray-500 text-center fw-semibold fs-6'>
-        Not a Member yet?{' '}
-        <Link to='/auth/registration' className='link-primary'>
-          Sign up
-        </Link>
+          <div className='row g-3 mb-9'>
+            <div className='col-md-6'>
+              <a href="#" className="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3 fs-6">
+                <img alt="Logo" src="/assets/google-icon.svg" className="h-20px me-3" />
+                Sign in with Google
+              </a>
+            </div>
+            <div className='col-md-6'>
+              <a href="#" className="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3 fs-6">
+                <img alt="Logo" src="/assets/apple-black.svg" className="theme-light-show h-20px me-3" />
+                <img alt="Logo" src="/assets/apple-black-dark.svg" className="theme-dark-show h-20px me-3" />
+                Sign in with Apple
+              </a>
+            </div>
+          </div>
+
+          {/* Séparateur "Or with email" */}
+          <div className='separator separator-content my-14'>
+            <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with email</span>
+          </div>
+
+          {/* Champ Email */}
+          <div className='fv-row mb-6'>
+            <input
+              placeholder='Email'
+              type='email'
+              {...formik.getFieldProps('email')}
+              className={clsx('form-control py-3 bg-transparent border-gray-300', {
+                'is-invalid': formik.touched.email && formik.errors.email,
+              })}
+            />
+            {formik.touched.email && formik.errors.email && (
+              <div className='fv-plugins-message-container'>
+                <span role='alert'>{formik.errors.email}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Champ Password */}
+          <div className='fv-row mb-6'>
+            <input
+              type='password'
+              placeholder='Password'
+              {...formik.getFieldProps('password')}
+              className={clsx('form-control py-3 bg-transparent border-gray-300', {
+                'is-invalid': formik.touched.password && formik.errors.password,
+              })}
+            />
+            {formik.touched.password && formik.errors.password && (
+              <div className='fv-plugins-message-container'>
+                <span role='alert'>{formik.errors.password}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Lien "Forgot Password" */}
+          <div className='d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8'>
+            <div />
+            <Link to='/auth/forgot-password' className='link-primary text-decoration-none'>
+              Forgot Password ?
+            </Link>
+          </div>
+
+          {/* Bouton de soumission */}
+          <div className='d-grid mb-10'>
+            <button
+              type='submit'
+              id='kt_sign_in_submit'
+              className='btn btn-primary'
+              disabled={formik.isSubmitting || !formik.isValid}
+            >
+              {!loading && <span className='indicator-label fw-semibold'>Sign in</span>}
+              {loading && (
+                <span className='indicator-progress d-block'>
+                  Please wait...
+                  <span className='spinner-border spinner-border-sm align-middle ms-2'></span>
+                </span>
+              )}
+            </button>
+          </div>
+
+          {/* Lien "Not a Member yet? Sign up" */}
+          <div className='text-gray-500 text-center fw-semibold fs-6'>
+            Not a Member yet?{' '}
+            <Link to='/auth/registration' className='link-primary fw-semibold text-decoration-none'>
+              Sign up
+            </Link>
+          </div>
+        </form>
       </div>
-    </form>
+    </div>
   );
 }
