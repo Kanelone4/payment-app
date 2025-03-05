@@ -4,6 +4,7 @@ import { ForgotPassword } from './components/ForgotPassword';
 import Login from './components/Login';
 import { AuthLayout } from './AuthLayout';
 
+
 const AuthPage = () => {
   return (
     <Routes>
@@ -15,6 +16,7 @@ const AuthPage = () => {
         <Route path="registration" element={<Registration />} />
         <Route path="login" element={<Login />} />
         <Route path="forgot-password" element={<ForgotPassword />} />
+        
       </Route>
     </Routes>
   );

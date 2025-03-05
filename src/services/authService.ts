@@ -35,7 +35,6 @@ export const Registration = async (userData: {
   return data;
 };
 
-// Fonction de connexion
 export const login = async (userData: { email: string; password: string }) => {
   const response = await fetch('http://192.168.86.97:5000/users/login', {
     method: 'POST',

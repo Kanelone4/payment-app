@@ -37,11 +37,10 @@ export default function Login() {
       try {
         const response = await login(values);
         if (response.token) {
-          // Connexion réussie
           toast.success('Login successful!');
           navigate('');
         } else {
-          // Échec de la connexion
+         
           toast.error('Invalid email or password');
         }
       } catch (error) {
@@ -68,7 +67,7 @@ export default function Login() {
             <h1 className='text-dark fw-bolder mb-3'>Sign In</h1>
           </div>
 
-          <div className='row g-3 mb-9'>
+          <div className='row g-3 mb-8'>
             <div className='col-md-6'>
               <a href="#" className="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3 fs-6">
                 <img alt="Logo" src="/assets/google-icon.svg" className="h-20px me-3" />
@@ -84,12 +83,11 @@ export default function Login() {
             </div>
           </div>
 
-          {/* Séparateur "Or with email" */}
           <div className='separator separator-content my-14'>
             <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with email</span>
           </div>
 
-          {/* Champ Email */}
+          
           <div className='fv-row mb-6'>
             <input
               placeholder='Email'
@@ -106,7 +104,7 @@ export default function Login() {
             )}
           </div>
 
-          {/* Champ Password */}
+          
           <div className='fv-row mb-6'>
             <input
               type='password'

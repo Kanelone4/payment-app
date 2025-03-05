@@ -66,8 +66,8 @@ export default function Registration() {
             <h1 className='text-dark fw-bolder mb-3'>Sign Up</h1>
           </div>
 
-          {/* Boutons de connexion via Google et Apple */}
-          <div className='row g-3 mb-8'>
+          
+          <div className='row g-3 mb-9'>
             <div className='col-md-6'>
               <a href="#" className="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3 fs-6">
                 <img alt="Logo" src="/assets/google-icon.svg" className="h-20px me-3" />
@@ -83,14 +83,13 @@ export default function Registration() {
             </div>
           </div>
 
-          {/* Séparateur "Or with email" */}
-          <div className='separator separator-content my-8'>
+          
+          <div className='separator separator-content my-14'>
             <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with email</span>
           </div>
 
-          {/* Champs du formulaire */}
-          <div className='row g-4 mb-4'>
-            {/* Champ Nom */}
+          <div className='row g-4 mb-6'>
+          
             <div className='col-md-6'>
               <input
                 placeholder='Nom'
@@ -121,7 +120,7 @@ export default function Registration() {
             </div>
           </div>
 
-          {/* Champ Email */}
+          
           <div className='mb-4'>
             <input
               placeholder='Email'
@@ -136,7 +135,7 @@ export default function Registration() {
             )}
           </div>
 
-          {/* Champ Password */}
+          
           <div className='mb-4'>
             <input
               type='password'
@@ -150,8 +149,7 @@ export default function Registration() {
               <div className='invalid-feedback'>{formik.errors.password}</div>
             )}
           </div>
-
-          {/* Champ Rôle */}
+{/* Champ Rôle */}
           <div className='mb-4'>
             <select
               id="role"
@@ -168,7 +166,7 @@ export default function Registration() {
             )}
           </div>
 
-          {/* Bouton de soumission */}
+         
           <div className='d-grid mb-4'>
             <button
               type='submit'
@@ -186,7 +184,6 @@ export default function Registration() {
             </button>
           </div>
 
-          {/* Lien "Already have an Account? Sign in" */}
           <div className='text-gray-500 text-center fw-semibold fs-6'>
             Already have an Account?{' '}
             <Link to='/auth/login' className='link-primary fw-semibold text-decoration-none'>Sign in</Link>
