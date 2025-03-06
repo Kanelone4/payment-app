@@ -13,8 +13,7 @@ const initialValues = {
   nom: '',
   prenom: '',
   email: '',
-  password: '',
-  role: 'user',
+  password: ''
 };
 
 const registrationSchema = Yup.object().shape({
@@ -32,10 +31,15 @@ const registrationSchema = Yup.object().shape({
     .max(50, 'Maximum 50 symbols')
     .required('Prenom is required'),
   password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
+    .min(8, 'Password must contain at least 8 characters')
     .max(50, 'Maximum 50 symbols')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/[0-9]/, 'Password must contain at least one number')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one special character')
     .required('Password is required'),
-  role: Yup.string().oneOf(['user', 'admin'], 'Invalid role').required('Role is required'),
+    
+ 
 });
 
 export default function Registration() {
@@ -66,7 +70,6 @@ export default function Registration() {
             <h1 className='text-dark fw-bolder mb-3'>Sign Up</h1>
           </div>
 
-          
           <div className='row g-3 mb-9'>
             <div className='col-md-6'>
               <a href="#" className="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3 fs-6">
@@ -104,7 +107,7 @@ export default function Registration() {
               )}
             </div>
 
-            {/* Champ Prenom */}
+            
             <div className='col-md-6'>
               <input
                 placeholder='Prénom'
@@ -135,7 +138,6 @@ export default function Registration() {
             )}
           </div>
 
-          
           <div className='mb-4'>
             <input
               type='password'
@@ -149,24 +151,8 @@ export default function Registration() {
               <div className='invalid-feedback'>{formik.errors.password}</div>
             )}
           </div>
-{/* Champ Rôle */}
-          <div className='mb-4'>
-            <select
-              id="role"
-              {...formik.getFieldProps('role')}
-              className={clsx('form-select py-3', {
-                'is-invalid': formik.touched.role && formik.errors.role,
-              })}
-            >
-              <option value="user">Utilisateur</option>
-              <option value="admin">Admin</option>
-            </select>
-            {formik.touched.role && formik.errors.role && (
-              <div className='invalid-feedback'>{formik.errors.role}</div>
-            )}
-          </div>
 
-         
+                   
           <div className='d-grid mb-4'>
             <button
               type='submit'

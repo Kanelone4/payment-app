@@ -1,5 +1,5 @@
-// Fonction pour la réinitialisation de mot de passe
-export const requestPasswordReset = async (email: string) => {
+
+export const requestPasswordForgot = async (email: string) => {
   const response = await fetch('http://192.168.86.97:5000/users/forgot-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -14,12 +14,28 @@ export const requestPasswordReset = async (email: string) => {
   return data;
 };
 
+export const requestPasswordReset = async (token: string, newPassword: string) => {
+    const response = await  fetch('http://192.168.86.97:5000/users/reset-password', {
+       method: 'POST',
+       headers: { 'Content-Type': 'application/json'},
+       body: JSON.stringify({ token, newPassword}),
+    });  
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+  
+    const data = await response.json();
+    return data;
+  };
+  
+
+
 export const Registration = async (userData: {
   nom: string;
   prenom: string;
   email: string;
   password: string;
-  role: string;
 }) => {
   const response = await fetch('http://192.168.86.97:5000/users/register', {
     method: 'POST',

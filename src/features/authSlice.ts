@@ -18,7 +18,7 @@ const initialState: AuthState = {
 
 export  const registerUser = createAsyncThunk(
   'auth/Registration',
-  async (userData: { nom: string; prenom: string; email: string; password: string, role: string}) => {
+  async (userData: { nom: string; prenom: string; email: string; password: string}) => {
     const response = await Registration(userData);
     return response;
   }

@@ -14,8 +14,12 @@ const loginSchema = Yup.object().shape({
     .max(50, 'Maximum 50 symbols')
     .required('Email is required'),
   password: Yup.string()
-    .min(3, 'Minimum 3 symbols')
+    .min(8, 'Password must contain at least 8 characters')
     .max(50, 'Maximum 50 symbols')
+    .matches(/[A-Z]/, 'Password must contain at least one uppercase letter')
+    .matches(/[a-z]/, 'Password must contain at least one lowercase letter')
+    .matches(/[0-9]/, 'Password must contain at least one number')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Must contain at least one special character')
     .required('Password is required'),
 });
 
@@ -36,11 +40,10 @@ export default function Login() {
 
       try {
         const response = await login(values);
-        if (response.token) {
+        if (response.accessToken) {
           toast.success('Login successful!');
           navigate('');
         } else {
-         
           toast.error('Invalid email or password');
         }
       } catch (error) {

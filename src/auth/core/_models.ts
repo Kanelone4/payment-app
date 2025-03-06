@@ -18,7 +18,7 @@ export interface UserCommunicationModel {
 
 export interface UserEmailSettingsModel {
   emailNotification?: boolean
-  sendCopyToPersonalEmail?: boolean
+  sendCopyToPersonalEmail?: boolean   
   activityRelatesEmail?: {
     youHaveNewNotifications?: boolean
     youAreSentADirectMessage?: boolean

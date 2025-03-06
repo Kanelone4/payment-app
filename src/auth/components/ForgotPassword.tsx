@@ -63,8 +63,6 @@ export function ForgotPassword() {
             </div>
           </div>
 
-          
-
           <div className='fv-row mb-8'>
             <label className='form-label fw-bolder text-gray-900 fs-6'>Email</label>
             <input
