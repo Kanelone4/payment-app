@@ -1,14 +1,9 @@
 export interface AuthModel {
-  api_token: string
+  accessToken: string
   refreshToken?: string
 }
 
-export interface UserAddressModel {
-  addressLine: string
-  city: string
-  state: string
-  postCode: string
-}
+
 
 export interface UserCommunicationModel {
   email: boolean
@@ -62,6 +57,5 @@ export interface UserModel {
   emailSettings?: UserEmailSettingsModel
   auth?: AuthModel
   communication?: UserCommunicationModel
-  address?: UserAddressModel
   socialNetworks?: UserSocialNetworksModel
 }

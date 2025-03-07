@@ -52,10 +52,14 @@ export default function Registration() {
     onSubmit: async (values, { setSubmitting }) => {
       try {
         await dispatch(registerUser(values)).unwrap();
-        navigate('/auth/login');
+        toast.success('Registration successful!');
+        setTimeout(() => {
+          navigate('/auth/login');
+        }, 2000); 
+      
       } catch (error) {
         console.error("Erreur lors de l'inscription :", error);
-        toast.error("Failed to fetch. Please check your connection and try again.");
+        toast.error("Failed to register. Please check your connection and try again.");
         setSubmitting(false);
       }
     },

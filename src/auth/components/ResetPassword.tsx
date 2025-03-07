@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { resetPassword } from '../core/_requests';
 
+
 const initialValues = {
   newPassword: '',
 };
@@ -46,7 +47,9 @@ export function ResetPassword() {
 
         const response = await resetPassword(values.newPassword, token);
         toast.success(response.message || 'Password has been successfully reset!');
-        navigate('/auth/login');
+        setTimeout(() => {
+          navigate('/auth/login');
+        }, 2000); 
       } catch (error) {
         console.error('Error resetting password:', error);
         toast.error('Failed to reset password. Please try again.');

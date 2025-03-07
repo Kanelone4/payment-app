@@ -7,6 +7,7 @@ import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { login } from '../../services/authService';
 
+
 const loginSchema = Yup.object().shape({
   email: Yup.string()
     .email('Wrong email format')
@@ -42,7 +43,9 @@ export default function Login() {
         const response = await login(values);
         if (response.accessToken) {
           toast.success('Login successful!');
-          navigate('');
+          setTimeout(() => {
+            navigate('/dashboard');
+          }, 2000); 
         } else {
           toast.error('Invalid email or password');
         }
@@ -125,12 +128,12 @@ export default function Login() {
           </div>
 
           {/* Lien "Forgot Password" */}
-          <div className='d-flex flex-stack flex-wrap gap-3 fs-base fw-semibold mb-8'>
-            <div />
-            <Link to='/auth/forgot-password' className='link-primary text-decoration-none'>
-              Forgot Password ?
-            </Link>
-          </div>
+          <div className="d-flex flex-column align-items-center mb-8 fw-semibold ">
+              <div className="d-none d-sm-block" /> 
+              <Link to="/auth/forgot-password" className="link-primary text-decoration-none">
+                Forgot Password ?
+              </Link>
+            </div>
 
           {/* Bouton de soumission */}
           <div className='d-grid mb-10'>

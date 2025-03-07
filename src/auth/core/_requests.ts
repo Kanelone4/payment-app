@@ -60,7 +60,7 @@ export const resetPassword = async (newPassword: string, token: string): Promise
 
     
     if (response.data.message === "Mot de passe réinitialisé avec succès") {
-      return { success: true, message: response.data.message };
+      return { success: true, message: "Password has been successfully reset !" };
     } else {
       throw new Error(response.data.message || 'Failed to reset password.');
     }

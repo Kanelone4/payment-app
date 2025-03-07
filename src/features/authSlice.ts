@@ -16,14 +16,13 @@ const initialState: AuthState = {
 };
 
 
-export  const registerUser = createAsyncThunk(
+export const registerUser = createAsyncThunk(
   'auth/Registration',
   async (userData: { nom: string; prenom: string; email: string; password: string}) => {
     const response = await Registration(userData);
     return response;
   }
 );
-
 
 export const loginUser = createAsyncThunk(
   'auth/login',
