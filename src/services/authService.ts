@@ -29,8 +29,6 @@ export const requestPasswordReset = async (token: string, newPassword: string) =
     return data;
   };
   
-
-
 export const Registration = async (userData: {
   nom: string;
   prenom: string;
