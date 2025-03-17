@@ -44,7 +44,7 @@ export default function Login() {
         if (response.accessToken) {
           toast.success('Login successful!');
           setTimeout(() => {
-            navigate('/dashboard');
+            navigate('/');
           }, 2000); 
         } else {
           toast.error('Invalid email or password');

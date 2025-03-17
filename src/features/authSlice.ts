@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { Registration, login } from '../services/authService';
+import { Registration, login, fetchProducts, fetchPlans } from '../services/authService';
 
 interface AuthState {
   user: null | { nom: string; prenom: string; email: string };
   token: string | null;
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
   error: string | null;
+  products: { _id: string; product_name: string; description: string }[];
 }
 
 const initialState: AuthState = {
@@ -13,12 +14,12 @@ const initialState: AuthState = {
   token: null,
   status: 'idle',
   error: null,
+  products: [],
 };
-
 
 export const registerUser = createAsyncThunk(
   'auth/Registration',
-  async (userData: { nom: string; prenom: string; email: string; password: string}) => {
+  async (userData: { nom: string; prenom: string; email: string; password: string }) => {
     const response = await Registration(userData);
     return response;
   }
@@ -32,6 +33,22 @@ export const loginUser = createAsyncThunk(
   }
 );
 
+export const fetchProductsAsync = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    const response = await fetchProducts();
+    return response;
+  }
+);
+
+export const fetchPlansAsync = createAsyncThunk(
+  'plans/fetchPlans',
+  async () => {
+    const response = await fetchPlans();
+    return response;
+  }
+)
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
@@ -41,6 +58,7 @@ const authSlice = createSlice({
       state.token = null;
       state.status = 'idle';
       state.error = null;
+      state.products = [];
     },
   },
   extraReducers: (builder) => {
@@ -66,7 +84,29 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'Login failed';
-      });
+      })
+      .addCase(fetchProductsAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchProductsAsync.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.products = action.payload;
+      })
+      .addCase(fetchProductsAsync.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || 'Failed to fetch products';
+      })
+      .addCase(fetchPlansAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchPlansAsync.fulfilled, (state, action) => {
+        state.status = 'succeeded';
+        state.products = action.payload;
+      })
+      .addCase(fetchPlansAsync.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || 'Failed to fetch plans';    
+      })
   },
 });
 

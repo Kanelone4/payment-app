@@ -1,147 +1,188 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
 import Layout from '../layout/Layout';
+import { fetchProducts, fetchPlans } from '../auth/core/_requests';
+import PlanCard from './PlanCard';
 
-const ProductLogo = styled.div`
-  width: 50px;
-  height: 50px;
-  background-color: #ccc;
-  margin-right: 10px;
-  display: inline-block;
-  vertical-align: middle;
-`;
+interface Product {
+  _id: string;
+  product_name: string;
+  description: string;
+  createdAt: string;
+  updatedAt: string;
+  __v: number;
+  image: string;
+}
 
+interface Plan {
+  _id: string;
+  name: string;
+  price: number;
+  billing_cycle: string;
+  features: string[];
+  product_id: string;
+}
 
+const capitalizeFirstLetter = (str: string) => {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+};
 
+const PlanToggle: React.FC<{ billingCycle: 'Monthly' | 'Annually'; setBillingCycle: (cycle: 'Monthly' | 'Annually') => void }> = ({ billingCycle, setBillingCycle }) => {
+  return (
+    <div className="nav-group nav-group-outline mx-auto mb-15" style={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
+      <button
+        className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 me-2 ${billingCycle === 'Monthly' ? 'active' : ''}`}
+        onClick={() => setBillingCycle('Monthly')}
+        style={{
+          border: billingCycle === 'Monthly' ? '1px solid #007bff' : '1px solid #6c757d',
+          backgroundColor: billingCycle === 'Monthly' ? '#e9ecef' : 'transparent',
+          color: billingCycle === 'Monthly' ? '#007bff' : '#6c757d',
+        }}
+      >
+        Monthly
+      </button>
+      <button
+        className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 ${billingCycle === 'Annually' ? 'active' : ''}`}
+        onClick={() => setBillingCycle('Annually')}
+        style={{
+          border: billingCycle === 'Annually' ? '1px solid #007bff' : '1px solid #6c757d',
+          backgroundColor: billingCycle === 'Annually' ? '#e9ecef' : 'transparent',
+          color: billingCycle === 'Annually' ? '#007bff' : '#6c757d',
+        }}
+      >
+        Annually
+      </button>
+    </div>
+  );
+};
 
 const NewSubscription: React.FC = () => {
-  const [openProduct, setOpenProduct] = useState<number | null>(null);
-  const [billingCycle, setBillingCycle] = useState<'Monthly' | 'Annual'>('Monthly');
+  const [openProduct, setOpenProduct] = useState<string | null>(null);
+  const [billingCycle, setBillingCycle] = useState<'Monthly' | 'Annually'>('Monthly');
+  const [products, setProducts] = useState<Product[]>([]);
+  const [plans, setPlans] = useState<Plan[]>([]);
+  const [filteredPlans, setFilteredPlans] = useState<Plan[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
-  const toggleProduct = (id: number) => {
-    setOpenProduct(id);
+  useEffect(() => {
+    const getProducts = async () => {
+      try {
+        const data = await fetchProducts();
+        const productsWithImages = data.map(product => ({
+          ...product,
+          image: `http://192.168.86.131:5000/uploads/${product._id}.svg`,
+        }));
+        setProducts(productsWithImages);
+
+        if (productsWithImages.length > 0) {
+          setOpenProduct(productsWithImages[0]._id);
+        }
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unknown error occurred');
+        }
+      }
+    };
+
+    const getPlans = async () => {
+      try {
+        const data = await fetchPlans();
+        setPlans(data);
+      } catch (err) {
+        if (err instanceof Error) {
+          setError(err.message);
+        } else {
+          setError('An unknown error occurred');
+        }
+      }
+    };
+    getProducts();
+    getPlans();
+  }, []);
+
+  useEffect(() => {
+    if (openProduct) {
+      const filtered = plans.filter(
+        (plan) => plan.product_id === openProduct && plan.billing_cycle.toLowerCase() === billingCycle.toLowerCase()
+      );
+      setFilteredPlans(filtered);
+    }
+  }, [openProduct, billingCycle, plans]);
+
+  const toggleProduct = (id: string) => {
+    setOpenProduct(openProduct === id ? null : id);
   };
 
-  // const handleDashboardClick = () => {
-  //   window.location.href = '/dashboard'; 
-  // };
-  const products = [
-    { id: 1, name: 'RightPlayer' },
-    { id: 2, name: 'RightSurvey' },
-    { id: 3, name: 'RightBot' },
-  ];
-
-
-  interface Plan {
-    id: number;
-    title: string;
-    description: string;
-    priceMonthly: number;
-    priceAnnual: number;
+  if (error) {
+    return <div>Error: {error}</div>;
   }
 
-  const plans: Plan[] = [
-    {
-      id: 1,
-      title: 'Startup',
-      description: 'Optimal for 10+ team size and new startup',
-      priceMonthly: 39,
-      priceAnnual: 399,
-    },
-    {
-      id: 2,
-      title: 'Advanced',
-      description: 'Optimal for 100+ team size and company',
-      priceMonthly: 339,
-      priceAnnual: 3399,
-    },
-    {
-      id: 3,
-      title: 'Enterprise',
-      description: 'Optimal for 1000+ team and enterprise',
-      priceMonthly: 999,
-      priceAnnual: 9999,
-    },
-  ];
-
   return (
-    
-  <Layout>
-    <div className="container mt-5">
-      <div className="row">
-        <div className="col-lg-3 col-md-4 mb-3">
-          <div className="p-3">
-
-            {products.map((product) => (
-              <div key={product.id} className="mb-3">
-                <button
-                  className="btn btn-link text-start text-decoration-none w-100 text-left"
-                  onClick={() => toggleProduct(product.id)}
-                  aria-expanded={openProduct === product.id ? "true" : "false"}
-                  style={{ color: 'inherit' }}
-                >
-                  <ProductLogo />
-                  <span style={{ verticalAlign: 'middle' }}>{product.name}</span>
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="col-lg-9 col-md-8">
-          <div className="row">
-            <div className="col-12 text-center mb-4">
-              <h2>Choose Your Plan</h2>
-              <p className="mb-5">
-                If you need more info about our pricing, please check{' '}
-                <a href="#" className="text-primary text-decoration-none fw-semibold">
-                  Pricing Guidelines
-                </a>
-              </p>
-              <div className="d-flex justify-content-center mb-4">
-                <div className="btn-group btn-group-toggle" data-toggle="buttons">
-                  <label
-                    className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 me-2 ${billingCycle === 'Monthly' ? 'active' : ''}`}
-                    onClick={() => setBillingCycle('Monthly')}
+    <Layout>
+      <div className="container mt-5">
+        <div className="row">
+          <div className="col-lg-3 col-md-4 mb-3 position-sticky top-0 vh-100 overflow-auto">
+            <div className="p-3">
+              {products.map((product) => (
+                <div key={product._id} className="mb-3">
+                  <button
+                    className="btn btn-outline-secondary w-100 text-left d-flex align-items-center"
+                    onClick={() => toggleProduct(product._id)}
+                    aria-expanded={openProduct === product._id ? "true" : "false"}
+                    style={{
+                      transition: 'background-color 0.3s ease, color 0.3s ease',
+                      backgroundColor: openProduct === product._id ? '#ffffff' : 'transparent',
+                      color: openProduct === product._id ? '#000000' : '#6c757d',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.backgroundColor = '#ffffff';
+                      e.currentTarget.style.color = '#000000';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.backgroundColor = openProduct === product._id ? '#ffffff' : 'transparent';
+                      e.currentTarget.style.color = openProduct === product._id ? '#000000' : '#6c757d';
+                    }}
                   >
-                    <input type="radio" name="options" autoComplete="off" /> Monthly
-                  </label>
-                  <label
-                    className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 ${billingCycle === 'Annual' ? 'active' : ''}`}
-                    onClick={() => setBillingCycle('Annual')}
-                  >
-                    <input type="radio" name="options" autoComplete="off" /> Annual
-                  </label>
+                    <img
+                      src={product.image}
+                      alt={product.product_name}
+                      style={{ width: '100px', height: '30px', marginRight: '-25px' }}
+                    />
+                    <span className='fw-bold fs-5'>{product.product_name}</span>
+                  </button>
                 </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card border-0 col-lg-9 col-md-8">
+            <div className="row">
+              <div className="col-12 text-center mb-1 mt-5">
+                <h2>Choose Your Plan</h2>
+                <p className="mb-5">
+                  If you need more info about our pricing, please check{' '}
+                  <a href="#" className="text-primary text-decoration-none fw-semibold">
+                    Pricing Guidelines
+                  </a>
+                </p>
+                <PlanToggle billingCycle={billingCycle} setBillingCycle={setBillingCycle} />
+              </div>
+              <div className={`row justify-content-${filteredPlans.length === 2 ? 'center' : 'start'}`}>
+                {filteredPlans.map((plan, index) => (
+                  <PlanCard
+                    key={plan._id}
+                    name={capitalizeFirstLetter(plan.name)}
+                    price={plan.price}
+                    features={plan.features}
+                    isFourthPlan={index === 3}
+                  />
+                ))}
               </div>
             </div>
-            {plans.map((plan) => (
-              <div key={plan.id} className="col-md-4 mb-4">
-                <div className="card border-0 text-center p-3 h-100 bg-light shadow-sm">
-                  <h5>{plan.title}</h5>
-                  <p className="text-muted">{plan.description}</p>
-                  <div className="price my-3">
-                    ${billingCycle === 'Monthly' ? plan.priceMonthly : plan.priceAnnual + 9}
-                    /Mon
-                  </div>
-                  <ul className="list-unstyled">
-                    <li><i className="text-success">✓</i> Up to 10 Active Users</li>
-                    <li><i className="text-success">✓</i> Up to 30 Project Integrations</li>
-                    <li><i className="text-success">✓</i> Analytics Module</li>
-                      <li><i className="text-success">✓</i> Finance Module</li>
-                      <>
-                        <li><i className="text-success">✓</i> Accounting Module</li>
-                        <li><i className="text-success">✓</i> Network Platform</li>
-                      </>
-                    <li><i className="text-success">✓</i> Unlimited Cloud Space</li>
-                  </ul>
-                  <button className="btn btn-sm btn-primary">Select</button>
-                </div>
-              </div>
-            ))}
           </div>
         </div>
       </div>
-    </div>
     </Layout>
   );
 };

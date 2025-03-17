@@ -8,7 +8,8 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { registerUser } from '../../features/authSlice';
 import { Link } from 'react-router-dom';
-
+import "../../../public/assets/css/style.css"
+import "../../../public/assets/css/plugins.css"
 const initialValues = {
   nom: '',
   prenom: '',

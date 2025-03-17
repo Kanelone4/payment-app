@@ -13,7 +13,7 @@ const App = () => {
     <Provider store={store}>
       <Routes>
         <Route path="auth/*" element={<AuthPage />} />
-          <Route path="dashboard" element={ <Dashboard />} />
+          <Route path="/" element={ <Dashboard />} />
         <Route path="add-new" element={<NewSubscription  />} /> 
       </Routes>
     </Provider>

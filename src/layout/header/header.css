@@ -1,1 +1,8 @@
-.header {}
+
+    .hover-bg:hover, .active-bg {
+        background-color: #f4f6fa;
+        border-radius: 7px;
+      }
+      .hover-text:hover {
+        color: #0d6efd; 
+      }

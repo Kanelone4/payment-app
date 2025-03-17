@@ -1,0 +1,13 @@
+<svg id="RightCom-XP-Icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="50.452" height="36.76" viewBox="0 0 50.452 36.76">
+  <defs>
+    <linearGradient id="linear-gradient" x1="0.603" y1="1.233" x2="0.364" y2="-0.142" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#00e6f7"/>
+      <stop offset="0.057" stop-color="#00ddf7"/>
+      <stop offset="0.359" stop-color="#00aff9"/>
+      <stop offset="0.628" stop-color="#008efa"/>
+      <stop offset="0.85" stop-color="#0079fb"/>
+      <stop offset="1" stop-color="#0072fb"/>
+    </linearGradient>
+  </defs>
+  <path id="Path_7402" data-name="Path 7402" d="M8.271,9.657,2.8.1H13.969Zm42.182,2.573a13.712,13.712,0,0,1-2.343,8.225c-2.022,2.8-5.376,4.227-10.109,4.227H32.027V36.86H27.616L13.739,17.239,25.732.1H37.679C42,.1,45.306,1.341,47.512,3.868A12,12,0,0,1,50.452,12.231Zm-9.925.092A4.446,4.446,0,0,0,39.333,9.06c-.781-.827-2.16-1.241-4.09-1.241H32.027v9.144H35.2c2.068,0,3.492-.459,4.273-1.333A4.776,4.776,0,0,0,40.527,12.323ZM0,36.86H16.082L8.225,24.913Z" transform="translate(0 -0.1)" fill="url(#linear-gradient)"/>
+</svg>

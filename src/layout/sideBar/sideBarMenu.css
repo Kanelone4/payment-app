@@ -1,0 +1,13 @@
+.active-bg {
+  background-color: #f4f6fa;
+  border-radius: 7px;
+}
+.submenu {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out;
+}
+.submenu.open {
+  max-height: 300px; 
+  transition: max-height 0.5s ease-in;
+}
