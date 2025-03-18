@@ -11,7 +11,7 @@ interface AuthState {
 
 const initialState: AuthState = {
   user: null,
-  token: null,
+  token: localStorage.getItem('accessToken') || null, 
   status: 'idle',
   error: null,
   products: [],
@@ -47,7 +47,7 @@ export const fetchPlansAsync = createAsyncThunk(
     const response = await fetchPlans();
     return response;
   }
-)
+);
 
 const authSlice = createSlice({
   name: 'auth',
@@ -59,6 +59,7 @@ const authSlice = createSlice({
       state.status = 'idle';
       state.error = null;
       state.products = [];
+      localStorage.removeItem('accessToken'); 
     },
   },
   extraReducers: (builder) => {
@@ -69,6 +70,7 @@ const authSlice = createSlice({
       .addCase(registerUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.token = action.payload.token;
+        localStorage.setItem('accessToken', action.payload.token); 
       })
       .addCase(registerUser.rejected, (state, action) => {
         state.status = 'failed';
@@ -80,6 +82,7 @@ const authSlice = createSlice({
       .addCase(loginUser.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.token = action.payload.token;
+        localStorage.setItem('accessToken', action.payload.token); 
       })
       .addCase(loginUser.rejected, (state, action) => {
         state.status = 'failed';
@@ -97,7 +100,7 @@ const authSlice = createSlice({
         state.error = action.error.message || 'Failed to fetch products';
       })
       .addCase(fetchPlansAsync.pending, (state) => {
-        state.status = 'loading';
+        state.status = 'loading';  
       })
       .addCase(fetchPlansAsync.fulfilled, (state, action) => {
         state.status = 'succeeded';
@@ -105,8 +108,8 @@ const authSlice = createSlice({
       })
       .addCase(fetchPlansAsync.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message || 'Failed to fetch plans';    
-      })
+        state.error = action.error.message || 'Failed to fetch plans';
+      });
   },
 });
 

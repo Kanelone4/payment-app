@@ -31,7 +31,6 @@ const SideBarMenu = ({ Icon, MainTitle, SubTitles, Path, dropDownMenu, setDropDo
 
   return (
     <div>
-      
       <Link style={{ textDecoration: 'none', color: '#808080', gap: '1px' }} to={Path ? Path : ''}>
         <div
           onClick={toggleMenu}

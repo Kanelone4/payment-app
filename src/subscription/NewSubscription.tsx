@@ -28,30 +28,22 @@ const capitalizeFirstLetter = (str: string) => {
 
 const PlanToggle: React.FC<{ billingCycle: 'Monthly' | 'Annually'; setBillingCycle: (cycle: 'Monthly' | 'Annually') => void }> = ({ billingCycle, setBillingCycle }) => {
   return (
-    <div className="nav-group nav-group-outline mx-auto mb-15" style={{ display: 'flex', justifyContent: 'center', gap: '8px' }}>
-      <button
-        className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 me-2 ${billingCycle === 'Monthly' ? 'active' : ''}`}
-        onClick={() => setBillingCycle('Monthly')}
-        style={{
-          border: billingCycle === 'Monthly' ? '1px solid #007bff' : '1px solid #6c757d',
-          backgroundColor: billingCycle === 'Monthly' ? '#e9ecef' : 'transparent',
-          color: billingCycle === 'Monthly' ? '#007bff' : '#6c757d',
-        }}
-      >
-        Monthly
-      </button>
-      <button
-        className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 ${billingCycle === 'Annually' ? 'active' : ''}`}
-        onClick={() => setBillingCycle('Annually')}
-        style={{
-          border: billingCycle === 'Annually' ? '1px solid #007bff' : '1px solid #6c757d',
-          backgroundColor: billingCycle === 'Annually' ? '#e9ecef' : 'transparent',
-          color: billingCycle === 'Annually' ? '#007bff' : '#6c757d',
-        }}
-      >
-        Annually
-      </button>
-    </div>
+    <div className="nav-group nav-group-outline mx-auto mb-15 " data-kt-buttons="true">
+    <button
+      className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 me-2 fw-semibold ${billingCycle === 'Monthly' ? 'active' : ''}`}
+      onClick={() => setBillingCycle('Monthly')}
+      data-kt-plan="month"
+    >
+      Monthly
+    </button>
+    <button
+      className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 fw-semibold ${billingCycle === 'Annually' ? 'active' : ''}`}
+      onClick={() => setBillingCycle('Annually')}
+      data-kt-plan="annual"
+    >
+      Annually
+    </button>
+  </div>
   );
 };
 
@@ -69,7 +61,7 @@ const NewSubscription: React.FC = () => {
         const data = await fetchProducts();
         const productsWithImages = data.map(product => ({
           ...product,
-          image: `http://192.168.86.131:5000/uploads/${product._id}.svg`,
+          image: `http://192.168.86.70:5000/uploads/${product._id}.svg`,
         }));
         setProducts(productsWithImages);
 
@@ -159,16 +151,16 @@ const NewSubscription: React.FC = () => {
           <div className="card border-0 col-lg-9 col-md-8">
             <div className="row">
               <div className="col-12 text-center mb-1 mt-5">
-                <h2>Choose Your Plan</h2>
-                <p className="mb-5">
+                <h1>Choose Your Plan</h1>
+                <p className="mb-5 fw-semibold" style={{color:'#a5a8b0', fontSize:'14px'}}>
                   If you need more info about our pricing, please check{' '}
-                  <a href="#" className="text-primary text-decoration-none fw-semibold">
+                  <a href="#" className="text-decoration-none fw-semibold" style={{color:'#009ef7'}}>
                     Pricing Guidelines
                   </a>
                 </p>
                 <PlanToggle billingCycle={billingCycle} setBillingCycle={setBillingCycle} />
               </div>
-              <div className={`row justify-content-${filteredPlans.length === 2 ? 'center' : 'start'}`}>
+              <div className={`row justify-content-${filteredPlans.length === 2 ? 'center' : 'start'} ms-0`}>
                 {filteredPlans.map((plan, index) => (
                   <PlanCard
                     key={plan._id}

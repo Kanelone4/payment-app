@@ -1,5 +1,5 @@
 export const requestPasswordForgot = async (email: string) => {
-  const response = await fetch('http://192.168.86.131:5000/users/forgot-password', {
+  const response = await fetch('http://192.168.86.70:3000/users/forgot-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
@@ -14,7 +14,7 @@ export const requestPasswordForgot = async (email: string) => {
 };
 
 export const requestPasswordReset = async (token: string, newPassword: string) => {
-  const response = await fetch('http://192.168.86.131:5000/users/reset-password', {
+  const response = await fetch('http://192.168.86.70:3000/users/reset-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, newPassword }),
@@ -34,7 +34,7 @@ export const Registration = async (userData: {
   email: string;
   password: string;
 }) => {
-  const response = await fetch('http://192.168.86.131:5000/users/register', {
+  const response = await fetch('http://192.168.86.70:3000/users/register', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
@@ -49,7 +49,7 @@ export const Registration = async (userData: {
 };
 
 export const login = async (userData: { email: string; password: string }) => {
-  const response = await fetch('http://192.168.86.131:5000/users/login', {
+  const response = await fetch('http://192.168.86.70:3000/users/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
@@ -65,7 +65,7 @@ export const login = async (userData: { email: string; password: string }) => {
 
 export const fetchProducts = async () => {
   try {
-    const response = await fetch('http://192.168.86.131:5000/product/product', {
+    const response = await fetch('http://192.168.86.70:5000/product/product', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -84,7 +84,7 @@ export const fetchProducts = async () => {
 
 export const fetchPlans = async () => {
   try {
-    const response = await fetch('http://192.168.86.131:5000/plan/plans', {
+    const response = await fetch('http://192.168.86.70:5000/plan/plans', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -103,7 +103,7 @@ export const fetchPlans = async () => {
 
 export const fetchPlanByProductId = async (productId: string) => {
   try {
-    const response = await fetch(`http://192.168.86.131:5000/plan/product/${productId}`, {
+    const response = await fetch(`http://192.168.86.70:5000/plan/product/${productId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });

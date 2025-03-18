@@ -3,41 +3,6 @@ export interface AuthModel {
   refreshToken?: string
 }
 
-
-
-export interface UserCommunicationModel {
-  email: boolean
-  sms: boolean
-  phone: boolean
-}
-
-export interface UserEmailSettingsModel {
-  emailNotification?: boolean
-  sendCopyToPersonalEmail?: boolean   
-  activityRelatesEmail?: {
-    youHaveNewNotifications?: boolean
-    youAreSentADirectMessage?: boolean
-    someoneAddsYouAsAsAConnection?: boolean
-    uponNewOrder?: boolean
-    newMembershipApproval?: boolean
-    memberRegistration?: boolean
-  }
-  updatesFromKeenthemes?: {
-    newsAboutKeenthemesProductsAndFeatureUpdates?: boolean
-    tipsOnGettingMoreOutOfKeen?: boolean
-    thingsYouMissedSindeYouLastLoggedIntoKeen?: boolean
-    newsAboutStartOnPartnerProductsAndOtherServices?: boolean
-    tipsOnStartBusinessProducts?: boolean
-  }
-}
-
-export interface UserSocialNetworksModel {
-  linkedIn: string
-  facebook: string
-  twitter: string
-  instagram: string
-}
-
 export interface UserModel {
   id: number
   username: string
@@ -54,8 +19,5 @@ export interface UserModel {
   language?: 'en' | 'de' | 'es' | 'fr' | 'ja' | 'zh' | 'ru'
   timeZone?: string
   website?: 'https://keenthemes.com'
-  emailSettings?: UserEmailSettingsModel
   auth?: AuthModel
-  communication?: UserCommunicationModel
-  socialNetworks?: UserSocialNetworksModel
 }

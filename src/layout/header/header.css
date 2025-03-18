@@ -6,3 +6,34 @@
       .hover-text:hover {
         color: #0d6efd; 
       }
+/* Styles pour le bouton du menu burger */
+.btn-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+btn-active-color-primary:hover {
+  background-color: rgba(80, 205, 137, 0.1); /* Couleur de fond au survol */
+}
+
+/* Styles pour le logo */
+.logo {
+  width: 40px;
+  height: 40px;
+}
+
+.svg-icon {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+}
+
+.svg-icon svg {
+  width: 100%;
+  height: 100%;
+}

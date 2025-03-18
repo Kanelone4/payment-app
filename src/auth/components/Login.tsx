@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react'; 
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { Link, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { login } from '../../services/authService';
-
+import { useDispatch, useSelector } from 'react-redux'; 
+import { loginUser } from '../../features/authSlice';
+import { AppDispatch, RootState } from '../../store';
 
 const loginSchema = Yup.object().shape({
   email: Yup.string()
@@ -31,7 +32,16 @@ const initialValues = {
 
 export default function Login() {
   const [loading, setLoading] = useState(false);
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+  const isAuthenticated = useSelector((state: RootState) => !!state.auth.token); 
+
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/');
+    }
+  }, [isAuthenticated, navigate]);
 
   const formik = useFormik({
     initialValues,
@@ -40,12 +50,12 @@ export default function Login() {
       setLoading(true);
 
       try {
-        const response = await login(values);
-        if (response.accessToken) {
+        const resultAction = await dispatch(loginUser(values));
+        if (loginUser.fulfilled.match(resultAction)) {
           toast.success('Login successful!');
           setTimeout(() => {
-            navigate('/');
-          }, 2000); 
+            navigate('/'); 
+          }, 2000);
         } else {
           toast.error('Invalid email or password');
         }
@@ -93,7 +103,6 @@ export default function Login() {
             <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with email</span>
           </div>
 
-          
           <div className='fv-row mb-6'>
             <input
               placeholder='Email'
@@ -110,7 +119,6 @@ export default function Login() {
             )}
           </div>
 
-          
           <div className='fv-row mb-6'>
             <input
               type='password'
@@ -127,15 +135,13 @@ export default function Login() {
             )}
           </div>
 
-          {/* Lien "Forgot Password" */}
           <div className="d-flex flex-column align-items-center mb-8 fw-semibold ">
-              <div className="d-none d-sm-block" /> 
-              <Link to="/auth/forgot-password" className="link-primary text-decoration-none">
-                Forgot Password ?
-              </Link>
-            </div>
+            <div className="d-none d-sm-block" />
+            <Link to="/auth/forgot-password" className="link-primary text-decoration-none">
+              Forgot Password ?
+            </Link>
+          </div>
 
-          {/* Bouton de soumission */}
           <div className='d-grid mb-10'>
             <button
               type='submit'
@@ -153,7 +159,6 @@ export default function Login() {
             </button>
           </div>
 
-          {/* Lien "Not a Member yet? Sign up" */}
           <div className='text-gray-500 text-center fw-semibold fs-6'>
             Not a Member yet?{' '}
             <Link to='/auth/registration' className='link-primary fw-semibold text-decoration-none'>

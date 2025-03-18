@@ -5,7 +5,7 @@ import { store } from './store';
 import { AuthPage } from './auth/AuthPage';
 import NewSubscription from './subscription/NewSubscription';
 import Dashboard from './dashboard/Dashboard';
- // Assurez-vous que le chemin d'importation est correct
+
 
 const App = () => {
   
@@ -13,8 +13,10 @@ const App = () => {
     <Provider store={store}>
       <Routes>
         <Route path="auth/*" element={<AuthPage />} />
-          <Route path="/" element={ <Dashboard />} />
-        <Route path="add-new" element={<NewSubscription  />} /> 
+        
+          <Route path="/" element={<Dashboard />} />
+          <Route path="add-new" element={<NewSubscription  />} /> 
+        
       </Routes>
     </Provider>
   );

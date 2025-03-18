@@ -122,6 +122,7 @@ export const fetchPlans = async (): Promise<Plan[]> => {
   }
 };
 
+
 export const fetchPlanByProductId = async (productId: string): Promise<Plan | null> => {
   try {
     const response = await axios.get<{ plan: Plan }>(`${API_URL}/plan/product/${productId}`);
