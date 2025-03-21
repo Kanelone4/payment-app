@@ -1,34 +1,75 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Button } from 'react-bootstrap';
+import 'react-toastify/dist/ReactToastify.css';
+import './PlanCard.css';
 
 interface PlanProps {
   name: string;
   price: number;
   features: string[];
   isFourthPlan?: boolean;
+  isActive?: boolean;
+  logo: string;
+  billingCycle: 'Monthly' | 'Annually';
+  onAddToCard: () => void;
 }
 
-const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = false }) => {
+const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = false, isActive = false, billingCycle, onAddToCard }) => {
+  const [isAdded, setIsAdded] = useState(false);
+
+  const isFreePlan = name.toLowerCase() === 'free';
+
+  const handleAddToCard = () => {
+    setIsAdded(true);
+    onAddToCard();
+  };
+
   return (
-    <div className={`col-md-4 ${isFourthPlan ? 'mt-4' : ''} plan-card`}>
+    <div className={`col-12 col-sm-6 col-md-4 ${isFourthPlan ? 'mt-4' : ''}`}>
       <div
-        className='card border-0 p-4 shadow-sm' 
+        className='card border-0 p-4 shadow-sm'
         style={{
-          height: '500px', 
+          height: '500px',
           display: 'flex',
           flexDirection: 'column',
           backgroundColor: '#f0f4f6',
           marginBottom: isFourthPlan ? '20px' : '0',
+          position: 'relative',
         }}
       >
         
+        {isActive && (
+          <div
+            style={{
+              position: 'absolute',
+              top: '0px',
+              right: '0px',
+              padding: '15px 20px',
+              backgroundColor: '#d1f5d3',
+              borderRadius: '4px',
+              color: '#28a745',
+              fontSize: '13px',
+              fontWeight: 'bold',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            Active
+          </div>
+        )}
+
+        {/* Titre du plan */}
         <div style={{ flex: '0 0 auto', marginBottom: '10px', textAlign: 'center' }}>
           <span className='fw-bold fs-3'>{name}</span>
         </div>
-        
+
+        {/* Description du plan */}
         <div className="text-gray-400 fw-semibold mb-3" style={{ textAlign: 'center' }}>
           Optimal for 100+ team size and grown company
         </div>
 
+        {/* Prix du plan */}
         <div
           className='price-container mb-3'
           style={{
@@ -38,11 +79,13 @@ const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = f
             justifyContent: 'center',
           }}
         >
-          <span className='mt-3' style={{ color: '#009ef7', fontSize: '13px' }}>$</span>
+          <span className='' style={{ color: '#009ef7', fontSize: '13px' }}>$</span>
           <p className='fw-bold' style={{ color: '#009ef7', fontSize: '40px', margin: '0 4px' }}>
             {price}
           </p>
-          <span className='fw-bold fs-8 mt-4' style={{ color: '#a5a8b0' }}>/Mon</span>
+          <span className='fw-bold fs-8 mb-2' style={{ color: '#a5a8b0' }}>
+            /{billingCycle === 'Monthly' ? 'Mon' : 'Year'}
+          </span>
         </div>
 
         <div
@@ -52,7 +95,7 @@ const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = f
             flexDirection: 'column',
             justifyContent: 'flex-start',
             overflowY: 'auto',
-            paddingLeft: '20px', 
+            paddingLeft: '20px',
           }}
         >
           <div className="w-100">
@@ -61,7 +104,7 @@ const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = f
                 <span className="fw-semibold fs-6 text-gray-800 flex-grow-1 pe-3" style={{ textAlign: 'left' }}>
                   {feature}
                 </span>
-                {index % 2 === 0 ? ( 
+                {index % 2 === 0 ? (
                   <span className="svg-icon svg-icon-1 svg-icon-success">
                     <svg
                       width="24"
@@ -129,10 +172,16 @@ const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = f
           </div>
         </div>
 
+        {/* Bouton "Add to Card" */}
         <div style={{ flex: '0 0 auto', marginTop: 'auto', paddingTop: '20px', textAlign: 'center' }}>
-          <a href="#" className="btn btn-sm btn-primary">
-            Select
-          </a>
+          <Button
+            variant="primary"
+            size="sm"
+            onClick={handleAddToCard}
+            disabled={isAdded || isFreePlan} // Désactiver pour les plans Free
+          >
+            {isAdded ? 'Added to Card' : isFreePlan ? 'Active' : 'Add to Card'}
+          </Button>
         </div>
       </div>
     </div>

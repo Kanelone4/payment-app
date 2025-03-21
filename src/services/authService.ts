@@ -49,6 +49,7 @@ export const Registration = async (userData: {
 };
 
 export const login = async (userData: { email: string; password: string }) => {
+ console.log('Sending login request to:', userData)
   const response = await fetch('http://192.168.86.70:3000/users/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -65,7 +66,7 @@ export const login = async (userData: { email: string; password: string }) => {
 
 export const fetchProducts = async () => {
   try {
-    const response = await fetch('http://192.168.86.70:5000/product/product', {
+    const response = await fetch('http://192.168.86.70:3000/product/productId', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -84,7 +85,7 @@ export const fetchProducts = async () => {
 
 export const fetchPlans = async () => {
   try {
-    const response = await fetch('http://192.168.86.70:5000/plan/plans', {
+    const response = await fetch('http://192.168.86.70:3000/plan/plans', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -103,7 +104,7 @@ export const fetchPlans = async () => {
 
 export const fetchPlanByProductId = async (productId: string) => {
   try {
-    const response = await fetch(`http://192.168.86.70:5000/plan/product/${productId}`, {
+    const response = await fetch(`http://192.168.86.70:3000/plan/product/${productId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -113,9 +114,45 @@ export const fetchPlanByProductId = async (productId: string) => {
     }
 
     const data = await response.json();
-    return data.plan;
+    return data.data; // Retourne les plans groupés par billing_cycle
   } catch (error) {
     console.error('Failed to fetch plan by product ID:', error);
+    throw error;
+  }
+};
+
+export const createSubscription = async (subscriptionData: {
+  user_id: string;
+  plan_id: string;
+  start_date: string;
+  end_date: string;
+  status: string;
+}) => {
+  console.log('Sending subscription data:', subscriptionData); // Log des données envoyées
+
+  try {
+    const response = await fetch('http://192.168.86.70:3000/subscription', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+      },
+      body: JSON.stringify(subscriptionData),
+    });
+
+    console.log('API response status:', response.status); // Log du statut de la réponse
+
+    if (!response.ok) {
+      const errorData = await response.json(); // Récupérer les détails de l'erreur
+      console.error('API error response:', errorData); // Log des erreurs de l'API
+      throw new Error(`HTTP error! status: ${response.status}, message: ${errorData.message}`);
+    }
+
+    const data = await response.json();
+    console.log('API success response:', data); // Log de la réponse réussie
+    return data;
+  } catch (error) {
+    console.error('Error in createSubscription:', error); // Log des erreurs générales
     throw error;
   }
 };

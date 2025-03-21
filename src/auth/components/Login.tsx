@@ -36,7 +36,6 @@ export default function Login() {
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token); 
 
-
   useEffect(() => {
     if (isAuthenticated) {
       navigate('/');
@@ -48,9 +47,13 @@ export default function Login() {
     validationSchema: loginSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
-
+      console.log("Form submitted with values:", values); 
+  
       try {
+        console.log("Dispatching loginUser..."); 
         const resultAction = await dispatch(loginUser(values));
+        console.log("Dispatch result:", resultAction); 
+  
         if (loginUser.fulfilled.match(resultAction)) {
           toast.success('Login successful!');
           setTimeout(() => {

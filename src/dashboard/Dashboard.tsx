@@ -2,7 +2,6 @@ import React from 'react';
 import Layout from '../layout/Layout';
 
 
-
 const Dashboard: React.FC = () => {
   return (
     <Layout>
@@ -42,7 +41,7 @@ const Dashboard: React.FC = () => {
                 <img className='py-1' src="./public/assets/Images/RightPlayer.png" alt="RightPlayer Logo" style={{ width: '130px', height: '30px', cursor: 'pointer'}} />
                 <ul className="list-group list-group-flush border-0 mt-3">
                   <li className="list-group-item d-flex justify-content-between align-items-center border-0 " style={{ marginLeft: '90%', bottom: '40px' }}>
-                    
+
                     <span className=''>Total</span>
                   </li>
                 </ul>

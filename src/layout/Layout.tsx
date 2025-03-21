@@ -20,17 +20,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <Header toggleSidebar={toggleSidebar} />
       </div>
       <div style={{ backgroundColor: '#f0f4f6', height: '2px' }}></div>
-      <div className="d-flex h-100" style={{ overflow: 'hidden' }}>      
+      <div className="d-flex h-100" style={{ overflow: 'hidden' }}>
         <div
           className={`overlay ${isSidebarOpen ? 'open' : ''}`}
           onClick={toggleSidebar}
-        ></div>        
+        ></div>
         <div
           style={{ width: '250px' }}
           className={`sidebar ${isSidebarOpen ? 'open' : ''}`}
         >
           <SideBar />
-        </div>       
+        </div>
         <div style={{ backgroundColor: '#f0f4f6', overflow: 'auto' }} className='h-100 w-100 flex-column d-flex'>
           {children}
         </div>
@@ -40,3 +40,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 };
 
 export default Layout;
+
+
+
+
+
+
+
+

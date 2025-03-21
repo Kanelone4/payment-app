@@ -1,0 +1,35 @@
+/* Pour les écrans très petits (moins de 576px) */
+@media (max-width: 575.98px) {
+    .plan-card {
+      height: auto !important; /* Ajuster la hauteur */
+      margin-bottom: 20px !important; /* Espacement entre les cartes */
+    }
+  }
+  
+  /* Pour les petits écrans (à partir de 576px) */
+  @media (min-width: 576px) and (max-width: 767.98px) {
+    .plan-card {
+      height: 450px !important; /* Ajuster la hauteur */
+    }
+  }
+  
+  /* Pour les écrans moyens (à partir de 768px) */
+  @media (min-width: 768px) and (max-width: 991.98px) {
+    .plan-card {
+      height: 500px !important; /* Ajuster la hauteur */
+    }
+  }
+  
+  /* Pour les grands écrans (à partir de 992px) */
+  @media (min-width: 992px) and (max-width: 1199.98px) {
+    .plan-card {
+      height: 550px !important; /* Ajuster la hauteur */
+    }
+  }
+  
+  /* Pour les très grands écrans (à partir de 1200px) */
+  @media (min-width: 1200px) {
+    .plan-card {
+      height: 600px !important; /* Ajuster la hauteur */
+    }
+  }

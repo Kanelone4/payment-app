@@ -1,6 +1,5 @@
 export interface AuthModel {
   accessToken: string
-  refreshToken?: string
 }
 
 export interface UserModel {
