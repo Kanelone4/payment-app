@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'; 
+import { useState,  } from 'react'; 
 import * as Yup from 'yup';
 import clsx from 'clsx';
 import { Link, useNavigate } from 'react-router-dom';
@@ -36,19 +36,15 @@ export default function Login() {
   const navigate = useNavigate();
   const isAuthenticated = useSelector((state: RootState) => !!state.auth.token); 
 
-  useEffect(() => {
     if (isAuthenticated) {
       navigate('/');
     }
-  }, [isAuthenticated, navigate]);
-
   const formik = useFormik({
     initialValues,
     validationSchema: loginSchema,
     onSubmit: async (values, { setSubmitting }) => {
       setLoading(true);
       console.log("Form submitted with values:", values); 
-  
       try {
         console.log("Dispatching loginUser..."); 
         const resultAction = await dispatch(loginUser(values));

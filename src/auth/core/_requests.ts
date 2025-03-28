@@ -1,5 +1,6 @@
 import { AuthModel } from './_models';
-import axiosInstance from '../../auth/core/axios'; 
+import axiosInstance from '../../auth/core/axios';
+
 interface ResetPasswordResponse {
   success: boolean;
   message?: string;
@@ -14,20 +15,45 @@ interface Product {
   __v: number;
 }
 
-interface FetchProductsResponse {
-  products: Product[];
-}
-
 interface Plan {
   _id: string;
   name: string;
   price: number;
-  billing_cycle: string;
+  billing_cycle?: string;
   features: string[];
   product_id: string;
+  product_name?: string;
   createdAt: string;
   updatedAt: string;
   __v: number;
+}
+
+interface CartItem {
+  _id: string;
+  plan_id: Plan;
+  quantity: number;
+  metadata: {
+    isUpgrade: boolean;
+    currentSubscriptionId: string;
+  };
+  added_at: string;
+  subtotal: number;
+}
+
+interface CartResponse {
+  _id: string;
+  user_id: string;
+  status: string;
+  total: number;
+  created_at: string;
+  updated_at: string;
+  expires_at: string;
+  __v: number;
+  items: CartItem[];
+}
+
+interface FetchProductsResponse {
+  products: Product[];
 }
 
 interface FetchPlansResponse {
@@ -36,24 +62,19 @@ interface FetchPlansResponse {
   error: string | null;
 }
 
-interface SubscriptionResponse {
-  success: boolean;
-  message?: string;
-}
-
-
 const API_URL = import.meta.env.VITE_API_URL;
 
 if (!API_URL) {
   throw new Error("API URL is not defined in environment variables.");
 }
 
-
 export const PLAN_URLS = {
   GET_PLANS: `${API_URL}/plan/plans`, 
-  GET_PLAN_BY_PRODUCT_ID: (productId: string) => `${API_URL}/plan/product/${productId}`, 
+  GET_PLAN_BY_PRODUCT_ID: (productId: string) => `${API_URL}/plan/product/${productId}`,
+  ADD_TO_CART: `${API_URL}/cart/items`,
+  GET_CART: `${API_URL}/cart`,
+  REMOVE_CART_ITEM: (planId: string) => `${API_URL}/cart/items/${planId}`,
 };
-
 
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/verify_token`;
 export const LOGIN_URL = `${API_URL}/login`;
@@ -61,26 +82,13 @@ export const REGISTER_URL = `${API_URL}/register`;
 export const REQUEST_PASSWORD_URL = `${API_URL}/users/forgot-password`;
 export const RESET_PASSWORD_URL = `${API_URL}/users/reset-password`;
 export const GET_PRODUCTS_URL = `${API_URL}/product/product`;
-export const CREATE_SUBSCRIPTION_URL = `${API_URL}/subscription`;
-
 
 export function login(email: string, password: string) {
-  console.log("Sending login request to:", LOGIN_URL); 
-  console.log("Request payload:", { email, password }); 
-
   return axiosInstance.post<AuthModel>(LOGIN_URL, {
     email,
     password,
-  }).then(response => {
-    console.log("Login API response:", response.data);
-    return response.data;
-  }).catch(error => {
-    console.error("Login API error:", error);
-    console.error("Login API error response:", error.response); 
-    throw error;
   });
 }
-
 
 export function register(
   email: string,
@@ -98,33 +106,24 @@ export function register(
   });
 }
 
-
 export function requestPassword(email: string) {
   return axiosInstance.post<{ result: boolean }>(REQUEST_PASSWORD_URL, {
     email,
   });
 }
 
-
 export const resetPassword = async (newPassword: string, token: string): Promise<ResetPasswordResponse> => {
   try {
-    console.log('Reset Password Request:', { newPassword, token });
     const response = await axiosInstance.post<ResetPasswordResponse>(RESET_PASSWORD_URL, {
       token,
       newPassword,
     });
-
-    if (response.data.message === "Mot de passe réinitialisé avec succès") {
-      return { success: true, message: "Password has been successfully reset!" };
-    } else {
-      throw new Error(response.data.message || 'Failed to reset password.');
-    }
+    return response.data;
   } catch (error) {
     console.error('Error resetting password:', error);
     throw error;
   }
 };
-
 
 export const fetchProducts = async (): Promise<Product[]> => {
   try {
@@ -135,7 +134,6 @@ export const fetchProducts = async (): Promise<Product[]> => {
     throw error;
   }
 };
-
 
 export const fetchPlans = async (): Promise<Plan[]> => {
   try {
@@ -150,36 +148,49 @@ export const fetchPlans = async (): Promise<Plan[]> => {
   }
 };
 
-
 export const fetchPlanByProductId = async (productId: string): Promise<{ billing_cycle: string; plans: Plan[] }[]> => {
   try {
     const response = await axiosInstance.get<{ data: { billing_cycle: string; plans: Plan[] }[] }>(
       PLAN_URLS.GET_PLAN_BY_PRODUCT_ID(productId)
     );
-
-    console.log('Réponse du backend pour fetchPlanByProductId:', JSON.stringify(response.data, null, 2));
-
-    return response.data.data; 
+    return response.data.data;
   } catch (error) {
     console.error('Error fetching plan by product ID:', error);
     throw error;
   }
 };
 
-export const createSubscription = async (userId: string, planId: string): Promise<SubscriptionResponse> => {
-  console.log('Creating subscription with URL:', CREATE_SUBSCRIPTION_URL); 
+export const addToCart = async (planId: string, currentSubscriptionId: string): Promise<CartResponse> => {
   try {
-    const response = await axiosInstance.post<SubscriptionResponse>(CREATE_SUBSCRIPTION_URL, {
-      user_id: userId,
-      plan_id: planId,
-      start_date: new Date().toISOString(),
-      end_date: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString(),
-      status: 'active',
+    const response = await axiosInstance.post<CartResponse>(PLAN_URLS.ADD_TO_CART, {
+      planId,
+      currentSubscriptionId
     });
-    console.log('Subscription created successfully:', response.data); 
     return response.data;
   } catch (error) {
-    console.error('Error creating subscription:', error);
+    console.error('Error adding to cart:', error);
+    throw error;
+  }
+};
+
+export const fetchCartItems = async (): Promise<CartResponse> => {
+  try {
+    const response = await axiosInstance.get<CartResponse>(PLAN_URLS.GET_CART);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching cart items:', error);
+    throw error;
+  }
+};
+
+export const removeCartItem = async (planId: string): Promise<{ success: boolean }> => {
+  try {
+    const response = await axiosInstance.delete<{ success: boolean }>(
+      PLAN_URLS.REMOVE_CART_ITEM(planId)
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error removing cart item:', error);
     throw error;
   }
 };

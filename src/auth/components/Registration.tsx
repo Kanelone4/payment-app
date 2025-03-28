@@ -8,29 +8,32 @@ import { useDispatch } from 'react-redux';
 import { AppDispatch } from '../../store';
 import { registerUser } from '../../features/authSlice';
 import { Link } from 'react-router-dom';
-import "../../../public/assets/css/style.css"
-import "../../../public/assets/css/plugins.css"
+import "../../../public/assets/css/style.css";
+import "../../../public/assets/css/plugins.css";
+
+// Valeurs initiales du formulaire
 const initialValues = {
   nom: '',
   prenom: '',
   email: '',
-  password: ''
+  password: '',
 };
 
+// Schéma de validation avec Yup
 const registrationSchema = Yup.object().shape({
   nom: Yup.string()
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Nom is required'),
+  prenom: Yup.string()
+    .min(3, 'Minimum 3 symbols')
+    .max(50, 'Maximum 50 symbols')
+    .required('Prenom is required'),
   email: Yup.string()
     .email('Wrong email format')
     .min(3, 'Minimum 3 symbols')
     .max(50, 'Maximum 50 symbols')
     .required('Email is required'),
-  prenom: Yup.string()
-    .min(3, 'Minimum 3 symbols')
-    .max(50, 'Maximum 50 symbols')
-    .required('Prenom is required'),
   password: Yup.string()
     .min(8, 'Password must contain at least 8 characters')
     .max(50, 'Maximum 50 symbols')
@@ -39,8 +42,6 @@ const registrationSchema = Yup.object().shape({
     .matches(/[0-9]/, 'Password must contain at least one number')
     .matches(/[!@#$%^&*(),.?":{}|<>]/, 'Password must contain at least one special character')
     .required('Password is required'),
-    
- 
 });
 
 export default function Registration() {
@@ -51,17 +52,29 @@ export default function Registration() {
     initialValues,
     validationSchema: registrationSchema,
     onSubmit: async (values, { setSubmitting }) => {
+      console.log("Form submitted with values:", values); 
+  
       try {
-        await dispatch(registerUser(values)).unwrap();
-        toast.success('Registration successful!');
-        setTimeout(() => {
-          navigate('/auth/login');
-        }, 2000); 
-      
+        console.log("Dispatching registerUser..."); 
+        const resultAction = await dispatch(registerUser(values)); 
+  
+        console.log("Dispatch result:", resultAction); 
+  
+        if (registerUser.fulfilled.match(resultAction)) {
+          toast.success('Inscription réussie !'); 
+  
+          setTimeout(() => {
+            navigate('/auth/login');
+          }, 2000);
+        } else {
+         
+          toast.error("Échec de l'inscription. Veuillez vérifier vos informations.");
+        }
       } catch (error) {
-        console.error("Erreur lors de l'inscription :", error);
-        toast.error("Failed to register. Please check your connection and try again.");
-        setSubmitting(false);
+        console.error("Erreur lors de l'inscription :", error); // Afficher l'erreur dans la console
+        toast.error("Échec de l'inscription. Veuillez vérifier vos informations.");
+      } finally {
+        setSubmitting(false); 
       }
     },
   });
@@ -91,13 +104,12 @@ export default function Registration() {
             </div>
           </div>
 
-          
           <div className='separator separator-content my-14'>
             <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with email</span>
           </div>
 
-          <div className='row g-4 mb-6'>
           
+          <div className='row g-4 mb-6'>
             <div className='col-md-6'>
               <input
                 placeholder='Nom'
@@ -112,7 +124,7 @@ export default function Registration() {
               )}
             </div>
 
-            
+            {/* Champ Prénom */}
             <div className='col-md-6'>
               <input
                 placeholder='Prénom'
@@ -128,7 +140,7 @@ export default function Registration() {
             </div>
           </div>
 
-          
+          {/* Champ Email */}
           <div className='mb-4'>
             <input
               placeholder='Email'
@@ -143,6 +155,7 @@ export default function Registration() {
             )}
           </div>
 
+          {/* Champ Mot de passe */}
           <div className='mb-4'>
             <input
               type='password'
@@ -157,7 +170,7 @@ export default function Registration() {
             )}
           </div>
 
-                   
+          {/* Bouton de soumission */}
           <div className='d-grid mb-4'>
             <button
               type='submit'
@@ -175,6 +188,7 @@ export default function Registration() {
             </button>
           </div>
 
+          {/* Lien vers la page de connexion */}
           <div className='text-gray-500 text-center fw-semibold fs-6'>
             Already have an Account?{' '}
             <Link to='/auth/login' className='link-primary fw-semibold text-decoration-none'>Sign in</Link>

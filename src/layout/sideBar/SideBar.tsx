@@ -6,7 +6,11 @@ import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 import SideBarMenu from './SideBarMenu';
 
-const SideBar = () => {
+interface SideBarProps {
+  isSidebarOpen: boolean; 
+}
+
+const SideBar: React.FC<SideBarProps> = ({ isSidebarOpen }) => {
   const Menus = [
     {
       Icon: MdOutlineSpaceDashboard,
@@ -42,10 +46,18 @@ const SideBar = () => {
   const [dropDownMenu, setDropDownMenu] = React.useState<string[]>(
     Menus.map((item) => item.MainTitle)
   );
-  
+
   return (
-    <div className='h-100 d-flex p-4' style={{ width: '250px' }}> 
+    <div className='h-100 d-flex p-4' style={{ width: '250px' }}>
       <div style={{ gap: '10px' }} className='d-flex flex-column h-100 w-100'>
+        {isSidebarOpen && (
+          <div className="d-lg-none mb-4">
+            <h4 style={{ color: '#50cd89' }}>
+              Right<span style={{ color: '#0089e1' }}>Payment</span>
+            </h4>
+          </div>
+        )}
+
         {Menus.map((menu, idx) => (
           <div className='d-flex' key={idx}>
             <SideBarMenu

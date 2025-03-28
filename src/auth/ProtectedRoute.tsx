@@ -7,11 +7,9 @@ const ProtectedRoute: React.FC = () => {
 
   const accessToken = useSelector((state: RootState) => state.auth.token);
 
-  
   if (!accessToken) {
     return <Navigate to="auth/login" replace />;
   }
-
   return <Outlet />;
 };
 

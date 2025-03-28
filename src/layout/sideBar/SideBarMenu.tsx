@@ -37,7 +37,7 @@ const SideBarMenu = ({ Icon, MainTitle, SubTitles, Path, dropDownMenu, setDropDo
           className={`d-flex align-items-center ${pathname === Path ? 'active-bg text-primary' : ''}`}
           style={{ gap: '5px', cursor: 'pointer', padding: '10px', width: '220px' }}
         >
-          <Icon fontSize={16} />
+          <Icon fontSize={20}  />
           <div style={{ fontWeight: '400' }} className='fs-6 '>
             {MainTitle}
           </div>
@@ -48,7 +48,7 @@ const SideBarMenu = ({ Icon, MainTitle, SubTitles, Path, dropDownMenu, setDropDo
         {SubTitles?.map((SubTitle, idx) => (
           <Link key={idx} style={{ textDecoration: 'none', color: '#808080' }} to={SubTitle.path}>
             <div
-              style={{ cursor: 'pointer', color: '#808080', gap: '4px', marginBottom: '-7px', marginLeft: '10px' }}
+              style={{ cursor: 'pointer', color: '#808080', gap: '4px', marginLeft: '10px' }}
               className={`d-flex align-items-center px-3 ${pathname === SubTitle.path ? 'active-bg text-primary' : ''}`}
             >
               <span style={{ fontWeight: 'bold', fontSize: '20px', marginBottom: '6px' }}>.</span> {SubTitle.Title}

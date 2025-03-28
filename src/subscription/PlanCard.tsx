@@ -11,23 +11,59 @@ interface PlanProps {
   isActive?: boolean;
   logo: string;
   billingCycle: 'Monthly' | 'Annually';
-  onAddToCard: () => void;
+  onAddToCard: () => Promise<void>; 
+  onRemoveFromCart?: (itemId: string) => Promise<void>;
+  isProcessing?: boolean;
+  isFreePlan?: boolean;
+  isInCart?: boolean;
+  cartItemId?: string;
+  isSubscribed?: boolean;
 }
 
-const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = false, isActive = false, billingCycle, onAddToCard }) => {
-  const [isAdded, setIsAdded] = useState(false);
-
+const PlanCard: React.FC<PlanProps> = ({ 
+  name, 
+  price, 
+  features, 
+  isFourthPlan = false, 
+  isActive = false, 
+  billingCycle, 
+  onAddToCard,
+  onRemoveFromCart,
+  isProcessing = false,
+  isInCart = false,
+  cartItemId,
+  isSubscribed 
+  
+  
+}) => {
   const isFreePlan = name.toLowerCase() === 'free';
+  const [isRemoving, setIsRemoving] = useState(false);
 
-  const handleAddToCard = () => {
-    setIsAdded(true);
-    onAddToCard();
+  const handleAdd = async () => {
+    try {
+      await onAddToCard();
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    }
+  };
+
+  const handleRemove = async () => {
+    if (!onRemoveFromCart || !cartItemId) return;
+    
+    setIsRemoving(true);
+    try {
+      await onRemoveFromCart(cartItemId);
+    } catch (error) {
+      console.error('Error removing from cart:', error);
+    } finally {
+      setIsRemoving(false);
+    }
   };
 
   return (
-    <div className={`col-12 col-sm-6 col-md-4 ${isFourthPlan ? 'mt-4' : ''}`}>
+    <div className={`col-12 col-sm-6 col-md-4 ${isFourthPlan ? 'mt-4' : 'mb-4'}`}>
       <div
-        className='card border-0 p-4 shadow-sm'
+        className='card border-0 p-4 shadow-sm plan-card'
         style={{
           height: '500px',
           display: 'flex',
@@ -35,10 +71,10 @@ const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = f
           backgroundColor: '#f0f4f6',
           marginBottom: isFourthPlan ? '20px' : '0',
           position: 'relative',
+          margin: '10px',
         }}
       >
-        
-        {isActive && (
+        {(isActive || isSubscribed) && (
           <div
             style={{
               position: 'absolute',
@@ -59,17 +95,14 @@ const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = f
           </div>
         )}
 
-        {/* Titre du plan */}
         <div style={{ flex: '0 0 auto', marginBottom: '10px', textAlign: 'center' }}>
           <span className='fw-bold fs-3'>{name}</span>
         </div>
 
-        {/* Description du plan */}
         <div className="text-gray-400 fw-semibold mb-3" style={{ textAlign: 'center' }}>
           Optimal for 100+ team size and grown company
         </div>
 
-        {/* Prix du plan */}
         <div
           className='price-container mb-3'
           style={{
@@ -98,7 +131,7 @@ const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = f
             paddingLeft: '20px',
           }}
         >
-          <div className="w-100">
+          <div className="w-100 ">
             {features.map((feature, index) => (
               <div key={index} className="d-flex align-items-center mb-3">
                 <span className="fw-semibold fs-6 text-gray-800 flex-grow-1 pe-3" style={{ textAlign: 'left' }}>
@@ -172,16 +205,43 @@ const PlanCard: React.FC<PlanProps> = ({ name, price, features, isFourthPlan = f
           </div>
         </div>
 
-        {/* Bouton "Add to Card" */}
         <div style={{ flex: '0 0 auto', marginTop: 'auto', paddingTop: '20px', textAlign: 'center' }}>
-          <Button
-            variant="primary"
-            size="sm"
-            onClick={handleAddToCard}
-            disabled={isAdded || isFreePlan} // Désactiver pour les plans Free
-          >
-            {isAdded ? 'Added to Card' : isFreePlan ? 'Active' : 'Add to Card'}
-          </Button>
+          {isFreePlan ? (
+            <Button variant="primary" size="sm">
+              Active
+            </Button>
+          ) : isInCart ? (
+            <button
+              className="btn-danger-permanent"
+              onClick={handleRemove}
+              disabled={isRemoving}
+            >
+              {isRemoving ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
+                  Removing...
+                </>
+              ) : (
+                'Remove from cart'
+              )}
+            </button>
+          ) : (
+            <Button
+              variant="primary"
+              size="sm"
+              onClick={handleAdd}
+              disabled={isProcessing}
+            >
+              {isProcessing ? (
+                <>
+                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
+                  Processing...
+                </>
+              ) : (
+                'Add to Card'
+              )}
+            </Button>
+          )}
         </div>
       </div>
     </div>

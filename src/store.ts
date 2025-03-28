@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage'; // Utilise localStorage par défaut
+import storage from 'redux-persist/lib/storage';
 import authReducer from './features/authSlice';
 
 const persistConfig = {
-  key: 'auth', // le nom de la clé dans localStorage
+  key: 'auth',
   storage,
   whitelist: ['accessToken', 'refreshToken'], 
 };
@@ -17,7 +17,7 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: false, // Important pour éviter les erreurs avec redux-persist
+      serializableCheck: false, 
     }),
 });
 

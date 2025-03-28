@@ -1,5 +1,3 @@
-// Header.tsx
-
 import React, { useState } from 'react';
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
@@ -9,7 +7,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../../features/authSlice'; 
 import { useNavigate } from 'react-router-dom'; 
 import '../../layout/header/header.css';
-import { RootState } from '../../store'; // Importez RootState depuis store.ts
+import { RootState } from '../../store'; 
 
 interface HeaderProps {
   toggleSidebar: () => void;
@@ -19,7 +17,7 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
   const [showAppsModal, setShowAppsModal] = useState(false); 
   const [showProfileModal, setShowProfileModal] = useState(false); 
 
-  const user = useSelector((state: RootState) => state.auth.user); // Accédez à state.auth.user
+  const user = useSelector((state: RootState) => state.auth.user); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -36,21 +34,19 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
 
   const handleLogout = async () => {
     try {
-      dispatch(logout()); // Dispatchez l'action logout
-      navigate('/auth/login'); // Redirigez vers la page de connexion
+      dispatch(logout()); 
+      navigate('/auth/login'); 
     } catch (error) {
       console.error('Failed to logout:', error);
     }
   };
-
   return (
     <div style={{ padding: '10px', paddingTop: '15px' }} className='d-flex justify-content-between align-items-center px-4 py-3 w-100'>
       <button
         onClick={toggleSidebar}
         className="btn btn-icon btn-active-color-primary w-35px h-35px d-lg-none"
         id="kt_app_sidebar_mobile_toggle"
-        aria-label="Toggle sidebar"
-      >
+        aria-label="Toggle sidebar">
         <span className="svg-icon svg-icon-1">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M21 7H3C2.4 7 2 6.6 2 6V4C2 3.4 2.4 3 3 3H21C21.6 3 22 3.4 22 4V6C22 6.6 21.6 7 21 7Z" fill="currentColor"></path>
@@ -58,7 +54,6 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           </svg>
         </span>
       </button>
-
       <div className="d-flex align-items-center" style={{ gap: '10px', marginRight: '15%' }}>
         <div className="d-lg-none">
           <svg width="40" height="40" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -67,43 +62,37 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
             <path d="M20 30L15 25H25L20 30Z" fill="#ffffff" />
           </svg>
         </div>
-
         <h4 className="d-none d-lg-block" style={{ color: '#50cd89' }}>
           Right<span style={{ color: '#0089e1' }}>Payment</span>
         </h4>
       </div>
-
       <div style={{ gap: '15px' }} className='d-flex align-items-center'>
         <span style={{ gap: '5px', cursor: 'pointer', paddingLeft: '8px', paddingRight: '8px' }} className='d-flex align-items-center hover-bg hover-text'>
           <img style={{ width: '15px', height: '15px' }} src="/public/assets/Images/UsaFlag.webp" alt="USA Flag" />
           <p className='mt-3' style={{ fontSize: '14px' }}>English</p>
           <MdKeyboardArrowDown />
         </span>
-
         <div style={{ position: 'relative' }} className='d-flex z-8 align-items-center text-primary hover-bg'>
           <CgProfile
             fontSize={42}
             color='#50cd89'
             style={{ cursor: 'pointer', padding: '8px' }}
-            onClick={() => setShowProfileModal(true)} // Ouvrir la modale du profil au clic
+            onClick={() => setShowProfileModal(true)} 
           />
         </div>
-
         <span
           style={{ cursor: 'pointer', padding: '8px' }}
           className='d-flex align-items-center hover-bg text-primary'
-          onClick={() => setShowAppsModal(true)} // Ouvrir la modale des applications au clic
-        >
+          onClick={() => setShowAppsModal(true)}>
           <IoApps fontSize={24} />
         </span>
       </div>
 
-      {/* Modale des applications */}
       <Modal show={showAppsModal} onHide={() => setShowAppsModal(false)} size="lg" centered>
         <Modal.Body>
           <Row>
             {images.map((image, index) => (
-              <Col key={index} xs={4} className="text-center mb-3">
+              <Col style={{cursor:'pointer'}} key={index} xs={4} className="text-center mb-3">
                 <img
                   src={image.src}
                   alt={image.alt}
@@ -116,25 +105,17 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
           </Row>
         </Modal.Body>
         <Modal.Footer style={{ justifyContent: 'center' }}>
-           <img src='/assets/Images/rightcom-xp.svg' alt="rightcom-xp" style={{ width: '10%' }} />
+           <img src='/assets/Images/rightcom-xp.svg' alt="rightcom-xp" style={{ width: '10%', cursor:'pointer' }} />
         </Modal.Footer>
       </Modal>
-
-      <Modal show={showProfileModal} onHide={() => setShowProfileModal(false)} centered>
-        <Modal.Header closeButton>
-          <Modal.Title></Modal.Title>
-        </Modal.Header>
+      <Modal show={showProfileModal} onHide={() => setShowProfileModal(false)}  centered>
         <Modal.Body>
-          <div className="text-center">
-            <p><strong>Nom:</strong> {user?.nom}</p>
-            <p><strong>Prénom:</strong> {user?.prenom}</p>
-            <p><strong>Email:</strong> {user?.email}</p>
+          <div style={{ textAlign: 'left' }} className="">
+          <p style={{marginRight:'10%'}}>{user?.nom}</p><p style={{fontWeight:'bold'}}>{user?.prenom}</p>
+            <p> {user?.email}</p>
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowProfileModal(false)}>
-            Fermer
-          </Button>
           <Button variant="danger" onClick={handleLogout}>
             Déconnexion
           </Button>
@@ -143,5 +124,4 @@ const Header: React.FC<HeaderProps> = ({ toggleSidebar }) => {
     </div>
   );
 };
-
 export default Header;
