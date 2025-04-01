@@ -74,26 +74,9 @@ const PlanCard: React.FC<PlanProps> = ({
           margin: '10px',
         }}
       >
-        {(isActive || isSubscribed) && (
-          <div
-            style={{
-              position: 'absolute',
-              top: '0px',
-              right: '0px',
-              padding: '15px 20px',
-              backgroundColor: '#d1f5d3',
-              borderRadius: '4px',
-              color: '#28a745',
-              fontSize: '13px',
-              fontWeight: 'bold',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            Active
-          </div>
-        )}
+       
+        {(isActive || isSubscribed) && <div className="current-plan-banner">Your current plan</div>}
+
 
         <div style={{ flex: '0 0 auto', marginBottom: '10px', textAlign: 'center' }}>
           <span className='fw-bold fs-3'>{name}</span>

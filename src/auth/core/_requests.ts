@@ -74,6 +74,7 @@ export const PLAN_URLS = {
   ADD_TO_CART: `${API_URL}/cart/items`,
   GET_CART: `${API_URL}/cart`,
   REMOVE_CART_ITEM: (planId: string) => `${API_URL}/cart/items/${planId}`,
+  CHECKOUT: `${API_URL}/cart/checkout`,
 };
 
 export const GET_USER_BY_ACCESSTOKEN_URL = `${API_URL}/verify_token`;
@@ -191,6 +192,46 @@ export const removeCartItem = async (planId: string): Promise<{ success: boolean
     return response.data;
   } catch (error) {
     console.error('Error removing cart item:', error);
+    throw error;
+  }
+};
+
+export const initiateCheckout = async (
+  paymentMethod: string, 
+  paymentProvider: string
+): Promise<{
+  success: boolean;
+  data: {
+    requires_payment: boolean;
+    subscriptions: Array<{
+      id: string;
+      status: string;
+      plan_id: string;
+      plan_name: string;
+      billing_cycle: string;
+      start_date: string;
+    }>;
+    payment_details: {
+      method: string;
+      provider: string;
+      amount: number;
+      transaction_id: number;
+      redirect_url: string;
+    };
+  };
+  meta: {
+    timestamp: string;
+    api_version: string;
+  };
+}> => {
+  try {
+    const response = await axiosInstance.post(PLAN_URLS.CHECKOUT, {
+      payment_method: paymentMethod,
+      payment_provider: paymentProvider
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error during checkout:', error);
     throw error;
   }
 };

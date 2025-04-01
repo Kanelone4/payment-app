@@ -270,7 +270,7 @@ const authSlice = createSlice({
   extraReducers: (builder) => {
     builder
     .addCase(registerUser.fulfilled, (state, action) => {
-      console.log('Payload reçu:', action.payload); // Debug
+      console.log('Payload reçu:', action.payload); 
     
       if (!action.payload?.user) { 
         return;

@@ -11,7 +11,9 @@ import ListOfSubscription from './subscription/ListOfSubscription';
 import Factures from './layout/facture/factures';
 import Notification from './layout/notification/notifs';
 import Settings from './layout/settings/settings';
-
+import PaymentCallback from './fedapay/PaymentCallBack';
+import PaymentSuccess from './fedapay/PaymentSuccess';
+import PaymentError from './fedapay/PaymentError';
 const App = () => {
   
   return (
@@ -27,6 +29,9 @@ const App = () => {
           <Route path="factures" element={<Factures />} />
           <Route path="notifications" element={<Notification />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="payment-callback" element={<PaymentCallback />} />
+          <Route path="payment-success" element={<PaymentSuccess />} />
+          <Route path="payment-error" element={<PaymentError />} />
         </Routes>
       </PersistGate>
     </Provider>

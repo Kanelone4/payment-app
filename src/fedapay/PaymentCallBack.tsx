@@ -49,9 +49,9 @@ interface SubscriptionModalProps {
 const SubscriptionModal: React.FC<SubscriptionModalProps> = ({ 
   show, 
   onHide, 
-  cartItems, 
-  products,
-  onDelete,
+  cartItems = [], 
+  products = [],
+  onDelete = async () => {},
 }) => {
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [paymentLoading, setPaymentLoading] = useState(false);

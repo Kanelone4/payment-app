@@ -246,3 +246,31 @@ export const refreshAuthToken = async () => {
     throw error;
   }
 };
+
+// Ajoutez cette fonction à la fin de authService.ts
+export const initiateCheckout = async (paymentMethod: string, paymentProvider: string) => {
+  try {
+    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/cart/checkout', {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      },
+      body: JSON.stringify({ 
+        payment_method: paymentMethod,
+        payment_provider: paymentProvider
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Checkout failed');
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error during checkout:', error);
+    throw error;
+  }
+};

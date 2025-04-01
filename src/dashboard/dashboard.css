@@ -1,1 +1,90 @@
-.dashboard {}
+/* Ajoutez ce fichier CSS à votre projet */
+
+.icon-wrapper {
+    width: 64px;
+    height: 64px;
+  }
+  
+  .transition-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .transition-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  .table th {
+    font-weight: 600;
+    color: #495057;
+  }
+  
+  .table td {
+    vertical-align: middle;
+  }
+  
+  .progress {
+    border-radius: 10px;
+    background-color: #f0f0f0;
+  }
+  
+  .badge {
+    font-weight: 500;
+  }
+  
+  .btn-primary {
+    background-color: #4361ee;
+    border-color: #4361ee;
+  }
+  
+  .btn-primary:hover {
+    background-color: #3a56d4;
+    border-color: #3a56d4;
+  }
+  
+  .bg-primary-subtle {
+    background-color: rgba(67, 97, 238, 0.15);
+  }
+  
+  .bg-warning-subtle {
+    background-color: rgba(255, 193, 7, 0.15);
+  }
+  
+  .bg-danger-subtle {
+    background-color: rgba(220, 53, 69, 0.15);
+  }
+
+    .icon-wrapper {
+      width: 64px;
+      height: 64px;
+    }
+    
+    .transition-card {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .transition-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+    
+    .status-cell {
+      position: relative;
+      min-width: 100px;
+      padding-top: 15px !important;
+      padding-bottom: 15px !important;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      background-color: #d1f5d3;
+      border-radius: 4px;
+      color: #28a745;
+      font-size: 13px;
+      font-weight: bold;
+      text-align: center;
+      min-width: 60px;
+    }
+  
+  
