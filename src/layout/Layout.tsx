@@ -32,7 +32,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
           
           <SideBar isSidebarOpen={isSidebarOpen} />
         </div>
-
         <div style={{ backgroundColor: '#f0f4f6', overflow: 'auto' }} className='h-100 w-100 flex-column d-flex'>
           {children}
         </div>

@@ -80,34 +80,13 @@ export default function Registration() {
   });
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center h-screen">
+    <div style={{marginTop: '100px'}} className="bg-gray-100 flex items-center justify-center h-screen ">
       <ToastContainer />
       <div className="bg-white p-8 rounded-lg w-full max-w-md">
         <form className='form' noValidate id='kt_login_signup_form' onSubmit={formik.handleSubmit}>
           <div className='text-center mb-8'>
             <h1 className='text-dark fw-bolder mb-3'>Sign Up</h1>
           </div>
-
-          <div className='row g-3 mb-9'>
-            <div className='col-md-6'>
-              <a href="#" className="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3 fs-6">
-                <img alt="Logo" src="/assets/google-icon.svg" className="h-20px me-3" />
-                Sign in with Google
-              </a>
-            </div>
-            <div className='col-md-6'>
-              <a href="#" className="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3 fs-6">
-                <img alt="Logo" src="/assets/apple-black.svg" className="theme-light-show h-20px me-3" />
-                <img alt="Logo" src="/assets/apple-black-dark.svg" className="theme-dark-show h-20px me-3" />
-                Sign in with Apple
-              </a>
-            </div>
-          </div>
-
-          <div className='separator separator-content my-14'>
-            <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with email</span>
-          </div>
-
           
           <div className='row g-4 mb-6'>
             <div className='col-md-6'>

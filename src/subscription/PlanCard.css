@@ -1,95 +1,78 @@
-/* Pour les écrans très petits (moins de 576px) */
-@media (max-width: 575.98px) {
-  .plan-card {
-    height: auto !important;
-    margin-bottom: 40px !important;
-  }
+/* Encapsulation des styles pour les plan-cards */
+.new-subscription-page .plan-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+  height: 600px;
+  margin-bottom: 20px;
+  width: 100%;
+  padding: 25px;
+  box-shadow: var(--shadow-sm);
 }
 
-/* Pour les petits écrans (à partir de 576px) */
-@media (min-width: 576px) and (max-width: 767.98px) {
-  .plan-card {
-    height: 450px !important;
-    margin-bottom: 20px !important;
-    width: 100% !important;
-  }
+.new-subscription-page .plan-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-md);
 }
 
-/* Pour les écrans moyens (à partir de 768px) */
-@media (min-width: 768px) and (max-width: 991.98px) {
-  .plan-card {
-    height: 500px !important;
-    margin-bottom: 20px !important;
-    width: 100% !important;
-  }
-}
-
-/* Pour les grands écrans (à partir de 992px) */
-@media (min-width: 992px) and (max-width: 1199.98px) {
-  .plan-card {
-    height: 550px !important;
-    margin-bottom: 20px !important;
-    width: 100% !important;
-  }
-}
-
-/* Pour les très grands écrans (à partir de 1200px) */
-@media (min-width: 1200px) {
-  .plan-card {
-    height: 600px !important;
-    margin-bottom: 20px !important;
-    width: 100% !important;
-  }
-}
-
-.active-badge {
+/* ========== PLAN CARD BADGES ========== */
+.new-subscription-page .active-badge {
   position: absolute;
   top: 10px;
   right: 10px;
   padding: 5px 10px;
   background-color: #d1f5d3;
   border-radius: 4px;
-  color: #28a745;
+  color: var(--success-color);
   font-size: 13px;
   font-weight: bold;
+  z-index: 5;
 }
 
-.in-cart-badge {
+.new-subscription-page .in-cart-badge {
   position: absolute;
   top: 10px;
   left: 10px;
   padding: 5px 10px;
   background-color: #f8d7da;
   border-radius: 4px;
-  color: #dc3545;
+  color: var(--danger-color);
   font-size: 13px;
   font-weight: bold;
+  z-index: 5;
 }
 
-.plan-card.in-cart {
-  background-color: #f8f9fa;
-  border: 1px dashed #dc3545;
+.new-subscription-page .plan-card.in-cart {
+  background-color: var(--light-bg);
+  border: 1px dashed var(--danger-color);
   opacity: 0.8;
 }
 
-.price-container {
+/* ========== PRICE CONTAINER STYLES ========== */
+.new-subscription-page .price-container {
   display: flex;
   align-items: center;
   justify-content: center;
+  margin-bottom: 1rem;
 }
 
-.currency {
-  color: #009ef7;
+.new-subscription-page .currency {
+  color: var(--primary-color);
   font-size: 13px;
 }
 
-.price {
-  color: #009ef7;
+.new-subscription-page .price {
+  color: var(--primary-color);
   font-size: 40px;
   margin: 0 4px;
+  font-weight: bold;
+  line-height: 1;
 }
 
-.billing-cycle {
+.new-subscription-page .billing-cycle {
   font-weight: bold;
   font-size: 0.8rem;
   color: #a5a8b0;
@@ -97,24 +80,49 @@
   margin-bottom: 5px;
 }
 
-.features-container {
+/* ========== FEATURES CONTAINER STYLES ========== */
+.new-subscription-page .features-container {
   flex: 1;
   overflow-y: auto;
   padding: 0 20px;
+  margin-bottom: 15px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--muted-text) transparent;
 }
 
-.feature-item {
+.new-subscription-page .features-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.new-subscription-page .features-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.new-subscription-page .features-container::-webkit-scrollbar-thumb {
+  background-color: var(--muted-text);
+  border-radius: 20px;
+}
+
+.new-subscription-page .feature-item {
   display: flex;
   align-items: center;
   margin-bottom: 15px;
 }
 
-.current-plan-banner {
+.new-subscription-page .feature-text {
+  flex-grow: 1;
+  text-align: left;
+  padding-right: 10px;
+  font-size: 0.9rem;
+}
+
+/* ========== CURRENT PLAN BANNER ========== */
+.new-subscription-page .current-plan-banner {
   position: absolute;
   top: -34px;
   left: 0;
   right: 0;
-  background-image: linear-gradient(to bottom, #009ef7, #00b4ff);
+  background-image: linear-gradient(to bottom, var(--primary-color), #00b4ff);
   color: white;
   text-align: center;
   padding: 8px 0;
@@ -126,32 +134,281 @@
   z-index: 10;
 }
 
-.feature-text {
-  flex-grow: 1;
-  text-align: left;
-  padding-right: 10px;
-}
-
-.action-button-container {
+/* ========== ACTION BUTTON CONTAINER ========== */
+.new-subscription-page .action-button-container {
   margin-top: auto;
   padding-top: 20px;
   text-align: center;
 }
-.btn-danger-permanent {
+
+.new-subscription-page .btn-danger-permanent {
   background-color: #d62234 !important;
   color: white !important;
   border: none;
   border-radius: 3px;
-  padding-left: 18px;
-  padding-right: 18px;
-  padding-top: 7px;
-  padding-bottom: 7px;
-  
+  padding: 7px 18px;
+  font-weight: 500;
+  transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
-.btn-danger-permanent:hover,
-.btn-danger-permanent:active,
-.btn-danger-permanent:focus {
-  background-color: #dc3545 !important;
+.new-subscription-page .btn-danger-permanent:hover,
+.new-subscription-page .btn-danger-permanent:active,
+.new-subscription-page .btn-danger-permanent:focus {
+  background-color: var(--danger-hover) !important;
   color: white !important;
+  transform: translateY(-2px);
 }
+
+/* ========== RESPONSIVE STYLES ========== */
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .new-subscription-page .plan-card {
+    height: 600px;
+    padding: 25px;
+  }
+
+  .new-subscription-page .price {
+    font-size: 40px;
+  }
+
+  .new-subscription-page .feature-text {
+    font-size: 0.95rem;
+  }
+
+  .new-subscription-page .current-plan-banner {
+    font-size: 14px;
+    top: -34px;
+  }
+}
+
+/* Large devices (desktops, 992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .new-subscription-page .plan-card {
+    height: 550px;
+    padding: 22px;
+  }
+
+  .new-subscription-page .price {
+    font-size: 38px;
+  }
+
+  .new-subscription-page .feature-text {
+    font-size: 0.9rem;
+  }
+
+  .new-subscription-page .current-plan-banner {
+    font-size: 13px;
+    top: -32px;
+  }
+}
+
+/* Medium devices (tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .new-subscription-page .plan-card {
+    height: 520px;
+    padding: 20px;
+  }
+
+  .new-subscription-page .price {
+    font-size: 36px;
+  }
+
+  .new-subscription-page .feature-text {
+    font-size: 0.85rem;
+  }
+
+  .new-subscription-page .current-plan-banner {
+    font-size: 12px;
+    top: -30px;
+  }
+
+  .new-subscription-page .features-container {
+    max-height: 250px;
+    padding: 0 15px;
+  }
+
+  .new-subscription-page .feature-item {
+    margin-bottom: 12px;
+  }
+
+  .new-subscription-page .action-button-container {
+    padding-top: 15px;
+  }
+
+  .new-subscription-page .btn-danger-permanent,
+  .new-subscription-page .btn-primary {
+    padding: 6px 16px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Small devices (landscape phones, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .new-subscription-page .plan-card {
+    height: auto;
+    min-height: 480px;
+    padding: 18px;
+    margin-bottom: 30px;
+  }
+
+  .new-subscription-page .price {
+    font-size: 34px;
+  }
+
+  .new-subscription-page .feature-text {
+    font-size: 0.8rem;
+  }
+
+  .new-subscription-page .current-plan-banner {
+    font-size: 11px;
+    top: -28px;
+    padding: 6px 0;
+  }
+
+  .new-subscription-page .features-container {
+    max-height: 220px;
+    padding: 0 10px;
+  }
+
+  .new-subscription-page .feature-item {
+    margin-bottom: 10px;
+  }
+
+  .new-subscription-page .action-button-container {
+    padding-top: 12px;
+  }
+
+  .new-subscription-page .btn-danger-permanent,
+  .new-subscription-page .btn-primary {
+    padding: 5px 14px;
+    font-size: 0.85rem;
+  }
+
+  .new-subscription-page .active-badge,
+  .new-subscription-page .in-cart-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+  }
+
+  /* Fix for plan cards in a row */
+  .new-subscription-page .col-sm-6 {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .new-subscription-page .plan-card {
+    height: auto;
+    min-height: 450px;
+    padding: 15px;
+    margin-bottom: 25px;
+  }
+
+  .new-subscription-page .price {
+    font-size: 32px;
+  }
+
+  .new-subscription-page .currency {
+    font-size: 11px;
+  }
+
+  .new-subscription-page .billing-cycle {
+    font-size: 0.7rem;
+  }
+
+  .new-subscription-page .feature-text {
+    font-size: 0.75rem;
+  }
+
+  .new-subscription-page .current-plan-banner {
+    font-size: 10px;
+    top: -26px;
+    padding: 5px 0;
+  }
+
+  .new-subscription-page .features-container {
+    max-height: 200px;
+    padding: 0 8px;
+  }
+
+  .new-subscription-page .feature-item {
+    margin-bottom: 8px;
+  }
+
+  .new-subscription-page .action-button-container {
+    padding-top: 10px;
+  }
+
+  .new-subscription-page .btn-danger-permanent,
+  .new-subscription-page .btn-primary {
+    padding: 5px 12px;
+    font-size: 0.8rem;
+  }
+
+  .new-subscription-page .active-badge,
+  .new-subscription-page .in-cart-badge {
+    font-size: 10px;
+    padding: 3px 6px;
+    top: 5px;
+  }
+
+  .new-subscription-page .fw-bold.fs-3 {
+    font-size: 1.25rem !important;
+  }
+
+  .new-subscription-page .text-gray-400 {
+    font-size: 0.8rem !important;
+  }
+
+  /* Fix for plan cards in a row */
+  .new-subscription-page .col-12 {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  /* SVG icons size adjustment */
+  .new-subscription-page .svg-icon {
+    width: 18px !important;
+    height: 18px !important;
+  }
+}
+
+/* Fix for plan toggle buttons */
+@media (max-width: 575.98px) {
+  .new-subscription-page .nav-group {
+    margin-bottom: 1.5rem;
+  }
+
+  .new-subscription-page .nav-group button {
+    padding: 5px 10px !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Fix for plan cards in a row */
+.new-subscription-page .row.justify-content-center,
+.new-subscription-page .row.justify-content-start {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+/* Fix for plan card margins */
+.new-subscription-page .plan-card {
+  margin: 0 0 20px 0;
+}
+
+/* Fix for SVG icons */
+.new-subscription-page .svg-icon svg {
+  transition: all var(--transition-speed) ease;
+}
+
+/* Fix for spinner in buttons */
+.new-subscription-page .spinner-border-sm {
+  width: 1rem;
+  height: 1rem;
+  border-width: 0.2em;
+  vertical-align: middle;
+}
+

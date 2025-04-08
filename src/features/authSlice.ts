@@ -245,19 +245,16 @@ export const removeCartItemAsync = createAsyncThunk(
     }
   }
 );
+
 const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
     logout: (state) => {
-      state.user = null;
       state.token = null;
       state.refreshToken = null;
       state.status = 'idle';
       state.error = null;
-      state.products = [];
-      state.cart = { items: [], total: 0, isLoading: false };
-      localStorage.removeItem('accessToken');
       localStorage.removeItem('refreshToken');
     },
     rehydrateAuthState: (state) => {
@@ -275,10 +272,8 @@ const authSlice = createSlice({
       if (!action.payload?.user) { 
         return;
       }
-    
       const userData = action.payload.user; 
       const subscriptions = action.payload.subscriptions || [];
-    
       state.user = {
         _id: userData._id,
         nom: userData.nom,

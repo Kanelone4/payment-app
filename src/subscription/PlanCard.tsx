@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import 'react-toastify/dist/ReactToastify.css';
 import './PlanCard.css';
+import './responsive-fixes.css';
 
 interface PlanProps {
   name: string;
@@ -85,6 +86,7 @@ const PlanCard: React.FC<PlanProps> = ({
         <div className="text-gray-400 fw-semibold mb-3" style={{ textAlign: 'center' }}>
           Optimal for 100+ team size and grown company
         </div>
+
 
         <div
           className='price-container mb-3'
@@ -188,44 +190,44 @@ const PlanCard: React.FC<PlanProps> = ({
           </div>
         </div>
 
-        <div style={{ flex: '0 0 auto', marginTop: 'auto', paddingTop: '20px', textAlign: 'center' }}>
-          {isFreePlan ? (
-            <Button variant="primary" size="sm">
-              Active
-            </Button>
-          ) : isInCart ? (
-            <button
-              className="btn-danger-permanent"
-              onClick={handleRemove}
-              disabled={isRemoving}
-            >
-              {isRemoving ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
-                  Removing...
-                </>
-              ) : (
-                'Remove from cart'
-              )}
-            </button>
-          ) : (
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={handleAdd}
-              disabled={isProcessing}
-            >
-              {isProcessing ? (
-                <>
-                  <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
-                  Processing...
-                </>
-              ) : (
-                'Add to Card'
-              )}
-            </Button>
-          )}
-        </div>
+<div style={{ flex: '0 0 auto', marginTop: 'auto', paddingTop: '20px', textAlign: 'center' }}>
+  {isFreePlan || isSubscribed ? (
+    <Button variant="primary" size="sm" disabled>
+      {isFreePlan ? 'Active' : 'Active'}
+    </Button>
+  ) : isInCart ? (
+    <button
+      className="btn-danger-permanent"
+      onClick={handleRemove}
+      disabled={isRemoving}
+    >
+      {isRemoving ? (
+        <>
+          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
+          Removing...
+        </>
+      ) : (
+        'Remove from cart'
+      )}
+    </button>
+  ) : (
+    <Button
+      variant="primary"
+      size="sm"
+      onClick={handleAdd}
+      disabled={isProcessing}
+    >
+      {isProcessing ? (
+        <>
+          <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true" />
+          Processing...
+        </>
+      ) : (
+        'Add to Card'
+      )}
+    </Button>
+  )}
+</div>
       </div>
     </div>
   );

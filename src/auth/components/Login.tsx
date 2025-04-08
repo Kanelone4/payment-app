@@ -69,7 +69,7 @@ export default function Login() {
   });
 
   return (
-    <div className="bg-gray-100 flex items-center justify-center h-screen">
+    <div style={{marginTop: '100px'}} className="bg-gray-100 flex items-center justify-center h-screen">
       <ToastContainer />
       <div className="bg-white p-8 rounded-lg w-full max-w-md">
         <form
@@ -82,26 +82,6 @@ export default function Login() {
             <h1 className='text-dark fw-bolder mb-3'>Sign In</h1>
           </div>
 
-          <div className='row g-3 mb-8'>
-            <div className='col-md-6'>
-              <a href="#" className="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3 fs-6">
-                <img alt="Logo" src="/assets/google-icon.svg" className="h-20px me-3" />
-                Sign in with Google
-              </a>
-            </div>
-            <div className='col-md-6'>
-              <a href="#" className="btn btn-flex btn-outline btn-text-gray-700 btn-active-color-primary bg-state-light flex-center text-nowrap w-100 py-3 fs-6">
-                <img alt="Logo" src="/assets/apple-black.svg" className="theme-light-show h-20px me-3" />
-                <img alt="Logo" src="/assets/apple-black-dark.svg" className="theme-dark-show h-20px me-3" />
-                Sign in with Apple
-              </a>
-            </div>
-          </div>
-
-          <div className='separator separator-content my-14'>
-            <span className='w-125px text-gray-500 fw-semibold fs-7'>Or with email</span>
-          </div>
-
           <div className='fv-row mb-6'>
             <input
               placeholder='Email'
@@ -112,7 +92,7 @@ export default function Login() {
               })}
             />
             {formik.touched.email && formik.errors.email && (
-              <div className='fv-plugins-message-container'>
+              <div className='fv-plugins-message-container invalid-feedback'>
                 <span role='alert'>{formik.errors.email}</span>
               </div>
             )}
@@ -128,7 +108,7 @@ export default function Login() {
               })}
             />
             {formik.touched.password && formik.errors.password && (
-              <div className='fv-plugins-message-container'>
+              <div className='fv-plugins-message-container invalid-feedback'>
                 <span role='alert'>{formik.errors.password}</span>
               </div>
             )}

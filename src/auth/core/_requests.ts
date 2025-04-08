@@ -62,11 +62,75 @@ interface FetchPlansResponse {
   error: string | null;
 }
 
+interface License {
+  _id: string
+  key: string
+  user_id: string
+  plan_id: {
+    _id: string
+    name: string
+    price: number
+    billing_cycle: string
+    features: string[]
+    product_id: string
+    createdAt: string
+    updatedAt: string
+    __v: number
+  }
+  subscription_id: string
+  expires_at: string
+  is_active: boolean
+  status: 'active' | 'inactive' | 'expired'
+  created_at: string
+  __v: number
+}
+
+interface LicensesResponse {
+  success: boolean;
+  data: License[];
+  message?: string;
+  error?: string | null;
+  count: number;
+}
+
+
+// Dans votre fichier de types/services
+interface SubscriptionDetails {
+  billing_cycle: string;
+  start_date: string;
+}
+
+interface UserSubscription {
+  order_id: string;
+  Product: string;
+  Status: 'active' | 'inactive' | 'expired' | 'pending';
+  expire_date: string;
+  Details: SubscriptionDetails;
+}
+
+interface SubscriptionsResponse {
+  data: UserSubscription[];
+  message: string;
+  error: string | null;
+}
+
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 if (!API_URL) {
   throw new Error("API URL is not defined in environment variables.");
 }
+
+export const LICENSE_URLS = {
+  GET_LICENSES: `${API_URL}/licenses/list/licenses`,
+  GET_ALL_LICENSES: `${API_URL}/licenses`,
+  GET_LICENSES_BY_PRODUCT_ID: (productId: string) => `${API_URL}/licenses/${productId}`,
+};
+
+export const SUBSCRIPTION_URLS = {
+  GET_MY_SUBSCRIPTIONS: `${API_URL}/my-subscriptions`,
+};
+
 
 export const PLAN_URLS = {
   GET_PLANS: `${API_URL}/plan/plans`, 
@@ -233,5 +297,121 @@ export const initiateCheckout = async (
   } catch (error) {
     console.error('Error during checkout:', error);
     throw error;
+  }
+};
+
+export const fetchUserLicenses = async (): Promise<License[]> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/licenses/list/licenses', {
+      method: 'GET',
+      headers: { 
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch licenses');
+    }
+
+    const data: LicensesResponse = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching licenses:', error);
+    throw error;
+  }
+};
+
+export const fetchUserSubscriptions = async (): Promise<UserSubscription[]> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch(SUBSCRIPTION_URLS.GET_MY_SUBSCRIPTIONS, {
+      method: 'GET',
+      headers: { 
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch subscriptions');
+    }
+
+    const data: SubscriptionsResponse = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching subscriptions:', error);
+    throw error;
+  }
+};
+
+export const fetchLicenses = async (): Promise<License[]> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/licenses', {
+      method: 'GET',
+      headers: { 
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch licenses');
+    }
+
+    const data = await response.json();
+    return data.licenses; 
+  } catch (error) {
+    console.error('Error fetching licenses:', error);
+    throw error;
+  }
+};
+
+export const getLicensesByProductId = async (productId: string): Promise<License[]> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await axiosInstance.get<LicensesResponse>(
+      `${API_URL}/licenses/${productId}`,
+      {
+        headers: {
+          'Authorization': `Bearer ${token}`,
+          'accept': 'application/json'
+        }
+      }
+    );
+
+    if (response.data.error) {
+      throw new Error(response.data.error);
+    }
+
+    return response.data.licenses;
+  } catch (error) {
+    console.error(`Error fetching licenses for product ${productId}:`, error);
+    throw new Error(
+      error instanceof Error 
+        ? error.message 
+        : 'Failed to fetch product licenses'
+    );
   }
 };

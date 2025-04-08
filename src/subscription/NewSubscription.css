@@ -1,0 +1,494 @@
+/* Encapsulation des styles pour la page NewSubscription uniquement */
+.new-subscription-page {
+  /* ========== VARIABLES ========== */
+  --primary-color: #009ef7; /* Couleur bleue originale */
+  --primary-hover: #0089d6;
+  --danger-color: #dc3545;
+  --danger-hover: #c82333;
+  --success-color: #28a745;
+  --light-bg: #f8f9fa;
+  --dark-text: #212529;
+  --muted-text: #6c757d;
+  --border-color: #dee2e6;
+  --card-bg: #f0f4f6;
+  --shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+  --shadow-md: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  --shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+  --border-radius: 8px;
+  --transition-speed: 0.3s;
+}
+
+/* ========== SKELETON LOADER STYLES ========== */
+.new-subscription-page .products-loading-container {
+  position: relative;
+  min-height: 300px;
+  width: 100%;
+}
+
+.new-subscription-page .products-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  border-radius: var(--border-radius);
+}
+
+.new-subscription-page .spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.new-subscription-page .loading-text {
+  color: var(--muted-text);
+  font-size: 14px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+.new-subscription-page .product-skeleton-item {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+  animation: ns-pulse 1.5s infinite ease-in-out;
+}
+
+.new-subscription-page .product-skeleton-button {
+  width: 100%;
+  height: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.03);
+  border-radius: var(--border-radius);
+  padding: 10px;
+}
+
+.new-subscription-page .product-skeleton-image {
+  width: 100px;
+  height: 80px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+@keyframes ns-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+/* ========== PRODUCT STYLES ========== */
+.new-subscription-page .products-sidebar {
+  background-color: var(--light-bg);
+  border-radius: var(--border-radius);
+  padding: 15px;
+  box-shadow: var(--shadow-sm);
+  height: 100%;
+  transition: all var(--transition-speed) ease;
+}
+
+.new-subscription-page .products-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.new-subscription-page .product-item {
+  animation: ns-fadeIn 0.5s ease-in-out;
+}
+
+.new-subscription-page .product-button {
+  width: 100%;
+  background: transparent;
+  border: none;
+  padding: 10px;
+  border-radius: var(--border-radius);
+  transition: all var(--transition-speed) ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.new-subscription-page .product-button:hover,
+.new-subscription-page .product-button.active {
+  background-color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  color: var(--dark-text);
+}
+
+.new-subscription-page .product-button:not(.active):hover {
+  background-color: #ffffff;
+  color: var(--dark-text);
+}
+
+.new-subscription-page .product-image {
+  width: 100px;
+  height: auto;
+  transition: transform var(--transition-speed) ease;
+  object-fit: contain;
+}
+
+.new-subscription-page .product-button:hover .product-image {
+  transform: scale(1.05);
+}
+
+@keyframes ns-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ========== CART BUTTON STYLES ========== */
+.new-subscription-page .cart-button-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 100;
+}
+
+.new-subscription-page .cart-button {
+  padding: 12px 17px;
+  position: relative;
+  margin-top: 0;
+  transition: box-shadow var(--transition-speed) ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.new-subscription-page .cart-button:hover {
+  box-shadow: var(--shadow-md) !important;
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+  transform: none !important;
+}
+
+.new-subscription-page .cart-badge {
+  position: absolute;
+  top: -10px;
+  left: -10px;
+  background-color: var(--success-color);
+  color: #fff;
+  border-radius: 50%;
+  padding: 2px 8px;
+  font-size: 12px;
+  font-weight: bold;
+  animation: ns-bounce 1s infinite alternate;
+}
+
+@keyframes ns-bounce {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
+}
+
+/* ========== GENERAL STYLES ========== */
+.new-subscription-page .spinner-border {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-width: 0.25em;
+}
+
+.new-subscription-page .btn-danger-permanent {
+  background-color: var(--danger-color) !important;
+  color: white !important;
+  border-color: var(--danger-color);
+  transition: background-color 0.2s ease;
+}
+
+.new-subscription-page .btn-danger-permanent:hover,
+.new-subscription-page .btn-danger-permanent:focus,
+.new-subscription-page .btn-danger-permanent:active {
+  background-color: var(--danger-hover) !important;
+  color: white !important;
+  box-shadow: none !important;
+}
+
+.new-subscription-page .btn-danger-permanent:disabled {
+  opacity: 0.65;
+  background-color: var(--danger-color) !important;
+}
+
+.new-subscription-page .product-loader {
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+/* ========== RESPONSIVE STYLES ========== */
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .new-subscription-page .products-sidebar {
+    padding: 20px;
+  }
+
+  .new-subscription-page .product-image {
+    width: 100px;
+  }
+
+  .new-subscription-page .cart-button {
+    padding: 12px 20px;
+    font-size: 1rem;
+  }
+}
+
+/* Large devices (desktops, 992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .new-subscription-page .products-sidebar {
+    padding: 15px;
+  }
+
+  .new-subscription-page .product-image {
+    width: 90px;
+  }
+
+  .new-subscription-page .cart-button {
+    padding: 10px 16px;
+    font-size: 0.95rem;
+  }
+}
+
+/* Medium devices (tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .new-subscription-page .products-sidebar {
+    padding: 12px;
+  }
+
+  .new-subscription-page .product-image {
+    width: 80px;
+  }
+
+  .new-subscription-page .cart-button {
+    padding: 8px 14px;
+    font-size: 0.9rem;
+  }
+
+ 
+
+  .new-subscription-page .position-sticky {
+    max-height: calc(100vh - 100px);
+    overflow-y: auto;
+  }
+
+  .new-subscription-page .cart-button-container {
+    top: 15px;
+    right: 15px;
+  }
+}
+
+/* Small devices (landscape phones, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .new-subscription-page .products-sidebar {
+    max-height: 150px;
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    padding: 10px 5px;
+    margin-bottom: 20px;
+  }
+
+  .new-subscription-page .products-sidebar .mb-3 {
+    display: inline-block;
+    margin-right: 10px;
+    margin-bottom: 0 !important;
+    flex: 0 0 auto;
+  }
+
+  .new-subscription-page .product-image {
+    width: 70px;
+  }
+
+  .new-subscription-page .product-button {
+    padding: 8px;
+  }
+
+  .new-subscription-page .cart-button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+  }
+
+  .new-subscription-page .cart-badge {
+    padding: 1px 6px;
+    font-size: 10px;
+    top: -8px;
+    left: -8px;
+  }
+
+  
+
+  .new-subscription-page .position-sticky {
+    position: relative !important;
+    top: 0 !important;
+    height: auto !important;
+  }
+
+  .new-subscription-page .vh-100 {
+    height: auto !important;
+  }
+
+  .new-subscription-page .cart-button-container {
+    top: 10px;
+    right: 10px;
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .new-subscription-page .products-sidebar {
+    max-height: 120px;
+    overflow-x: auto;
+    white-space: nowrap;
+    display: flex;
+    flex-direction: row;
+    padding: 8px 5px;
+    margin-bottom: 20px;
+  }
+
+  .new-subscription-page .products-sidebar .mb-3 {
+    display: inline-block;
+    margin-right: 8px;
+    margin-bottom: 0 !important;
+    flex: 0 0 auto;
+  }
+
+  .new-subscription-page .product-image {
+    width: 60px;
+  }
+
+  .new-subscription-page .product-button {
+    padding: 5px;
+  }
+
+  .new-subscription-page .cart-button {
+    padding: 6px 10px;
+    font-size: 0.8rem;
+  }
+
+  .new-subscription-page .cart-badge {
+    padding: 1px 5px;
+    font-size: 9px;
+    top: -6px;
+    left: -6px;
+  }
+
+  .new-subscription-page .nav-group button {
+    padding: 5px 10px;
+    font-size: 0.8rem;
+  }
+
+  .new-subscription-page .position-sticky {
+    position: relative !important;
+    top: 0 !important;
+    height: auto !important;
+  }
+
+  .new-subscription-page .vh-100 {
+    height: auto !important;
+  }
+
+  .new-subscription-page h1 {
+    font-size: 1.75rem !important;
+  }
+
+  .new-subscription-page p.mb-5 {
+    font-size: 0.85rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .new-subscription-page .container {
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+    margin-top: 15px !important;
+    margin-bottom: 15px !important;
+  }
+
+  .new-subscription-page .spinner-border {
+    width: 2rem !important;
+    height: 2rem !important;
+  }
+
+  .new-subscription-page .cart-button-container {
+    top: 10px;
+    right: 10px;
+    position: fixed;
+  }
+
+  .new-subscription-page .cart-button {
+    padding: 5px 8px;
+  }
+}
+
+/* Fix for container padding on all devices */
+@media (max-width: 991.98px) {
+  .new-subscription-page .container {
+    padding-right: 20px !important;
+    padding-left: 20px !important;
+  }
+}
+
+/* Fix for the main layout container */
+.new-subscription-page .container.mt-lg-10 {
+  width: 100%;
+  max-width: 1320px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Fix for the loading spinner container */
+.new-subscription-page .d-flex.justify-content-center.align-items-center {
+  min-height: 50vh;
+  width: 100%;
+}
+
+.new-subscription-page .text-center .spinner-border {
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.new-subscription-page .text-center p {
+  margin-left: auto !important;
+  margin-right: auto !important;
+  text-align: center !important;
+}
+
+/* Correction de la couleur des boutons */
+.new-subscription-page .btn-primary {
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+.new-subscription-page .btn-primary:hover,
+.new-subscription-page .btn-primary:focus,
+.new-subscription-page .btn-primary:active {
+  background-color: var(--primary-hover) !important;
+  border-color: var(--primary-hover) !important;
+}
+

@@ -1,0 +1,330 @@
+
+.table {
+    width: 100%;
+    margin-bottom: 1rem;
+    color: #212529;
+    vertical-align: middle;
+    border-color: #dee2e6;
+  }
+  
+  .table thead th {
+    vertical-align: bottom;
+    padding: 0.75rem;
+    border-bottom: 2px solid #dee2e6;
+    background-color: #f0f0f0;
+    font-weight: 600;
+    color: #495057;
+  }
+  
+  .table tbody tr {
+    transition: background-color 0.15s ease-in-out;
+  }
+  
+  .table tbody tr:hover {
+    background-color: rgba(0, 0, 0, 0.03);
+  }
+  
+  .table td {
+    padding: 0.75rem;
+    vertical-align: middle;
+  }
+  
+  .badge {
+    display: inline-block;
+    padding: 0.35em 0.65em;
+    font-size: 0.75em;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+  }
+  
+  .badge.bg-blue-100 {
+    background-color: #e6f3ff;
+    color: #0d6efd;
+    border-radius: 23px;
+  }
+  
+  .badge.bg-green-100 {
+    background-color: #d1e7dd;
+    color: #198754;
+  }
+  
+  .card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+  }
+  
+  .card-body {
+    flex: 1 1 auto;
+    padding: 1rem 1rem;
+  }
+  
+  .card-title {
+    margin-bottom: 0.5rem;
+  }
+  
+  .display-4 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 1.2;
+  }
+
+  .status-badge-canceled {
+    background-color: #ffebee !important; 
+    color: #d32f2f !important; 
+  }
+  
+  .spinner-border {
+    display: inline-block;
+    width: 2rem;
+    height: 2rem;
+    vertical-align: text-bottom;
+    border: 0.25em solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: spinner-border 0.75s linear infinite;
+  }
+  
+  @keyframes spinner-border {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  .bg-gray-200 {
+    background-color: #e9ecef;
+  }
+  
+  .bg-gray-400 {
+    background-color: #ced4da;
+  }
+  
+  /* Styles pour les boutons d'action */
+  .btn-action {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.2rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .btn-action:hover {
+    background-color: rgba(13, 110, 253, 0.1);
+  }
+  
+  /* Styles pour le bouton Add Subscription */
+  
+
+  .btn-add {
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    background-color: #0a95ec;
+    border: none;
+    color:#fff;
+    border-Radius: '50%';
+    padding: ' 12px 20px';
+    font-Size: '12px';
+    font-weight: 'bold';
+    border-radius: 6px;
+    font-weight: 500;
+  }
+  /* Styles améliorés pour le conteneur de recherche et filtre */
+.search-filter-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background-color: #f8f9fa;
+  padding: 6px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.03);
+}
+
+/* Styles améliorés pour le bouton de filtre */
+.filter-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: white;
+  color: #495057;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.filter-button:hover {
+  background-color: #f1f3f5;
+  border-color: #ced4da;
+}
+
+.filter-button.active {
+  background-color: #e9ecef;
+  border-color: #ced4da;
+  color: #212529;
+}
+
+/* Styles améliorés pour la barre de recherche */
+.search-container {
+  position: relative;
+  flex-grow: 1;
+}
+
+.search-icon-wrapper {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #adb5bd;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 8px 8px 36px;
+  border: 1px solid #dee2e6;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  color: #495057;
+  background-color: white;
+  transition: all 0.2s ease;
+  min-width: 220px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #86b7fe;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+.search-input::placeholder {
+  color: #adb5bd;
+}
+
+.details-button {
+  display: flex;
+  align-items: center;
+  background: transparent;
+  color: #0d6efd;
+  border: none;
+  padding: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.details-button:hover {
+  color: #0a58ca;
+  text-decoration: underline;
+}
+
+.action-button {
+  background: transparent;
+  color: #5c6369;
+  border: none;
+  padding: 4px;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.action-button:hover {
+  background-color: #f1f3f5;
+  color: #464a4e;
+}
+
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  vertical-align: middle;
+}
+
+.table-light {
+  background-color: #f8f9fa;
+}
+
+.table thead th {
+  vertical-align: bottom;
+  padding: 0.75rem;
+  font-weight: 600;
+  color: #404549;
+  border-bottom: 2px solid #dee2e6;
+}
+
+.table tbody tr {
+  transition: background-color 0.15s ease-in-out;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.table td {
+  padding: 0.75rem;
+  vertical-align: middle;
+}
+
+.spinner-border {
+  display: inline-block;
+  width: 2rem;
+  height: 2rem;
+  vertical-align: text-bottom;
+  border: 0.25em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spinner-border 0.75s linear infinite;
+}
+
+@keyframes spinner-border {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.display-4 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.fw-bold {
+  font-weight: 700 !important;
+}
+
+.text-muted {
+  color: #4b5054 !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .search-filter-container {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-input {
+    min-width: auto;
+  }
+}
+
+  
+  

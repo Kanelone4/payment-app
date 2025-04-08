@@ -1,0 +1,349 @@
+/* Styles spécifiques pour les éléments responsifs sans affecter les autres styles */
+.new-subscription-page .icon-wrapper {
+  width: 64px;
+  height: 64px;
+}
+
+.new-subscription-page .transition-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.new-subscription-page .transition-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+.new-subscription-page .status-cell {
+  position: relative;
+  min-width: 100px;
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+
+.new-subscription-page .status-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: #d1f5d3;
+  border-radius: 4px;
+  color: #28a745;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+  min-width: 60px;
+}
+
+.new-subscription-page .products-loading-container {
+  position: relative;
+  min-height: 300px;
+}
+
+.new-subscription-page .products-loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 10;
+  border-radius: 8px;
+}
+
+.new-subscription-page .spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.new-subscription-page .loading-text {
+  color: #6c757d;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.new-subscription-page .product-skeleton {
+  padding: 10px 0;
+  animation: ns-pulse 1.5s infinite ease-in-out;
+}
+
+.new-subscription-page .skeleton-image {
+  width: 120px;
+  height: 60px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  margin-left: 70px;
+}
+
+.new-subscription-page .skeleton-text {
+  height: 16px;
+  width: 100px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  margin-top: 25px;
+  margin-left: -70px;
+}
+
+.new-subscription-page .skeleton-badge {
+  width: 40px;
+  height: 40px;
+  background-color: #e9ecef;
+  border-radius: 4px;
+  margin-top: 23px;
+}
+
+@keyframes ns-pulse {
+  0% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.6;
+  }
+}
+
+.new-subscription-page .product-item {
+  animation: ns-fadeIn 0.5s ease-in-out;
+}
+
+@keyframes ns-fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.new-subscription-page .product-image {
+  transition: transform 0.3s ease;
+}
+
+.new-subscription-page .product-image:hover {
+  transform: scale(1.05);
+}
+
+.new-subscription-page .table th {
+  font-weight: 600;
+  color: #495057;
+}
+
+.new-subscription-page .table td {
+  vertical-align: middle;
+}
+
+.new-subscription-page .progress {
+  border-radius: 10px;
+  background-color: #f0f0f0;
+}
+
+.new-subscription-page .badge {
+  font-weight: 500;
+}
+
+.new-subscription-page .btn-primary {
+  background-color: #4361ee;
+  border-color: #4361ee;
+}
+
+.new-subscription-page .btn-primary:hover {
+  background-color: #3a56d4;
+  border-color: #3a56d4;
+}
+
+.new-subscription-page .bg-primary-subtle {
+  background-color: rgba(67, 97, 238, 0.15);
+}
+
+.new-subscription-page .bg-warning-subtle {
+  background-color: rgba(255, 193, 7, 0.15);
+}
+
+.new-subscription-page .bg-danger-subtle {
+  background-color: rgba(220, 53, 69, 0.15);
+}
+
+/* ========== MEDIA QUERIES ========== */
+/* Large devices (desktops, 992px to 1199px) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .new-subscription-page .icon-wrapper {
+    width: 60px;
+    height: 60px;
+  }
+
+  .new-subscription-page .status-badge {
+    font-size: 12px;
+    padding: 4px 9px;
+    min-width: 58px;
+  }
+
+  .new-subscription-page .skeleton-image {
+    width: 110px;
+    height: 55px;
+    margin-left: 65px;
+  }
+
+  .new-subscription-page .skeleton-text {
+    margin-left: -65px;
+    width: 95px;
+  }
+
+  .new-subscription-page .skeleton-badge {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* Medium devices (tablets, 768px to 991px) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .new-subscription-page .icon-wrapper {
+    width: 55px;
+    height: 55px;
+  }
+
+  .new-subscription-page .status-badge {
+    font-size: 11px;
+    padding: 4px 8px;
+    min-width: 55px;
+  }
+
+  .new-subscription-page .status-cell {
+    min-width: 90px;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+  }
+
+  .new-subscription-page .skeleton-image {
+    width: 100px;
+    height: 50px;
+    margin-left: 60px;
+  }
+
+  .new-subscription-page .skeleton-text {
+    margin-left: -60px;
+    width: 90px;
+  }
+
+  .new-subscription-page .skeleton-badge {
+    width: 35px;
+    height: 35px;
+    margin-top: 20px;
+  }
+
+  .new-subscription-page .table th,
+  .new-subscription-page .table td {
+    padding: 0.75rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Small devices (landscape phones, 576px to 767px) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .new-subscription-page .icon-wrapper {
+    width: 50px;
+    height: 50px;
+  }
+
+  .new-subscription-page .transition-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .new-subscription-page .status-badge {
+    font-size: 10px;
+    padding: 3px 7px;
+    min-width: 50px;
+  }
+
+  .new-subscription-page .status-cell {
+    min-width: 80px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
+  }
+
+  .new-subscription-page .skeleton-image {
+    width: 90px;
+    height: 45px;
+    margin-left: 50px;
+  }
+
+  .new-subscription-page .skeleton-text {
+    margin-left: -50px;
+    width: 80px;
+    height: 14px;
+  }
+
+  .new-subscription-page .skeleton-badge {
+    width: 32px;
+    height: 32px;
+    margin-top: 18px;
+  }
+
+  .new-subscription-page .table th,
+  .new-subscription-page .table td {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+}
+
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .new-subscription-page .icon-wrapper {
+    width: 45px;
+    height: 45px;
+  }
+
+  .new-subscription-page .transition-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1) !important;
+  }
+
+  .new-subscription-page .status-badge {
+    font-size: 9px;
+    padding: 2px 6px;
+    min-width: 45px;
+  }
+
+  .new-subscription-page .status-cell {
+    min-width: 70px;
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+  }
+
+  .new-subscription-page .skeleton-image {
+    width: 80px;
+    height: 40px;
+    margin-left: 40px;
+  }
+
+  .new-subscription-page .skeleton-text {
+    margin-left: -40px;
+    width: 70px;
+    height: 12px;
+    margin-top: 20px;
+  }
+
+  .new-subscription-page .skeleton-badge {
+    width: 28px;
+    height: 28px;
+    margin-top: 16px;
+  }
+
+  .new-subscription-page .table th,
+  .new-subscription-page .table td {
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .new-subscription-page .btn-primary,
+  .new-subscription-page .btn-danger-permanent {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.875rem;
+  }
+}
+

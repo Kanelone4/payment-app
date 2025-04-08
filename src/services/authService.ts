@@ -188,13 +188,11 @@ export const fetchCartItems = async () => {
   }
 };
 
+// Solution temporaire dans authService.ts
 export const removeCartItem = async (planId: string) => {
   try {
-    console.log('[removeCartItem] Attempting to remove item with planId:', planId);
-    console.log('[removeCartItem] Full URL:', `https://rightcomsaasapi-if7l.onrender.com/cart/items/${planId}`);
-    console.log('[removeCartItem] Auth token:', localStorage.getItem('accessToken'));
-
-    const response = await fetch(`https://rightcomsaasapi-if7l.onrender.com/cart/items/${planId}`, {
+    // 1. D'abord supprimer l'item
+    await fetch(`https://rightcomsaasapi-if7l.onrender.com/cart/items/${planId}`, {
       method: 'DELETE',
       headers: { 
         'Content-Type': 'application/json',
@@ -202,23 +200,34 @@ export const removeCartItem = async (planId: string) => {
       }
     });
 
-    console.log('[removeCartItem] Response status:', response.status);
-    
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('[removeCartItem] Error response data:', errorData);
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const data = await response.json();
-    console.log('[removeCartItem] Item removed successfully:', data);
-    return data;
+    return await fetchCartItems();
   } catch (error) {
-    console.error('[removeCartItem] Error removing cart item:', error);
+    console.error('Error in removal process:', error);
     throw error;
   }
 };
 
+// Dans authService.ts (ou votre fichier de services)
+export const clearCart = async (): Promise<{ success: boolean }> => {
+  try {
+    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/cart', {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      }
+    });
+
+    if (!response.ok) {
+      throw new Error('Failed to clear cart');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error clearing cart:', error);
+    throw error;
+  }
+};
 export const refreshAuthToken = async () => {
   try {
     const credentials = localStorage.getItem('userCredentials');
@@ -247,7 +256,6 @@ export const refreshAuthToken = async () => {
   }
 };
 
-// Ajoutez cette fonction à la fin de authService.ts
 export const initiateCheckout = async (paymentMethod: string, paymentProvider: string) => {
   try {
     const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/cart/checkout', {
@@ -274,3 +282,91 @@ export const initiateCheckout = async (paymentMethod: string, paymentProvider: s
     throw error;
   }
 };
+
+export const fetchUserLicenses = async () => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/licenses/list/licenses', {
+      method: 'GET',
+      headers: { 
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch licenses');
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching licenses:', error);
+    throw error;
+  }
+};
+
+export const fetchUserSubscriptions = async () => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/my-subscriptions', {
+      method: 'GET',
+      headers: { 
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch subscriptions');
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching subscriptions:', error);
+    throw error;
+  }
+};
+
+
+export const fetchLicenses = async () => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/licenses', {
+      method: 'GET',
+      headers: { 
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch licenses');
+    }
+
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching licenses:', error);
+    throw error;
+  }
+};
+
+
+
