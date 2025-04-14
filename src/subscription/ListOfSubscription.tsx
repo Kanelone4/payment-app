@@ -2,18 +2,17 @@
 
 import React, { useState, useEffect } from "react"
 import Layout from "../layout/Layout"
-import { FaPlus, FaSearch, FaFilter,FaInfoCircle } from "react-icons/fa"
+import { FaPlus, FaSearch, FaFilter, FaInfoCircle } from "react-icons/fa"
 import { Link } from "react-router-dom"
-import { fetchUserLicenses } from "../services/authService" 
+import { fetchUserLicenses } from "../services/authService"
 import "./ListOfSubscription.css"
 import './tables-responsive.css'
-
 
 interface License {
   licence_code: string
   product: string
   plan: string
-  status: string
+  status: string | boolean // Union type to handle both string and boolean
   start_date: string
   end_date: string
 }
@@ -68,7 +67,11 @@ const ListOfSubscription: React.FC = () => {
     })
   }
 
-  const getStatusBadgeClass = (status: string) => {
+  const getStatusBadgeClass = (status: string | boolean) => {
+    if (typeof status === 'boolean') {
+      return status ? 'status-badge-active' : 'status-badge-canceled';
+    }
+
     switch (status.toLowerCase()) {
       case 'active':
         return 'status-badge-active'
@@ -89,7 +92,7 @@ const ListOfSubscription: React.FC = () => {
         <div className="alert alert-danger m-4">
           <h4>Error loading licenses</h4>
           <p>{error}</p>
-          <button 
+          <button
             className="btn btn-primary"
             onClick={() => window.location.reload()}
           >
@@ -117,9 +120,13 @@ const ListOfSubscription: React.FC = () => {
         {/* Main content card */}
         <div className="card border-0 shadow-sm mb-4">
           {isLoading ? (
-            <div className="d-flex justify-content-center align-items-center p-5" style={{ minHeight: "400px" }}>
-              <div className="spinner-border text-primary" role="status">
-                <span className="visually-hidden">Loading...</span>
+           
+           <div className="d-flex justify-content-center align-items-center" style={{ height: "200px" }}>
+              <div className="text-center">
+                <div className="spinner-border text-primary" role="status" style={{ width: "2.5rem", height: "2.5rem" }}>
+                  <span className="visually-hidden">Loading...</span>
+                </div>
+                <p className="mt-3">Loading licenses...</p>
               </div>
             </div>
           ) : (
@@ -182,14 +189,14 @@ const ListOfSubscription: React.FC = () => {
                           </td>
                           <td>
                             <span className={`status-badge ${getStatusBadgeClass(license.status)}`}>
-                              {license.status}
+                              {typeof license.status === 'boolean' ? (license.status ? 'Active' : 'Inactive') : license.status}
                             </span>
                           </td>
                           <td>{formatDate(license.start_date)}</td>
                           <td>{formatDate(license.end_date)}</td>
                           <td>
-                            <button 
-                              className="details-button" 
+                            <button
+                              className="details-button"
                               onClick={() => handleViewDetails(license.licence_code)}
                             >
                               <FaInfoCircle className="me-1" />

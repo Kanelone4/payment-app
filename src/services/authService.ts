@@ -368,5 +368,32 @@ export const fetchLicenses = async () => {
   }
 };
 
+// Dans authService.ts
+export const fetchNotifications = async (): Promise<Notification[]> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/notifications', {
+      method: 'GET',
+      headers: { 
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch notifications');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching notifications:', error);
+    throw error;
+  }
+};
 
 

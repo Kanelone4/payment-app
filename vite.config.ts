@@ -9,7 +9,7 @@ export default defineConfig({
     strictPort: true, 
     open: true, 
     cors: true, 
-    allowedHosts: ["f53d-154-66-135-180.ngrok-free.app"], 
+    allowedHosts: ["7ee0-41-79-219-71.ngrok-free.app"], 
     proxy: {
       '/api': 'https://rightcomsaasapi-if7l.onrender.com'
     }

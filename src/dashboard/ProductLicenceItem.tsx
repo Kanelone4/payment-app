@@ -1,6 +1,7 @@
 import  { useState, useEffect } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { getLicensesByProductId } from "../auth/core/_requests"; 
+import './ProductLicenceItem.css'; 
 interface ProductLicenseItemProps {
     product: Product;
   }
@@ -78,8 +79,8 @@ interface ProductLicenseItemProps {
             }}
           />
         </div>
-        <div style={{marginLeft:'-75px', marginTop:'10px'}} className="flex-grow-1 me-3">
-          <div className="fw-semi">Licences Total</div>
+        <div style={{marginLeft:'-75px', marginTop:'10px'}} className="flex-grow-1 me-3 px-4">
+          <div className="fw-semi ">Licences Total</div>
           {loading ? (
             <div className="small text-muted"></div>
           ) : error ? (
@@ -99,7 +100,7 @@ interface ProductLicenseItemProps {
           ) : error ? (
             <span className="text-danger">!</span>
           ) : (
-            <span className="fw-bold">{licenses.length}</span>
+            <span className="fw-bold px-4">{licenses.length}</span>
           )}
         </div>
       </div>

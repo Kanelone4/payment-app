@@ -157,7 +157,6 @@ const Dashboard: React.FC = () => {
               </div>
             </div>
           </div>
-
           <div className="col-lg-4 col-md-6 mb-3">
             <div className="card border-0 shadow-sm h-100 transition-card">
               <div className="card-body d-flex flex-column align-items-center p-4">
@@ -169,7 +168,7 @@ const Dashboard: React.FC = () => {
                 ) : (
                   <>
                     <h2 className="card-title fw-bold mb-1">
-                      {licenses?.filter(l => l.status === 'active').length ?? 0}
+                      {licenses?.filter(l => l.status === 'expired').length ?? 0}
                     </h2>
                     <p className="card-text text-muted">Expiring in 3 months</p>
                   </>
