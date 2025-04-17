@@ -1,0 +1,43 @@
+{
+    "addSubscription": "Add Subscription",
+    "cards": {
+      "allSubscriptions": "All Subscriptions",
+      "expiredLicenses": "Expiring in 3 months",
+      "expiringLicenses": "Expired"
+    },
+    "modal": {
+      "billingCycle": "Billing Cycle",
+      "monthly": "Monthly",
+      "annually": "Annually",
+      "close": "close",
+      "delete": "delete",
+      "expireDate": "Expire Date",
+      "License Total": "Licenses Total",
+      "forever": "Unlimited",
+      "plan": "Plan",
+      "product": "Product",
+      "startDate": "start Date",
+      "status": "Status",
+      "title": "title"
+    },
+    "sections": {
+      "licensesByProducts": "Licenses By Products",
+      "showLess": "Shoxw Less",
+      "showMore": "Show More",
+      "subscriptionsList": "Subscriptions List",
+      "viewMore": "View More"
+    },
+    "table": {
+      "billingCycle": "Billing Cycle",
+      "details": "Details",
+      "expireDate": "Expire Date",
+      "loading": "loading",
+      "noData": "no Data",
+      "orderId": "OrderId",
+      "plan": "Plan",
+      "product": "Product",
+      "status": "Status"
+    },
+    "title": "Dashboard"
+  }
+  

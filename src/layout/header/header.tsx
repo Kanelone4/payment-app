@@ -14,6 +14,7 @@ import { createPortal } from "react-dom"
 import type { ThunkDispatch } from "redux-thunk"
 import type { AnyAction } from "redux"
 import { useSelector } from "react-redux"
+import i18n from 'i18next';
 
 interface HeaderProps {
   toggleSidebar: () => void
@@ -32,20 +33,25 @@ interface Image {
 const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
   const [showProfileDropdown, setShowProfileDropdown] = useState(false)
   const [showAppsDropdown, setShowAppsDropdown] = useState(false)
+  const [showLanguageDropdown, setShowLanguageDropdown] = useState(false)
+  const [currentLanguage, setCurrentLanguage] = useState(
+    i18n.language === 'fr' ? 'Français' : 'English'
+  );
   const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0, right: 0 })
   const [appsDropdownPosition, setAppsDropdownPosition] = useState({ top: 0, left: 0, right: 0 })
+  const [languageDropdownPosition, setLanguageDropdownPosition] = useState({ top: 0, left: 0, right: 0 })
 
   const profileRef = useRef<HTMLDivElement>(null)
   const dropdownRef = useRef<HTMLDivElement>(null)
   const appsRef = useRef<HTMLSpanElement>(null)
   const appsDropdownRef = useRef<HTMLDivElement>(null)
-
+  const languageRef = useRef<HTMLSpanElement>(null)
+  const languageDropdownRef = useRef<HTMLDivElement>(null)
 
   const user = useSelector((state: RootState) => {
     return state.auth.user
   })
 
-  
   const dispatch = useDispatch<ThunkDispatch<RootState, unknown, AnyAction>>()
   const navigate = useNavigate()
 
@@ -79,6 +85,7 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
       })
       setShowProfileDropdown(!showProfileDropdown)
       setShowAppsDropdown(false)
+      setShowLanguageDropdown(false)
     }
   }
 
@@ -92,9 +99,46 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
       })
       setShowAppsDropdown(!showAppsDropdown)
       setShowProfileDropdown(false)
+      setShowLanguageDropdown(false)
     }
   }
 
+  const toggleLanguageDropdown = () => {
+    if (languageRef.current) {
+      const rect = languageRef.current.getBoundingClientRect()
+      setLanguageDropdownPosition({
+        top: rect.bottom + window.scrollY,
+        left: rect.left + window.scrollX,
+        right: window.innerWidth - rect.right - window.scrollX,
+      })
+      setShowLanguageDropdown(!showLanguageDropdown)
+      setShowProfileDropdown(false)
+      setShowAppsDropdown(false)
+    }
+  }
+
+  const changeLanguage = (languageCode: string) => {
+    i18n.changeLanguage(languageCode)
+      .then(() => {
+        setCurrentLanguage(languageCode === 'en' ? 'English' : 'Français');
+      })
+      .catch(err => {
+        console.error('Error changing language:', err);
+      });
+    setShowLanguageDropdown(false);
+  };
+
+  useEffect(() => {
+    const handleLanguageChange = (lng: string) => {
+      setCurrentLanguage(lng === 'fr' ? 'Français' : 'English');
+    };
+
+    i18n.on('languageChanged', handleLanguageChange);
+
+    return () => {
+      i18n.off('languageChanged', handleLanguageChange);
+    };
+  }, []);
 
   useEffect(() => {
     const handleDocumentClick = (event: MouseEvent) => {
@@ -117,7 +161,19 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
       ) {
         setShowAppsDropdown(false)
       }
+      
+      // Gestion du language dropdown
+      if (
+        languageDropdownRef.current &&
+        !languageDropdownRef.current.contains(event.target as Node) &&
+        languageRef.current &&
+        !languageRef.current.contains(event.target as Node)
+      ) {
+        setShowLanguageDropdown(false)
+      }
     }
+
+    
 
     document.addEventListener("mousedown", handleDocumentClick)
     return () => {
@@ -159,12 +215,18 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
       
       <div style={{ gap: "15px" }} className="d-flex align-items-center">
         <span
+          ref={languageRef}
           style={{ gap: "5px", cursor: "pointer", paddingLeft: "8px", paddingRight: "8px" }}
           className="d-flex align-items-center hover-bg hover-text"
+          onClick={toggleLanguageDropdown}
         >
-          <img style={{ width: "15px", height: "15px" }} src="/public/assets/Images/UsaFlag.webp" alt="USA Flag" />
+         <img 
+            style={{ width: "15px", height: "15px" }} 
+            src={currentLanguage === "English" ? "/assets/Images/UsaFlag.webp" : "/assets/Images/FrenchFlag.webp"} 
+            alt={currentLanguage === "English" ? "USA Flag" : "French Flag"} 
+          />
           <p className="mt-3" style={{ fontSize: "14px" }}>
-            English
+            {currentLanguage}
           </p>
           <MdKeyboardArrowDown />
         </span>
@@ -202,6 +264,16 @@ const Header: FC<HeaderProps> = ({ toggleSidebar }) => {
           position={appsDropdownPosition} 
           images={images} 
           onHide={() => setShowAppsDropdown(false)}
+        />
+      )}
+
+      {showLanguageDropdown && (
+        <LanguageDropdownPortal 
+          ref={languageDropdownRef} 
+          position={languageDropdownPosition} 
+          currentLanguage={currentLanguage}
+          onChangeLanguage={changeLanguage}
+          onHide={() => setShowLanguageDropdown(false)}
         />
       )}
     </div>
@@ -272,6 +344,7 @@ const ProfileDropdownPortal = React.forwardRef<HTMLDivElement, ProfileDropdownPo
 )
 
 ProfileDropdownPortal.displayName = "ProfileDropdownPortal"
+
 interface AppsDropdownPortalProps {
   position: { top: number; left: number; right: number }
   images: Image[]
@@ -371,5 +444,75 @@ const AppsDropdownPortal = React.forwardRef<HTMLDivElement, AppsDropdownPortalPr
 );
 
 AppsDropdownPortal.displayName = "AppsDropdownPortal"
+
+interface LanguageDropdownPortalProps {
+  position: { top: number; left: number; right: number };
+  currentLanguage: string;
+  onChangeLanguage: (languageCode: string) => void;
+  onHide: () => void;
+}
+
+const LanguageDropdownPortal = React.forwardRef<HTMLDivElement, LanguageDropdownPortalProps>(
+  ({ position, currentLanguage, onChangeLanguage, onHide }, ref) => {
+    const languages = [
+      { code: 'en', name: 'English', flag: '/assets/Images/UsaFlag.webp' },
+      { code: 'fr', name: 'Français', flag: '/assets/Images/FrenchFlag.webp' }
+    ];
+
+    return createPortal(
+      <div
+        ref={ref}
+        style={{
+          position: "absolute",
+          top: `${position.top}px`,
+          right: `${position.right}px`,
+          width: "150px",
+          backgroundColor: "white",
+          borderRadius: "8px",
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+          zIndex: 1000,
+          overflow: "hidden",
+          animation: "fadeIn 0.2s ease-out",
+        }}
+      >
+        {languages.map((language) => (
+          <div
+            key={language.code}
+            style={{
+              padding: "12px 16px",
+              display: "flex",
+              alignItems: "center",
+              gap: "10px",
+              cursor: "pointer",
+              backgroundColor: currentLanguage === language.name ? "#f5f5f5" : "white",
+              transition: "background-color 0.2s ease",
+            }}
+            onClick={() => {
+              onChangeLanguage(language.code);
+              onHide();
+            }}
+            onMouseEnter={(e) => {
+              (e.currentTarget as HTMLDivElement).style.backgroundColor = "#f5f5f5";
+            }}
+            onMouseLeave={(e) => {
+              (e.currentTarget as HTMLDivElement).style.backgroundColor = 
+                currentLanguage === language.name ? "#f5f5f5" : "white";
+            }}
+          >
+            <img 
+              src={language.flag} 
+              alt={language.name} 
+              style={{ width: "15px", height: "15px" }} 
+            />
+            <span style={{ fontSize: "14px" }}>{language.name}</span>
+          </div>
+        ))}
+      </div>,
+      document.body
+    );
+  }
+);
+
+LanguageDropdownPortal.displayName = "LanguageDropdownPortal";
 
 export default Header

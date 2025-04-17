@@ -1,0 +1,44 @@
+{
+  "addButton": "",
+  "error": {
+    "loading": "",
+    "retry": "",
+    "title": ""
+  },
+  "filter": {
+    "apply": "",
+    "button": "",
+    "byCycle": "",
+    "byPlan": "",
+    "byStatus": "",
+    "close": "",
+    "title": ""
+  },
+  "loading": "",
+  "modal": {
+    "billingCycle": "",
+    "close": "",
+    "delete": "",
+    "expireDate": "",
+    "forever": "",
+    "plan": "",
+    "product": "",
+    "startDate": "",
+    "status": "",
+    "title": ""
+  },
+  "search": {
+    "placeholder": ""
+  },
+  "subscriptions": "",
+  "table": {
+    "actions": "",
+    "billingCycle": "",
+    "details": "",
+    "expireDate": "",
+    "plan": "",
+    "product": "",
+    "status": ""
+  },
+  "title": ""
+}

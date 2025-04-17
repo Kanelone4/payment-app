@@ -1,0 +1,25 @@
+{
+  "common": {
+    "Annually": "annuel",
+    "Cart": "Panier",
+    "ChooseYourPlan": "Chosissez votre plan",
+    "Ifyouneedmoreinfoaboutourpricing,pleasecheck": "Si vous avez besoin de plus d'informations sur nos tarifs, veuillez consulter",
+    "loading": "chargement",
+    "Monthly": "mensuel",
+    "PricingGuidelines": "les directives de tarifications"
+  },
+  "loading plans": {
+    "loading plans": "chargement des plans"
+  },
+  "invoices": {
+    "download": "Télécharger",
+    "download_error": "Réessayer",
+    "downloading": "Téléchargement",
+    "invoice": "Facture",
+    "loading": "chargement des factures",
+    "my_invoices": "Mes factures",
+    "no_invoices": "Aucune facture disponibles",
+    "no_invoices_message": "Vous n'avez pas de factures disponibles pour le moment.",
+    "subtitle": "Vos factures sont disponibles ici. Vous pouvez les télécharger à tout moment."
+  }
+}

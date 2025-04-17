@@ -1,0 +1,42 @@
+{
+    "addSubscription": "Ajouter un abonnement",
+    "cards": {
+      "allSubscriptions": "Tous les abonnements",
+      "expiredLicenses": "Expirés",
+      "expiringLicenses": "Expire dans 3 mois"
+    },
+    "modal": {
+      "billingCycle": "Cycle de facturation",
+      "close": "fermer",
+      "delete": "supprimer",
+      "expireDate": "date d'expiration",
+      "License Total": "Total des licences",
+      "forever": "Illimitées",
+      "plan": "Plan",
+      "product": "Produit",
+      "startDate": "Date de début",
+      "status": "Statut",
+      "title": "Titre"
+    },
+    "sections": {
+      "licensesByProducts": "Licences par produits",
+      "showLess": "Voir Moins",
+      "subscriptionsList": "Liste des abonnements",
+      "viewMore": "Voir Plus"
+    },
+    "table": {
+      "billingCycle": "Cycle de facturation",
+      "details": "Détails",
+      "expireDate": "Date d'expiration",
+      "loading": "chargement",
+      "noData": "pas de données",
+      "orderId": "ID de commande",
+      "plan": "Plan",
+      "product": "Produit",
+      "status": "Statut"
+    },
+    "title": "Tableau de bord"
+  }
+   
+   
+  

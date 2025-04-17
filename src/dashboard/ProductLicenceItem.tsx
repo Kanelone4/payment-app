@@ -2,6 +2,7 @@ import  { useState, useEffect } from "react";
 import { FaSpinner } from "react-icons/fa";
 import { getLicensesByProductId } from "../auth/core/_requests"; 
 import './ProductLicenceItem.css'; 
+import { useTranslation } from "react-i18next";
 interface ProductLicenseItemProps {
     product: Product;
   }
@@ -37,6 +38,7 @@ interface ProductLicenseItemProps {
   }
   
   export const ProductLicenseItem = ({ product }: ProductLicenseItemProps) => {
+    const { t } = useTranslation('dashboard')
     const [licenses, setLicenses] = useState<License[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -80,7 +82,7 @@ interface ProductLicenseItemProps {
           />
         </div>
         <div style={{marginLeft:'-75px', marginTop:'10px'}} className="flex-grow-1 me-3 px-4">
-          <div className="fw-semi ">Licences Total</div>
+          <div className="fw-semi ">{t('modal.License Total')}</div>
           {loading ? (
             <div className="small text-muted"></div>
           ) : error ? (

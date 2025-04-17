@@ -1,11 +1,18 @@
 {
+  "compilerOptions": {
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "src/config/fedapay.d.ts",
+      "src/i18n/types.d.ts"
+    ]
+  },
   "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ],
-  "compilerOptions": {
-    "typeRoots": ["node_modules/@types", "src/config/fedapay.d.ts"],
-    "esModuleInterop": true
-  }
+  ]
 }

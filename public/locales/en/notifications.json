@@ -1,0 +1,19 @@
+{
+    "delete": "delete",
+    "error": {
+      "deleting": "deleting",
+      "loading": "loading"
+    },
+    "loading": "loading",
+    "locale": "locale",
+    "markAllRead": "mark all as read",
+    "tabs": {
+      "all": "All",
+      "unread": "Unread",
+      "title": "Unread",
+      "message": "You have not unread notifications"
+
+    },
+    "title": "Notifications"
+  }
+  

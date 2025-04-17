@@ -1,0 +1,27 @@
+{
+  "common": {
+    "Annually": "",
+    "Cart": "Cart",
+    "ChooseYourPlan": "Choose Your Plan",
+    "Ifyouneedmoreinfoaboutourpricing,pleasecheck": "If you need more info about our pricing, please check",
+    "loading": "loading",
+    "loading_error": "",
+    "locale": "",
+    "Monthly": "",
+    "PricingGuidelines": ""
+  },
+  "invoices": {
+    "download": "",
+    "download_error": "",
+    "downloading": "",
+    "invoice": "",
+    "loading": "",
+    "my_invoices": "",
+    "no_invoices": "",
+    "no_invoices_message": "",
+    "subtitle": ""
+  },
+  "loading plans": {
+    "": ""
+  }
+}

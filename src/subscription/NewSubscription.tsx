@@ -16,6 +16,7 @@ import type { AppDispatch } from "../store"
 import { addToCartAsync, fetchCartItemsAsync, removeCartItemAsync } from "../features/authSlice"
 import "./NewSubscription.css"
 import "./responsive-fixes.css"
+import { useTranslation } from 'react-i18next';
 
 interface Product {
   _id: string
@@ -49,19 +50,21 @@ const PlanToggle: React.FC<{
   billingCycle: "Monthly" | "Annually"
   setBillingCycle: (cycle: "Monthly" | "Annually") => void
 }> = ({ billingCycle, setBillingCycle }) => {
+  const { t } = useTranslation();
+  
   return (
     <div className="nav-group nav-group-outline mx-auto mb-15" data-kt-buttons="true">
       <button
         className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 me-2 fw-semibold ${billingCycle === "Monthly" ? "active" : ""}`}
         onClick={() => setBillingCycle("Monthly")}
       >
-        Monthly
+        {t("common.Monthly")}
       </button>
       <button
         className={`btn btn-color-gray-400 btn-active btn-active-secondary px-6 py-3 fw-semibold ${billingCycle === "Annually" ? "active" : ""}`}
         onClick={() => setBillingCycle("Annually")}
       >
-        Annually
+        {t("common.Annually")}
       </button>
     </div>
   )
@@ -72,6 +75,8 @@ const capitalizeFirstLetter = (str: string) => {
 }
 
 const NewSubscription: React.FC = () => {
+  const { t } = useTranslation();
+
   const [openProduct, setOpenProduct] = useState<string | null>(null)
   const [billingCycle, setBillingCycle] = useState<"Monthly" | "Annually">("Monthly")
   const [products, setProducts] = useState<Product[]>([])
@@ -93,6 +98,20 @@ const NewSubscription: React.FC = () => {
       dispatch(fetchCartItemsAsync())
     }
   }, [dispatch, user])
+
+  const translateFeatures = (features: string[]): string[] => {
+    return features.map(feature => {
+      // Gardez la ponctuation originale
+      const exactKey = `plan:features.${feature.trim()}`;
+      const cleanKey = `plan:features.${feature.trim().replace(/\*/g, '').replace(/,/g, '').replace(/\s+/g, ' ')}`;
+      
+      // Essayez d'abord la clé exacte, puis la version nettoyée
+      return t(exactKey, { 
+        defaultValue: t(cleanKey, { defaultValue: feature })
+      });
+    })
+  };
+  
 
   const handleAddToCart = async (plan: Plan) => {
     if (!user?._id || !user.subscriptions || user.subscriptions.length === 0) {
@@ -224,10 +243,10 @@ const NewSubscription: React.FC = () => {
                   style={{ width: "3rem", height: "3rem", marginLeft: "117%" }}
                   role="status"
                 >
-                  <span className="visually-hidden">Loading...</span>
+                  <span className="visually-hidden">{t('common.loading')}</span>
                 </div>
                 <p style={{ marginLeft: "108%" }} className="mt-3">
-                  Loading
+                {t('common.loading')}
                 </p>
               </div>
             </div>
@@ -238,7 +257,7 @@ const NewSubscription: React.FC = () => {
                   {loadingProducts ? (
                     <div className="product-loader">
                       <div className="spinner-border text-primary" role="status">
-                        <span className="visually-hidden">Loading...</span>
+                        <span className="visually-hidden">{t('common.loading')}</span>
                       </div>
                     </div>
                   ) : (
@@ -296,18 +315,18 @@ const NewSubscription: React.FC = () => {
                     onClick={handleShowModal}
                   >
                     <AiOutlineShoppingCart />
-                    <span className="ms-2">Cart</span>
+                    <span className="ms-2">{t('common.Cart')}</span>
                     {cart.items.length > 0 && <span className="cart-badge">{cart.items.length}</span>}
                   </button>
                 </div>
 
                 <div className="row mb-3">
                   <div className="col-12 text-center mb-3 mt-5">
-                    <h1>Choose Your Plan</h1>
+                    <h1>{t('common.ChooseYourPlan')}</h1>
                     <p className="mb-5 fw-semibold" style={{ color: "#a5a8b0", fontSize: "14px" }}>
-                      If you need more info about our pricing, please check{" "}
+                      {t('common.Ifyouneedmoreinfoaboutourpricing,pleasecheck')}    {" "}
                       <a href="#" className="text-decoration-none fw-semibold" style={{ color: "#009ef7" }}>
-                        Pricing Guidelines
+                        {t('common.PricingGuidelines')}
                       </a>
                     </p>
                     <PlanToggle billingCycle={billingCycle} setBillingCycle={setBillingCycle} />
@@ -316,9 +335,9 @@ const NewSubscription: React.FC = () => {
                     {loadingPlans ? (
                       <div className="text-center py-4">
                         <div className="spinner-border text-primary" role="status">
-                          <span className="visually-hidden">Loading...</span>
+                          <span className="visually-hidden">{t('common.loading')}</span>
                         </div>
-                        <p className="mt-2">Loading plans...</p>
+                        <p className="mt-2">{t('loading plans...')}</p>
                       </div>
                     ) : (
                       filteredPlans.map((plan, index) => {
@@ -331,7 +350,7 @@ const NewSubscription: React.FC = () => {
                             key={plan._id}
                             name={capitalizeFirstLetter(plan.name)}
                             price={plan.price}
-                            features={plan.features}
+                            features={translateFeatures(plan.features)}
                             isFourthPlan={index === 3}
                             isActive={isActive}
                             logo={product?.image || ""}

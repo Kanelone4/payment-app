@@ -1,0 +1,26 @@
+{
+  "common": {
+    "Annually": "annually",
+    "Cart": "Cart",
+    "ChooseYourPlan": "Choose Your Plan",
+    "Ifyouneedmoreinfoaboutourpricing,pleasecheck": "If you need more info about our pricing, please check",
+    "loading": "loading",
+    "Monthly": "monthly",
+    "locale": "en-US",
+    "PricingGuidelines": "Pricing Guidelines"
+  },
+  "loading plans": {
+    "loading plans": "loading plans"
+  },
+  "invoices": {
+    "download": "Download",
+    "download_error": "Retry",
+    "downloading": "Downloading",
+    "invoice": "Invoices",
+    "loading": "loading invoices",
+    "my_invoices": "My Invoices",
+    "no_invoices": "No invoices available",
+    "no_invoices_message": "You don't have any invoices available at the moment.",
+    "subtitle": "Your invoices are available here. You can download them at any time."
+  }
+}

@@ -93,23 +93,23 @@ interface LicensesResponse {
   count: number;
 }
 
-
-// Dans votre fichier de types/services
-interface SubscriptionDetails {
-  billing_cycle: string;
-  start_date: string;
-}
-
 interface UserSubscription {
-  order_id: string;
-  Product: string;
-  Status: 'active' | 'inactive' | 'expired' | 'pending';
-  expire_date: string;
-  Details: SubscriptionDetails;
+  order_id: string
+  Product: string
+  Status: string
+  Plan: string
+  expire_date: string
+  Details: {
+    billing_cycle: string
+    start_date: string
+  }
 }
 
 interface SubscriptionsResponse {
-  data: UserSubscription[];
+  data: {
+    subscriptions: UserSubscription[];
+    count: number;
+  };
   message: string;
   error: string | null;
 }
@@ -131,6 +131,27 @@ interface Notification {
   __v: number;
 }
 
+interface Invoice {
+  invoiceNumber: string;
+  amount: number;
+  date: string;
+  paymentId: string;
+  planName: string;
+  productName: string;
+  details: {
+    invoiceId: string;
+    user: {
+      username: string;
+      email: string;
+      name: string;
+    };
+  };
+}
+
+interface InvoicesResponse {
+  success: boolean;
+  data: Invoice[];
+}
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -152,6 +173,9 @@ export const SUBSCRIPTION_URLS = {
   GET_MY_SUBSCRIPTIONS: `${API_URL}/my-subscriptions`,
 };
 
+export const INVOICE_URLS = {
+  GET_INVOICES: `${API_URL}/invoices`,
+};
 
 export const PLAN_URLS = {
   GET_PLANS: `${API_URL}/plan/plans`, 
@@ -349,7 +373,7 @@ export const fetchUserLicenses = async (): Promise<License[]> => {
   }
 };
 
-export const fetchUserSubscriptions = async (): Promise<UserSubscription[]> => {
+export const fetchUserSubscriptions = async (): Promise<{ subscriptions: UserSubscription[], count: number }> => {
   try {
     const token = localStorage.getItem('accessToken');
     if (!token) {
@@ -460,6 +484,72 @@ export const fetchNotifications = async (): Promise<Notification[]> => {
     return await response.json();
   } catch (error) {
     console.error('Error fetching notifications:', error);
+    throw error;
+  }
+};
+
+export const fetchInvoices = async (): Promise<Invoice[]> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch(INVOICE_URLS.GET_INVOICES, {
+      method: 'GET',
+      headers: { 
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to fetch invoices');
+    }
+
+    const data: InvoicesResponse = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error('Error fetching invoices:', error);
+    throw error;
+  }
+};
+
+export const downloadInvoice = async (invoiceId: string): Promise<Blob> => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch(`${API_URL}/invoices/download/${invoiceId}`, {
+      method: 'GET',
+      headers: { 
+        'accept': 'application/pdf',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      // Gérer spécifiquement les erreurs 404
+      if (response.status === 404) {
+        throw new Error('Facture non trouvée sur le serveur');
+      }
+      // Essayer de lire le message d'erreur comme texte d'abord
+      const errorText = await response.text();
+      throw new Error(errorText || 'Échec du téléchargement');
+    }
+
+    // Vérifier que la réponse est bien un PDF
+    const contentType = response.headers.get('content-type');
+    if (!contentType?.includes('application/pdf')) {
+      throw new Error('La réponse n\'est pas un PDF');
+    }
+
+    return await response.blob();
+  } catch (error) {
+    console.error('Error downloading invoice:', error);
     throw error;
   }
 };

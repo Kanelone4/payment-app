@@ -18,6 +18,7 @@ interface MenuProps {
   setDropDownMenu: React.Dispatch<React.SetStateAction<string[]>>;
 }
 
+
 const SideBarMenu = ({ Icon, MainTitle, SubTitles, Path, dropDownMenu, setDropDownMenu }: MenuProps) => {
   const [isOpen, setIsOpen] = useState(dropDownMenu.includes(MainTitle));
   const { pathname } = useLocation();

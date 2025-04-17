@@ -1,0 +1,45 @@
+{
+    "addButton": "add Subscription",
+    "error": {
+      "loading": "loading",
+      "retry": "retry",
+      "title": "Subscriptions"
+    },
+    "filter": {
+      "apply": "apply",
+      "button": "Filter",
+      "byCycle": "By Cycle",
+      "byPlan": "By Plan",
+      "byStatus": "By Status",
+      "close": "close",
+      "title": "Subscriptions Filter"
+    },
+    "loading": "loading",
+    "modal": {
+      "billingCycle": "billing Cycle",
+      "close": "close",
+      "delete": "delete",
+      "expireDate": "Expire Date",
+      "forever": "Unlimited",
+      "plan": "Plan",
+      "product": "Product",
+      "startDate": "Start Date",
+      "status": "Status",
+      "title": "Search Subscription"
+    },
+    "search": {
+      "placeholder": "search subscription..."
+    },
+    "subscriptions": "Subscriptions",
+    "table": {
+      "actions": "Actions",
+      "billingCycle": "Billing Cycle",
+      "details": "Details",
+      "expireDate": "Expire Date",
+      "plan": "Plan",
+      "product": "Product",
+      "status": "Status"
+    },
+    "title": "List of Subscriptions"
+  }
+  

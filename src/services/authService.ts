@@ -397,3 +397,58 @@ export const fetchNotifications = async (): Promise<Notification[]> => {
 };
 
 
+// Ajoutez cette fonction à votre fichier authService.ts
+export const verifyPaymentStatus = async (id: string, status: string) => {
+  try {
+    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/payment/verification', {
+      method: 'POST',
+      headers: { 
+        'accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
+      },
+      body: JSON.stringify({
+        status,
+        id: id
+      })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Payment verification failed');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error verifying payment:', error);
+    throw error;
+  }
+};
+
+// Ajoutez cette fonction à la fin de authService.ts
+export const deleteNotification = async (notificationId: string) => {
+  try {
+    const token = localStorage.getItem('accessToken');
+    if (!token) {
+      throw new Error('Authentication token not found');
+    }
+
+    const response = await fetch(`https://rightcomsaasapi-if7l.onrender.com/notifications/${notificationId}`, {
+      method: 'DELETE',
+      headers: { 
+        'accept': 'application/json',
+        'Authorization': `Bearer ${token}`
+      }
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to delete notification');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error deleting notification:', error);
+    throw error;
+  }
+};

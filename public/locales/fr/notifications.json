@@ -1,0 +1,18 @@
+{
+    "delete": "supprimer",
+    "error": {
+      "deleting": "suppression",
+      "loading": "chargement"
+    },
+    "loading": "chargement",
+    "locale": "locale",
+    "markAllRead": "Marquer tout comme lu",
+    "tabs": {
+      "all": "Tout",
+      "unread": "Non lus",
+      "title": "Non lus",
+      "message": "Vous n'avez pas de notifications non lues"
+    },
+    "title": "Notifications"
+  }
+  

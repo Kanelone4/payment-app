@@ -1,0 +1,39 @@
+{
+  "addSubscription": "",
+  "cards": {
+    "allSubscriptions": "",
+    "expiredLicenses": "",
+    "expiringLicenses": ""
+  },
+  "modal": {
+    "billingCycle": "",
+    "close": "",
+    "delete": "",
+    "expireDate": "",
+    "forever": "",
+    "License Total": "",
+    "plan": "",
+    "product": "",
+    "startDate": "",
+    "status": "",
+    "title": ""
+  },
+  "sections": {
+    "licensesByProducts": "",
+    "showLess": "",
+    "subscriptionsList": "",
+    "viewMore": ""
+  },
+  "table": {
+    "billingCycle": "",
+    "details": "",
+    "expireDate": "",
+    "loading": "",
+    "noData": "",
+    "orderId": "",
+    "plan": "",
+    "product": "",
+    "status": ""
+  },
+  "title": ""
+}

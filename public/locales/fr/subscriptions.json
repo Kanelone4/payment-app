@@ -1,0 +1,46 @@
+{
+    "addButton": "Ajouter un abonnement",
+    "error": {
+      "loading": "Chargement",
+      "retry": "réessayer",
+      "title": "Abonnement"
+    },
+    "filter": {
+      "apply": "Appliquer",
+      "button": "Filtre",
+      "byCycle": "Par cycle",
+      "byPlan": "Par plan",
+      "byStatus": "Par statut",
+      "close": "fermer",
+      "title": "Filtre d'abonnement"
+    },
+    "loading": "Chargement",
+    "modal": {
+      "billingCycle": "Cycle de facturation",
+      "close": "fermer",
+      "delete": "supprimer",
+      "expireDate": "Date d'expiration",
+      "forever": "Illimitées",
+      "plan": "Plan",
+      "product": "Produit",
+      "startDate": "Date de début",
+      "status": "Statut",
+      "title": "Abonnement"
+    },
+    "search": {
+      "placeholder": "rechercher un abonnement..."
+    },
+    "subscriptions": "Abonnements",
+    "table": {
+      "actions": "Actions",
+      "billingCycle": "Cycle de facturation",
+      "details": "Détails",
+      "expireDate": "Date d'expiration",
+      "plan": "Plan",
+      "product": "Produit",
+      "status": "Statut"
+    },
+    "title": "Liste des abonnements"
+  }
+    
+  
