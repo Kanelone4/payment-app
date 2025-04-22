@@ -5,39 +5,45 @@ import { PiNewspaperClippingBold } from "react-icons/pi";
 import { IoMdNotificationsOutline } from "react-icons/io";
 import { IoSettingsOutline } from "react-icons/io5";
 import SideBarMenu from './SideBarMenu';
+import { useTranslation } from 'react-i18next';
 
 interface SideBarProps {
   isSidebarOpen: boolean; 
 }
 
 const SideBar: React.FC<SideBarProps> = ({ isSidebarOpen }) => {
+  const { t } = useTranslation('sidebar');
+
   const Menus = [
     {
       Icon: MdOutlineSpaceDashboard,
-      MainTitle: "Dashboard",
+      MainTitle: t('menu.dashboard'),
       Path: "/",
       SubTitles: []
     },
     {
       Icon: MdPayments,
-      MainTitle: "Subscriptions",
-      SubTitles: [{ Title: "Add New", path: "/add-new" }, { Title: "List of subscriptions", path: "/list" }],
+      MainTitle: t('menu.subscriptions'),
+      SubTitles: [
+        { Title: t('menu.addNew'), path: "/add-new" }, 
+        { Title: t('menu.listSubscriptions'), path: "/list" }
+      ],
     },
     {
       Icon: PiNewspaperClippingBold,
-      MainTitle: "Factures",
+      MainTitle: t('menu.invoices'),
       Path: "/factures",
       SubTitles: []
     },
     {
       Icon: IoMdNotificationsOutline,
-      MainTitle: "Notifications",
+      MainTitle: t('menu.notifications'),
       Path: "/notifications",
       SubTitles: []
     },
     {
       Icon: IoSettingsOutline,
-      MainTitle: "Settings",
+      MainTitle: t('menu.settings'),
       Path: "/settings",
       SubTitles: []
     }
@@ -53,7 +59,7 @@ const SideBar: React.FC<SideBarProps> = ({ isSidebarOpen }) => {
         {isSidebarOpen && (
           <div className="d-lg-none mb-4">
             <h4 style={{ color: '#50cd89' }}>
-              Right<span style={{ color: '#0089e1' }}>Payment</span>
+              {t('brand.right')}<span style={{ color: '#0089e1' }}>{t('brand.payment')}</span>
             </h4>
           </div>
         )}

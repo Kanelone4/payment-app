@@ -352,7 +352,7 @@ export const fetchUserLicenses = async (): Promise<License[]> => {
       throw new Error('Authentication token not found');
     }
 
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/licenses/list/licenses', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/licenses/list/licenses', {
       method: 'GET',
       headers: { 
         'accept': 'application/json',
@@ -408,7 +408,7 @@ export const fetchLicenses = async (): Promise<License[]> => {
       throw new Error('Authentication token not found');
     }
 
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/licenses', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/licenses', {
       method: 'GET',
       headers: { 
         'accept': 'application/json',
@@ -468,7 +468,7 @@ export const fetchNotifications = async (): Promise<Notification[]> => {
       throw new Error('Authentication token not found');
     }
 
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/notifications', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/notifications', {
       method: 'GET',
       headers: { 
         'accept': 'application/json',

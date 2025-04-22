@@ -11,7 +11,7 @@ export default defineConfig({
     cors: true, 
     allowedHosts: ["a440-154-66-135-180.ngrok-free.app"], 
     proxy: {
-      '/api': 'https://rightcomsaasapi-if7l.onrender.com'
+      '/api': 'https://rightcomsaasapiv2.onrender.com'
     }
   },
 });

@@ -20,6 +20,16 @@
     "my_invoices": "Mes factures",
     "no_invoices": "Aucune facture disponibles",
     "no_invoices_message": "Vous n'avez pas de factures disponibles pour le moment.",
-    "subtitle": "Vos factures sont disponibles ici. Vous pouvez les télécharger à tout moment."
+    "subtitle": "Vos factures sont disponibles ici. Vous pouvez les télécharger à tout moment.",
+    "title": "Factures",
+    "retry": "Réessayer",
+    "number": "Numéro de facture",
+    "date": "Date",
+    "amount": "Montant",
+    "plan": "Plan",
+    "client": "Client",
+    "actions": "Actions",
+    "count": "Factures",
+    "product": "Produit"
   }
 }

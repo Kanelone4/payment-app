@@ -1,0 +1,15 @@
+{
+  "brand": {
+    "payment": "",
+    "right": ""
+  },
+  "menu": {
+    "addNew": "",
+    "dashboard": "",
+    "invoices": "",
+    "listSubscriptions": "",
+    "notifications": "",
+    "settings": "",
+    "subscriptions": ""
+  }
+}

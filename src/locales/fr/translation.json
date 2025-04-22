@@ -6,20 +6,31 @@
     "Ifyouneedmoreinfoaboutourpricing,pleasecheck": "",
     "loading": "",
     "loading_error": "",
-    "locale": "",
     "Monthly": "",
     "PricingGuidelines": ""
   },
+  "error": {
+    "retry": "",
+    "title": ""
+  },
   "invoices": {
+    "count": "",
     "download": "",
     "download_error": "",
-    "downloading": "",
-    "invoice": "",
     "loading": "",
     "my_invoices": "",
     "no_invoices": "",
     "no_invoices_message": "",
-    "subtitle": ""
+    "search_placeholder": "",
+    "subtitle": "",
+    "table": {
+      "actions": "",
+      "amount": "",
+      "client": "",
+      "date": "",
+      "number": "",
+      "plan": ""
+    }
   },
   "loading plans": {
     "": ""

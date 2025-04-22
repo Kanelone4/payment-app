@@ -1,12 +1,11 @@
-// src/components/Factures.tsx
 "use client";
 
-import React, { useState, useEffect, CSSProperties } from 'react';
-import { useTranslation } from 'react-i18next';
-import Layout from '../Layout';
-import { fetchInvoices, downloadInvoice } from '../../auth/core/_requests';
-import { FaFileInvoiceDollar, FaSpinner, FaDownload } from 'react-icons/fa';
+import React, { useState, useEffect } from "react";
+import Layout from "../Layout";
+import { FaDownload, FaSpinner } from "react-icons/fa";
 import { PiNewspaperClippingBold } from "react-icons/pi";
+import { fetchInvoices, downloadInvoice } from "../../auth/core/_requests";
+import { useTranslation } from 'react-i18next';
 
 interface Invoice {
   invoiceNumber: string;
@@ -24,144 +23,31 @@ interface Invoice {
   };
 }
 
-const styles: Record<string, CSSProperties> = {
-  container: {
-    width: '100%',
-    margin: 0,
-    padding: '3rem 5rem',
-  },
-  header: {
-    textAlign: 'left',
-    marginBottom: '2rem',
-  },
-  headerTitle: {
-    fontSize: '2rem',
-    fontWeight: 700,
-    color: '#1f2937',
-    margin: 0,
-  },
-  headerSubtitle: {
-    fontSize: '1rem',
-    color: '#6b7280',
-    margin: '0.5rem 0 0',
-  },
-  invoiceGrid: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '1.5rem',
-  },
-  invoiceCard: {
-    backgroundColor: 'white',
-    borderRadius: '1rem',
-    boxShadow: '0 8px 32px rgba(0,0,0,0.1)',
-    padding: '2rem',
-    width: '100%',
-    display: 'flex',
-    flexDirection: 'column',
-    transition: 'all 0.3s ease',
-  },
-  headerInfo: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'baseline',
-    marginBottom: '1rem',
-  },
-  invoiceNumber: {
-    fontSize: '1.5rem',
-    fontWeight: 700,
-    color: '#111827',
-  },
-  invoiceDate: {
-    fontSize: '0.875rem',
-    color: '#6b7280',
-  },
-  detailsBlock: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.5rem',
-    marginBottom: '0.5rem',
-  },
-  planName: {
-    fontSize: '1rem',
-    fontWeight: 600,
-    color: '#2563eb',
-  },
-  userName: {
-    fontSize: '1rem',
-    fontWeight: 500,
-    color: '#374151',
-  },
-  productName: {
-    fontSize: '1rem',
-    fontWeight: 500,
-    color: '#374151',
-  },
-  userEmail: {
-    fontSize: '0.875rem',
-    color: '#6b7280',
-  },
-  amount: {
-    fontSize: '1.75rem',
-    fontWeight: 700,
-    color: '#111827',
-    marginBottom: '1rem',
-  },
-  downloadBtn: {
-    alignSelf: 'flex-end',
-    padding: '0.75rem 1.5rem',
-    backgroundColor: '#3b82f6',
-    color: 'white',
-    border: 'none',
-    borderRadius: '1rem',
-    cursor: 'pointer',
-    display: 'flex',
-    alignItems: 'center',
-    gap: '0.5rem',
-  },
-  loadingContainer: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '16rem',
-    marginTop:'160px',
-    marginLeft:'50px'
-  },
-  spinner: {
-    animation: 'spin 1s linear infinite',
-    fontSize: '1.5rem',
-    color: '#3b82f6',
-    marginBottom: '1rem',
-  },
-  emptyState: {
-    textAlign: 'center',
-    color: '#6b7280',
-    padding: '4rem 1rem',
-  },
-};
-
 const Factures: React.FC = () => {
   const { t } = useTranslation();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    (async () => {
+    const loadInvoices = async () => {
       try {
+        setIsLoading(true);
         const data = await fetchInvoices();
         setInvoices(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : t('common.loading_error'));
+        console.error("Error loading invoices:", err);
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
-    })();
+    };
+    loadInvoices();
   }, [t]);
 
   const handleDownload = async (invoiceId: string, invoiceNumber: string) => {
     try {
-      setLoading(true);
+      setIsLoading(true);
       const blob = await downloadInvoice(invoiceId);
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -181,7 +67,7 @@ const Factures: React.FC = () => {
           : 'Erreur lors du téléchargement'
       );
     } finally {
-      setLoading(false);
+      setIsLoading(false);
     }
   };
 
@@ -197,13 +83,11 @@ const Factures: React.FC = () => {
       });
     } catch (e) {
       console.error('Erreur de formatage de date:', e);
-      // Fallback au format ISO
       return date.toISOString().split('T')[0];
     }
   };
 
   const formatAmount = (amount: number) => {
-   
     const safeLocale = 'fr-FR'; 
     
     try {
@@ -219,24 +103,15 @@ const Factures: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return (
-      <Layout>
-        <div style={styles.loadingContainer}>
-          <FaSpinner style={styles.spinner} />
-          <span>{t('invoices.loading')}</span>
-        </div>
-      </Layout>
-    );
-  }
-
   if (error) {
     return (
       <Layout>
-        <div style={styles.emptyState}>
-          <header style={{padding: '15rem', textAlign: 'center'}}>
-            <p>{error}</p>
-          </header>
+        <div className="container-fluid px-4 mt-5 text-center align-items-center">
+          <h4>{t('invoices.title')}</h4>
+          <p>Vous n'avez pas de facture</p>
+          <button className="btn btn-primary" onClick={() => window.location.reload()}>
+            {t('invoices.retry')}
+          </button>
         </div>
       </Layout>
     );
@@ -244,65 +119,81 @@ const Factures: React.FC = () => {
 
   return (
     <Layout>
-      <div style={styles.container}>
-        <header style={styles.header}>
-          <h1 style={styles.headerTitle}>
-            <PiNewspaperClippingBold style={{ marginRight: '0.5rem', color: '#3b82f6', fontSize: '30px' }} />
+      <div className="container-fluid px-4">
+        <div className="d-flex flex-column py-4 mb-3">
+          <h2 className="m-0 fw-bold">
+            <PiNewspaperClippingBold className="me-2" style={{ color: '#3b82f6' }} />
             {t('invoices.my_invoices')}
-          </h1>
-          <p style={styles.headerSubtitle}>{t('invoices.subtitle')}</p>
-        </header>
+          </h2>
+          <p className="text-muted mt-2">
+            {t('invoices.subtitle')}
+          </p>
+        </div>
 
-        {invoices.length === 0 ? (
-          <div style={styles.emptyState}>
-            <FaFileInvoiceDollar style={{ fontSize: '2rem', marginBottom: '1rem', color: '#9ca3af' }} />
-            <h3>{t('invoices.no_invoices')}</h3>
-            <p>{t('invoices.no_invoices_message')}</p>
-          </div>
-        ) : (
-          <div style={styles.invoiceGrid}>
-            {invoices.map((inv) => (
-              <div
-                key={inv.invoiceNumber}
-                className="invoice-card"
-                style={styles.invoiceCard}>
-                <div style={styles.headerInfo}>
-                  <div style={styles.invoiceNumber}>{t('invoices.invoice')} #{inv.invoiceNumber}</div>
-                  <div style={styles.invoiceDate}>{formatDate(inv.date)}</div>
-                </div>
-                <div style={styles.detailsBlock}>
-                  <div style={styles.productName}>{inv.productName}</div>
-                  <div style={styles.planName}>{inv.planName}</div>
-                  <div style={styles.userName}>{inv.details.user.name}</div>
-                  <div style={styles.userEmail}>{inv.details.user.email}</div>
-                </div>
-                <div style={styles.amount}>{formatAmount(inv.amount)}</div>
-                <button
-                  style={styles.downloadBtn}
-                  onClick={() => {
-                    console.log('Downloading invoice ID:', inv.details.invoiceId); 
-                    handleDownload(inv.details.invoiceId, inv.invoiceNumber);
-                  }}
-                  disabled={loading}
-                >
-                  {loading ? <FaSpinner className="animate-spin" /> : <FaDownload />}
-                  {loading ? t('invoices.downloading') : t('invoices.download')}
-                </button>
+        <div className="card border-0 shadow-sm mb-4">
+          {isLoading ? (
+            <div className="d-flex justify-content-center align-items-center" style={{ height: "200px" }}>
+              <div className="text-center">
+                <FaSpinner className="spinner-border text-primary" style={{ width: "2.5rem", height: "2.5rem" }} />
+                <p className="mt-3">{t('invoices.loading')}</p>
               </div>
-            ))}
-          </div>
-        )}
+            </div>
+          ) : invoices.length === 0 ? (
+            <div className="text-center py-5">
+              <PiNewspaperClippingBold className="text-muted" style={{ fontSize: "3rem" }} />
+              <h3 className="mt-3">{t('invoices.no_invoices')}</h3>
+              <p className="text-muted">Vous n'avez aucune facture pour le moment.</p>
+            </div>
+          ) : (
+            <div className="card-body p-4">
+              <div className="table-responsive">
+                <table className="table table-hover">
+                  <thead className="table-light">
+                    <tr>
+                      <th className="border-0">{t('invoices.number')}</th>
+                      <th className="border-0">{t('invoices.date')}</th>
+                      <th className="border-0">{t('invoices.product')}</th>
+                      <th className="border-0">{t('invoices.plan')}</th>
+                      <th className="border-0">{t('invoices.client')}</th>
+                      <th className="border-0">{t('invoices.amount')}</th>
+                      <th className="border-0 text-end">{t('invoices.actions')}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {invoices.map((invoice) => (
+                      <tr key={invoice.invoiceNumber}>
+                        <td>#{invoice.invoiceNumber}</td>
+                        <td>{formatDate(invoice.date)}</td>
+                        <td>{invoice.productName}</td>
+                        <td>{invoice.planName}</td>
+                        <td>
+                          <div>{invoice.details.user.name}</div>
+                          <div className="text-muted small">{invoice.details.user.email}</div>
+                        </td>
+                        <td>{formatAmount(invoice.amount)}</td>
+                        <td className="text-end">
+                          <button
+                            className="btn btn-sm btn-primary d-flex align-items-center gap-1 ms-auto"
+                            onClick={() => handleDownload(invoice.details.invoiceId, invoice.invoiceNumber)}
+                            disabled={isLoading}
+                          >
+                            {isLoading ? (
+                              <FaSpinner className="spinner-border" />
+                            ) : (
+                              <FaDownload />
+                            )}
+                            {t('invoices.download')}
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
-      <style>{`
-        .invoice-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 16px 48px rgba(0,0,0,0.15);
-        }
-        @keyframes spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-      `}</style>
     </Layout>
   );
 };

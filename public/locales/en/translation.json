@@ -21,6 +21,17 @@
     "my_invoices": "My Invoices",
     "no_invoices": "No invoices available",
     "no_invoices_message": "You don't have any invoices available at the moment.",
-    "subtitle": "Your invoices are available here. You can download them at any time."
+    "subtitle": "Your invoices are available here. You can download them at any time.",
+    "title": "Invoices",
+    "retry": "Retry",
+    "number": "Invoice number",
+    "date": "Date",
+    "amount": "Amount",
+    "plan": "Plan",
+    "client": "Client",
+    "actions": "Actions",
+    "count": "Invoices",
+    "product": "Product"
+
   }
 }

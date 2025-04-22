@@ -1,0 +1,16 @@
+{
+    "brand": {
+      "payment": "payment",
+      "right": "Right"
+    },
+    "menu": {
+      "addNew": "addNew",
+      "dashboard": "Dashboard",
+      "invoices": "Invoices",
+      "listSubscriptions": "List of Subscriptions",
+      "notifications": "Notifications",
+      "settings": "settings",
+      "subscriptions": "Subscription"
+    }
+  }
+  

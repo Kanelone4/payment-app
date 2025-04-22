@@ -164,7 +164,7 @@ const NewSubscription: React.FC = () => {
         const data = await fetchProducts()
         const productsWithImages = data.map((product) => ({
           ...product,
-          image: `https://rightcomsaasapi-if7l.onrender.com/uploads/${product._id}.png`,
+          image: `https://rightcomsaasapiv2.onrender.com/uploads/${product._id}.png`,
         }))
         setProducts(productsWithImages)
 

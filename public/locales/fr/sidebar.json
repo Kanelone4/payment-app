@@ -1,0 +1,16 @@
+{
+    "brand": {
+      "payment": "payment",
+      "right": "Right"
+    },
+    "menu": {
+      "addNew": "Ajouter un abonnement",
+      "dashboard": "Tableau de bord",
+      "invoices": "Factures",
+      "listSubscriptions": "Liste des abonnements",
+      "notifications": "Notifications",
+      "settings": "Paramètres",
+      "subscriptions": "Abonnement"
+    }
+  }
+  

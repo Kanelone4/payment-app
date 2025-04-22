@@ -249,7 +249,7 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
           )}
 
           {Object.values(groupedItems).map((group, groupIndex) => (
-            <div key={groupIndex} className="mb-4 border p-3" style={{ borderRadius: "10px" }}>
+            <div key={groupIndex} className="mb-4 border p-3 py-3" style={{ borderRadius: "10px", marginBottom: "50px" }}>
               <h4 style={{ marginTop: "-24px", marginLeft: "30px" }} className="fw-bold mb-3">
                 {group.product?.product_name || "Product"}
               </h4>
@@ -260,12 +260,13 @@ const SubscriptionModal: React.FC<SubscriptionModalProps> = ({
                 </div>
                 <div className="col-md-2 fw-bold">Period</div>
                 <div className="col-md-2 fw-bold">Price</div>
-                <div className="col-md-2 fw-bold px-4">Licences numbers</div>
+                <div className="col-md-2 fw-bold px-4">Quantity</div>
                 <div style={{ marginLeft: "30px" }} className="col-md-2 fw-bold">
                   Actions
                 </div>
               </div>
 
+              
               {group.items.map((item) => {
                 const isFixed = isFixedQuantityItem(item)
                 return (

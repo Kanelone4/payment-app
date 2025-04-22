@@ -2,7 +2,7 @@ import { setAuthTokens, secureStoreCredentials } from "../auth/core/serviceToken
 import { scheduleTokenRefresh } from "../auth/core/serviceToken/tokenRefreshScheduler";
 
 export const requestPasswordForgot = async (email: string) => {
-  const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/users/forgot-password', {
+  const response = await fetch('https://rightcomsaasapiv2.onrender.com/users/forgot-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email }),
@@ -17,7 +17,7 @@ export const requestPasswordForgot = async (email: string) => {
 };
 
 export const requestPasswordReset = async (token: string, newPassword: string) => {
-  const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/users/reset-password', {
+  const response = await fetch('https://rightcomsaasapiv2.onrender.com/users/reset-password', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ token, newPassword }),
@@ -38,7 +38,7 @@ export const Registration = async (userData: {
   password: string;
 }) => {
   try {
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/users/register', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/users/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
@@ -58,7 +58,7 @@ export const Registration = async (userData: {
 };
 
 export const login = async (userData: { email: string; password: string }) => {
-  const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/users/login', {
+  const response = await fetch('https://rightcomsaasapiv2.onrender.com/users/login', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(userData),
@@ -77,7 +77,7 @@ export const login = async (userData: { email: string; password: string }) => {
 
 export const fetchProducts = async () => {
   try {
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/product/productId', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/product/productId', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -96,7 +96,7 @@ export const fetchProducts = async () => {
 
 export const fetchPlans = async () => {
   try {
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/plan/plans', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/plan/plans', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -115,7 +115,7 @@ export const fetchPlans = async () => {
 
 export const fetchPlanByProductId = async (productId: string) => {
   try {
-    const response = await fetch(`https://rightcomsaasapi-if7l.onrender.com/plan/product/${productId}`, {
+    const response = await fetch(`https://rightcomsaasapiv2.onrender.com/plan/product/${productId}`, {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
     });
@@ -135,7 +135,7 @@ export const fetchPlanByProductId = async (productId: string) => {
 // Ajoutez cette fonction à la fin de authService.ts
 export const addToCart = async (planId: string, currentSubscriptionId: string) => {
   try {
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/cart/items', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/cart/items', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
@@ -163,7 +163,7 @@ export const addToCart = async (planId: string, currentSubscriptionId: string) =
 export const fetchCartItems = async () => {
   try {
     console.log('[fetchCartItems] Fetching cart items...');
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/cart', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/cart', {
       method: 'GET',
       headers: { 
         'Content-Type': 'application/json',
@@ -192,7 +192,7 @@ export const fetchCartItems = async () => {
 export const removeCartItem = async (planId: string) => {
   try {
     // 1. D'abord supprimer l'item
-    await fetch(`https://rightcomsaasapi-if7l.onrender.com/cart/items/${planId}`, {
+    await fetch(`https://rightcomsaasapiv2.onrender.com/cart/items/${planId}`, {
       method: 'DELETE',
       headers: { 
         'Content-Type': 'application/json',
@@ -210,7 +210,7 @@ export const removeCartItem = async (planId: string) => {
 // Dans authService.ts (ou votre fichier de services)
 export const clearCart = async (): Promise<{ success: boolean }> => {
   try {
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/cart', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/cart', {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
@@ -238,7 +238,7 @@ export const refreshAuthToken = async () => {
     
     const { email, password } = JSON.parse(credentials);
     
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/users/login', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
@@ -258,7 +258,7 @@ export const refreshAuthToken = async () => {
 
 export const initiateCheckout = async (paymentMethod: string, paymentProvider: string) => {
   try {
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/cart/checkout', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/cart/checkout', {
       method: 'POST',
       headers: { 
         'Content-Type': 'application/json',
@@ -290,7 +290,7 @@ export const fetchUserLicenses = async () => {
       throw new Error('Authentication token not found');
     }
 
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/licenses/list/licenses', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/licenses/list/licenses', {
       method: 'GET',
       headers: { 
         'accept': 'application/json',
@@ -318,7 +318,7 @@ export const fetchUserSubscriptions = async () => {
       throw new Error('Authentication token not found');
     }
 
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/my-subscriptions', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/my-subscriptions', {
       method: 'GET',
       headers: { 
         'accept': 'application/json',
@@ -347,7 +347,7 @@ export const fetchLicenses = async () => {
       throw new Error('Authentication token not found');
     }
 
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/licenses', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/licenses', {
       method: 'GET',
       headers: { 
         'accept': 'application/json',
@@ -376,7 +376,7 @@ export const fetchNotifications = async (): Promise<Notification[]> => {
       throw new Error('Authentication token not found');
     }
 
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/notifications', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/notifications', {
       method: 'GET',
       headers: { 
         'accept': 'application/json',
@@ -400,7 +400,7 @@ export const fetchNotifications = async (): Promise<Notification[]> => {
 // Ajoutez cette fonction à votre fichier authService.ts
 export const verifyPaymentStatus = async (id: string, status: string) => {
   try {
-    const response = await fetch('https://rightcomsaasapi-if7l.onrender.com/payment/verification', {
+    const response = await fetch('https://rightcomsaasapiv2.onrender.com/payment/verification', {
       method: 'POST',
       headers: { 
         'accept': 'application/json',
@@ -433,7 +433,7 @@ export const deleteNotification = async (notificationId: string) => {
       throw new Error('Authentication token not found');
     }
 
-    const response = await fetch(`https://rightcomsaasapi-if7l.onrender.com/notifications/${notificationId}`, {
+    const response = await fetch(`https://rightcomsaasapiv2.onrender.com/notifications/${notificationId}`, {
       method: 'DELETE',
       headers: { 
         'accept': 'application/json',

@@ -22,10 +22,11 @@
     },
     "sections": {
       "licensesByProducts": "Licenses By Products",
-      "showLess": "Shoxw Less",
+      "showLess": "Show Less",
       "showMore": "Show More",
       "subscriptionsList": "Subscriptions List",
       "viewMore": "View More"
+      
     },
     "table": {
       "billingCycle": "Billing Cycle",
